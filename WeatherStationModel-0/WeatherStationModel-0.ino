@@ -4,8 +4,8 @@
                 __________________________________
 
                 VERSAO DO PROGRAMA ARDUINO: 1.8.1
-                PROGRAMA ATUALIZADO EM: 14/01/2017
-                HORA-ULTIMO UPDATE: 12:14 p.m
+                PROGRAMA ATUALIZADO EM: 15/01/2017
+                HORA-ULTIMO UPDATE: 16:28 p.m
                 __________________________________
 
                  PLACA WIFI ESP8266-07 AT THINKER
@@ -58,26 +58,26 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // LIVRARIAS EXTERNAS PARA FUNCIONAMENTO DOS SENSORES, CONEXÃO E DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-#include     <FS.h>                // BIBLIOTECA WiFi DO ESP8266. DEVE SER SEMPRE A PRIMEIRA BIBLIOTECA MENCIONADA NO #INLUDE!!!!!!!
-#include     <ESP8266WiFi.h>       // BIBLIOTECA WiFi DO ESP8266
-#include     <DNSServer.h>         // BIBLIOTECA WiFi DO ESP8266
-#include     <ESP8266WebServer.h>  // BIBLIOTECA WiFi DO ESP8266
-#include     "WiFiManager.h"       // BIBLIOTECA WiFi-MANANGER DO ESP8266
-#include     <SFE_BMP180.h>        // SENSOR BMP-180 (PRESSAO) 
-#include     <Wire.h>              // NECESSÁRIO PARA COMUNICACAO I2C (PRESSAO)
-#include     "DHT.h"               // SENSOR DHT22 OU DHT11 (TEMPERATURA-HUMIDADE)   
-#include     <MySQL_Connection.h>  // CONEXAO COM BANCO DE DADOS
-#include     <MySQL_Cursor.h>      // CONEXAO COM BANCO DE DADOS
+#include     <FS.h>                  // BIBLIOTECA WiFi DO ESP8266. DEVE SER SEMPRE A PRIMEIRA BIBLIOTECA MENCIONADA NO #INLUDE!!!!!!!
+#include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
+#include     <DNSServer.h>           // BIBLIOTECA WiFi DO ESP8266
+#include     <ESP8266WebServer.h>    // BIBLIOTECA WiFi DO ESP8266
+#include     "WiFiManager.h"         // BIBLIOTECA WiFi-MANANGER DO ESP8266
+#include     <SFE_BMP180.h>          // SENSOR BMP-180 (PRESSAO) 
+#include     <Wire.h>                // NECESSÁRIO PARA COMUNICACAO I2C (PRESSAO)
+#include     "DHT.h"                 // SENSOR DHT22 OU DHT11 (TEMPERATURA-HUMIDADE)   
+#include     <MySQL_Connection.h>    // CONEXAO COM BANCO DE DADOS
+#include     <MySQL_Cursor.h>        // CONEXAO COM BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-#define      LED_BUILTIN   2    // LED_BUILTIN (LED NATIVO DO ESP8266)
-//#define      ATL2         A0    // ADC
-#define      ATL3         16    // GPIO-16 + LED0
-#define      ATL4         14    // GPIO-14 + BUZZER
-#define      ATL5         12    // GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
-#define      ATL7          5    // GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
-#define      ATL8          4    // GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
+#define      LED_BUILTIN   2         // LED_BUILTIN (LED NATIVO DO ESP8266)
+//#define      ATL2         A0         // ADC
+#define      ATL3         16         // GPIO-16 + LED0
+#define      ATL4         14         // GPIO-14 + BUZZER
+#define      ATL5         12         // GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
+#define      ATL7          5         // GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
+#define      ATL8          4         // GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // SENSOR PINS SETTINGS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -93,7 +93,7 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 double      baseline, P_bmp, T_bmp;  // VARIAVEIS PARA O SENSOR BMP-180
 float       T_dht, U_dht;            // VARIAVEIS PARA O SENSOR DHT22 OU DHT11 (CASO HABILITADO)
 unsigned    T = 0;                   // DELETE AFTER TESTS ARE DONE
-int         nCon, contNcon;          // VARIAVEIS PARA A BIBLIOTECA WiFi MANANGER (ASSEGURAR A CONEXAO COM A INTERNET EM CASO DE ERROS)
+int         nCon, contNcon, fMysql;  // VARIAVEIS PARA A BIBLIOTECA WiFi MANANGER E MySQL (ASSEGURAR A CONEXAO COM A INTERNET E MySQL EM CASO DE ERROS)
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
@@ -131,6 +131,7 @@ void LedATLblinks(unsigned M) {
   Serial.println("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // PRESSAO E TEMPERATURA DO BMP180 - ESPECIAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 float getPressure() {
@@ -155,6 +156,7 @@ float getPressure() {
   }
   else Serial.print("\n>--> Erro na leitura da temperatura BMP - ESPECIAL!");
 }
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E PRESSAO DO BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -187,6 +189,7 @@ void GetATLbmpPT() { // SENSOR BMP180
   Serial.print("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22 OU DHT11
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLdhtTU() {
@@ -198,6 +201,8 @@ void GetATLdhtTU() {
     T_dht = dht.readTemperature();
     if (isnan(U_dht) || isnan(T_dht)) {
       Serial.println("\n>--> Falha na leitura do Sensor DHT!");
+      T_dht = 0;                        // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
+      U_dht = 0;                        // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
       return;
     }
   }
@@ -222,12 +227,12 @@ void setup() {
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModoCallback);
   if (!wifiManager.autoConnect("Agrotechlink", "agrotechlink")) {
-    Serial.println("Falha na conexao. Reiniciando");
+    Serial.println("Falha na conexao.");
     contNcon = (nCon + 1);
     delay(5000);
-    ESP.reset();
+    ESP.restart();
     delay(2000);
-    if (contNcon == 5) {
+    if (contNcon == 3) {
       wifiManager.resetSettings();      // CASO OCORRA FALHAS EXEPCIONAIS NA CONEXAO O ESP8266 RESETA E INICIA NOVAMENTE
       delay(5000);
       ESP.reset();
@@ -254,7 +259,7 @@ void setup() {
     Serial.print ( "." );
   }
   delay(500);
-  
+
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
   Serial.println("| Conexao com o banco de dados bem sucedida! (:   |\n");
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -272,23 +277,43 @@ void loop() {
   T++;                          // VERIFICACAO DO LED
   if (T == 10) T = 0;
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[82];  // CONVERTENDO DADOS DOS SENSORES PARA STRING
-  dtostrf(T_dht, 2, 2, ST_dht);
-  dtostrf(U_dht, 2, 2, SU_dht);
-  dtostrf(T_bmp, 2, 2, ST_bmp);
-  dtostrf(P_bmp, 4, 2, SP_bmp);
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s);";
-  sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp);  // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
-  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-  Serial.println("\n| Executando querry no banco de dados");
-  cur_mem->execute(query);
-  Serial.println("| Querry INSERT:  ");
-  Serial.println(query);
-  Serial.println("| Limpando dados de requisicao da memoria.");
-  delete cur_mem;
-  Serial.println("| Execucao de querry bem sucedida!");
-  delay(1000);
+  if (conn.connected()) {
+    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[82];  // CONVERTENDO DADOS DOS SENSORES PARA STRING
+    dtostrf(T_dht, 2, 2, ST_dht);
+    dtostrf(U_dht, 2, 2, SU_dht);
+    dtostrf(T_bmp, 2, 2, ST_bmp);
+    dtostrf(P_bmp, 4, 2, SP_bmp);
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s);";
+    sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp);  // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+    delay(500);
+    Serial.println("| Executando querry no banco de dados - - - - - - |");
+    cur_mem->execute(query);
+    delay(500);
+    Serial.println("| Querry INSERT: - - - - - - - - - - - - - - - -  |");
+    Serial.println(query);
+    Serial.println("| Limpando dados de requisicao da memoria - - - - |");
+    delete cur_mem;
+    delay(500);
+    Serial.println("| Execucao de querry bem sucedida! - - - - - - -  |");
+    fMysql = 0;
+
+  } else {
+    conn.close();
+    Serial.println("| Reconectando ao banco de dados... - - - - - - - |");
+    if (conn.connect(server_addr, 3306, user, password)) {
+      delay(500);
+      Serial.println("| Reconectando com sucesso! (: - - - - - - - - - - |");
+      fMysql++;
+      if (fMysql == 3) {
+        Serial.println("| Maximo de reconexoes atingidas: MySQL. Resetando |");
+        delay(5000);
+        ESP.reset();
+        delay(2000);
+      }
+    }
+  }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
