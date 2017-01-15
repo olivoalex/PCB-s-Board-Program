@@ -5,7 +5,7 @@
 
                 VERSAO DO PROGRAMA ARDUINO: 1.8.1
                 PROGRAMA ATUALIZADO EM: 15/01/2017
-                HORA-ULTIMO UPDATE: 14:20 p.m
+                HORA-ULTIMO UPDATE: 19:20 p.m
                 __________________________________
 
                  PLACA WIFI ESP8266-07 AT THINKER
@@ -67,8 +67,10 @@
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      LED_BUILTIN   2    // LED_BUILTIN (LED NATIVO DO ESP8266)
-#define      ATL7          5    // RELE 1
-#define      ATL8          4    // RELE 2
+#define      ATL3         16    // LED0
+#define      ATL5         12    // LED1
+#define      ATL7          4    // RELE 1
+#define      ATL8          5    // RELE 2
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -92,6 +94,22 @@ void configModoCallback (WiFiManager *myWiFiManager) {
   Serial.println("Iniciando modo de configuracao.");
   Serial.println(WiFi.softAPIP());
   Serial.println(myWiFiManager->getConfigPortalSSID());
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// FAZER O LED PISCAR
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void LedATLblinks(unsigned M) {
+  Serial.print("\nJUST LED0 IS BLINKING N TIMES: ");    Serial.println(M);
+  for (short j = 0; j < M; j++) {
+    Serial.print(j + 1);  Serial.print(" . ");
+    digitalWrite(ATL3, HIGH);                             delay(100);
+    digitalWrite(ATL3, LOW);                              delay(2500);
+  }
+  digitalWrite(ATL3, LOW);
+  digitalWrite(LED_BUILTIN, LOW);                         delay(100);
+  digitalWrite(LED_BUILTIN, HIGH);
+  Serial.print("\n| - - - - - - BUILTIN LED BLINKS! - - - - - - - - |");
+  Serial.println("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONTROLE DE ATUAÇÃO DAS DUAS TOMADAS / RELES
@@ -122,6 +140,8 @@ void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);         // INICIALIZA O LED_BUILTIN NATIVO DO ESP8266
   digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
+  pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
+  pinMode(ATL5, OUTPUT);      digitalWrite(ATL5, LOW);  // GPIO-12 + LED1
   pinMode(ATL7, OUTPUT);      digitalWrite(ATL7, LOW);  // GPIO-05 + RELE 1
   pinMode(ATL8, OUTPUT);      digitalWrite(ATL8, LOW);  // GPIO-04 + RELE 2
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -182,6 +202,9 @@ void setup() {
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
+  LedATLblinks(T);                                              // LED
+  T++; if (T == 10) T = 0;                                      // VERIFICACAO DO LED
+  
   row_values *row_1 = NULL;
   row_values *row_2 = NULL;
   int head_count_1 = 0;
