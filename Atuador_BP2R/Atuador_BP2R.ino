@@ -33,8 +33,10 @@
 /*   CADA GPIO POSSUI UMA IDENTIFICACAO ESPECIFICA
      PORTAS UTILIZADAS NAS PLACAS DA MINI ESTACAO CLIMATICA
 
-     ATL3     >--> GPIO-16 + RELE 1
-     ATL5     >--> GPIO-12 + RELE 2
+     ATL3     >--> GPIO-16 + LED0
+     ATL5     >--> GPIO-12 + LED1
+     ATL7     >--> GPIO-05 + RELE 1
+     ATL8     >--> GPIO-04 + RELE 2
      /RST     >--> ---[10k]--+3V3  -//- JUMPER COM 0V P/ "RESET"
                    +++[103]---CERAMIC CAPACITOR
      CH-PD    >--> ---[10k]--+3V3 + 103 CERAMIC CAPACITOR
@@ -66,8 +68,8 @@
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      LED_BUILTIN   2    // LED_BUILTIN (LED NATIVO DO ESP8266)
-#define      ATL3         16    // GPIO-16 + RELE 1
-#define      ATL5         12    // GPIO-12 + RELE 2
+#define      ATL7          5    // RELE 1
+#define      ATL8          4    // RELE 2
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
@@ -126,8 +128,8 @@ void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);         // INICIALIZA O LED_BUILTIN NATIVO DO ESP8266
   digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
-  pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + RELE 1
-  pinMode(ATL5, OUTPUT);      digitalWrite(ATL5, LOW);  // GPIO-16 + RELE 2
+  pinMode(ATL7, OUTPUT);      digitalWrite(ATL7, LOW);  // GPIO-05 + RELE 1
+  pinMode(ATL8, OUTPUT);      digitalWrite(ATL8, LOW);  // GPIO-04 + RELE 2
   /*----------------------------------------------------------------------*/
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModoCallback);
@@ -229,8 +231,8 @@ void loop() {
     Serial.println(head_count_1);                                // RESUTLADO DO DB DO RELE 1
     Serial.println(head_count_2);                                // RESUTLADO DO DB DO RELE 2
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    atuaESP_BP2R(head_count_1, ATL3);                            // ATUACAO NA PORTA A. RELE 1
-    atuaESP_BP2R(head_count_2, ATL5);                            // ATUACAO NA PORTA B. RELE 2
+    atuaESP_BP2R(head_count_1, ATL7);                            // ATUACAO NA PORTA A. RELE 1
+    atuaESP_BP2R(head_count_2, ATL8);                            // ATUACAO NA PORTA B. RELE 2
     
   } else {                                                       // ASSEGURA A CONEXAO MySQL CASO HAJA FALHAS NO WiFi (:
     conn.close();
