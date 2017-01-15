@@ -1,0 +1,7 @@
+Flash ID:   001440E0
+Flash Tamanho Real: 1048576
+
+Flash tamanho IDE: 1048576
+Flash IDE speed: 40000000
+Flash modo IDE:  DIO
+Configuracao Flash Chip OK ((:.
