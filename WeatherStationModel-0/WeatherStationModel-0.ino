@@ -108,7 +108,7 @@ MySQL_Connection conn((Client *)&client);
 // MODO CONFIGURAÇÃO DO WiFi MANANGER
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void configModoCallback (WiFiManager *myWiFiManager) {
-  Serial.println("Iniciando modo de configuracao.");
+  Serial.println(">--> Iniciando modo de configuracao.");
   Serial.println(WiFi.softAPIP());
   Serial.println(myWiFiManager->getConfigPortalSSID());
 }
