@@ -210,7 +210,7 @@ void GetATLdhtTU() {
   Serial.print(U_dht);
   Serial.print(" %UR");
   Serial.println(" - - - - |");
-  Serial.print("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
+  Serial.println("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
@@ -263,7 +263,7 @@ void setup() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
   pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
-  getPressure();             // SETANDO CONFIGURAÇÕES ESPECIAIS DO BMP-180
+  getPressure();             // SETANDO CONFIGURACOES ESPECIAIS DO BMP-180
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
