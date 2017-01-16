@@ -105,7 +105,6 @@ char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MODO CONFIGURAÇÃO DO WiFi MANANGER
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void configModoCallback (WiFiManager *myWiFiManager) {
@@ -113,7 +112,6 @@ void configModoCallback (WiFiManager *myWiFiManager) {
   Serial.println(WiFi.softAPIP());
   Serial.println(myWiFiManager->getConfigPortalSSID());
 }
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FAZER O LED PISCAR
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -130,7 +128,6 @@ void LedATLblinks(unsigned M) {
   Serial.print("\n| - - - - - - BUILTIN LED BLINKS! - - - - - - - - |");
   Serial.println("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
 }
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // PRESSAO E TEMPERATURA DO BMP180 - ESPECIAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -156,7 +153,6 @@ float getPressure() {
   }
   else Serial.print("\n>--> Erro na leitura da temperatura BMP - ESPECIAL!");
 }
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E PRESSAO DO BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -188,7 +184,6 @@ void GetATLbmpPT() { // SENSOR BMP180
   Serial.println("  - - - - |");
   Serial.print("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
 }
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22 OU DHT11
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -223,7 +218,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
   pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
   pinMode(ATL4, OUTPUT);      digitalWrite(ATL4, LOW);  // GPIO-14 + BUZZER
-  /*----------------------------------------------------------------------*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModoCallback);
   if (!wifiManager.autoConnect("Agrotechlink", "agrotechlink")) {
@@ -241,7 +236,7 @@ void setup() {
   }
   Serial.println("Internet conectada. Wi-fi client em rede :)");
   delay(500);
-  /*----------------------------------------------------------------------*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
   Serial.println("| AGROTECHLINK - RADIO BOARD TEST - ESP8266 - - - |");
   Serial.println("| Iniciao da verificacao sensores:  BMP-180 & DHT22|");
@@ -252,7 +247,7 @@ void setup() {
   Serial.println(" - - - - - - - - - |");
   Serial.println("| AGROTECHLINK - TODOS OS DIREITOS SAO RESERVADOS |");
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println("| Conectando ao banco de dados da Agrotechlink... |\n");
   while (conn.connect(server_addr, 3306, user, password) != true) {
     delay(500);
@@ -276,14 +271,14 @@ void loop() {
   GetATLdhtTU();                // DHT22
   T++;                          // VERIFICACAO DO LED
   if (T == 10) T = 0;
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   if (conn.connected()) {
     char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[82];  // CONVERTENDO DADOS DOS SENSORES PARA STRING
     dtostrf(T_dht, 2, 2, ST_dht);
     dtostrf(U_dht, 2, 2, SU_dht);
     dtostrf(T_bmp, 2, 2, ST_bmp);
     dtostrf(P_bmp, 4, 2, SP_bmp);
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s);";
     sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp);  // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
