@@ -52,8 +52,7 @@
      FTDI-0V  >--> ATL-0V
 
      NUNCA ALIMENTAR ESTE MODULO DIRETAMENTE PELO GRAVADOR
-     OU USB DO COMPUTADOR!
-*/
+     OU USB DO COMPUTADOR!*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // LIVRARIAS EXTERNAS PARA FUNCIONAMENTO DOS SENSORES, CONEXÃO E DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -71,14 +70,12 @@
 #define      ATL7          5    // RELE 1
 #define      ATL8          4    // RELE 2
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 unsigned    T = 0;                      // DELETE AFTER TESTS ARE DONE
 int         nCon, contNcon;             // VARIAVEIS PARA A BIBLIOTECA WiFi MANANGER (ASSEGURAR A CONEXAO COM A INTERNET EM CASO DE ERROS)
 String      macAdress;
 char        query[92], S_macAdress[30], rele_1[] = "rele_1", rele_2[] = "rele_2"; // VARIAVEIS PARA EXECUCAO DE QUERIES NO MySQL
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -89,7 +86,6 @@ char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MODO CONFIGURAÇÃO DO WiFi MANANGER
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void configModoCallback (WiFiManager *myWiFiManager) {
@@ -97,7 +93,6 @@ void configModoCallback (WiFiManager *myWiFiManager) {
   Serial.println(WiFi.softAPIP());
   Serial.println(myWiFiManager->getConfigPortalSSID());
 }
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONTROLE DE ATUAÇÃO DAS DUAS TOMADAS / RELES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -121,7 +116,6 @@ void atuaESP_BP2R(int comando, uint8_t PIN) {
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // INICIO DO MODO SETUP DO ATUADOR ESP8266 BP-2R
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
@@ -130,7 +124,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
   pinMode(ATL7, OUTPUT);      digitalWrite(ATL7, LOW);  // GPIO-05 + RELE 1
   pinMode(ATL8, OUTPUT);      digitalWrite(ATL8, LOW);  // GPIO-04 + RELE 2
-  /*----------------------------------------------------------------------*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModoCallback);
   if (!wifiManager.autoConnect("Agrotechlink", "agrotechlink")) {
@@ -140,7 +134,8 @@ void setup() {
     ESP.reset();
     delay(2000);
     if (contNcon == 5) {
-      wifiManager.resetSettings();      // CASO OCORRA FALHAS EXEPCIONAIS NA CONEXAO O ESP8266 RESETA E INICIA NOVAMENTE
+      wifiManager.resetSettings();      
+// CASO OCORRA FALHAS EXEPCIONAIS NA CONEXAO O ESP8266 RESETA E INICIA NOVAMENTE
       delay(5000);
       ESP.reset();
       delay(2000);
@@ -148,7 +143,7 @@ void setup() {
   }
   Serial.println("Internet conectada. Wi-fi client em rede :)");
   delay(500);
-  /*----------------------------------------------------------------------*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
   Serial.println("| AGROTECHLINK - RADIO BOARD TEST - ESP8266 - - - |");
   Serial.println("| Inicio da verificacao do modulo BP-2R - - - - - |");
@@ -158,7 +153,7 @@ void setup() {
   Serial.println(" - - - - - - - - - |");
   Serial.println("| AGROTECHLINK - TODOS OS DIREITOS SAO RESERVADOS |");
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println("| Conectando ao banco de dados da Agrotechlink... |\n");
   while (conn.connect(server_addr, 3306, user, password) != true) {
     delay(500);
@@ -168,7 +163,7 @@ void setup() {
 
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
   Serial.println("| Conexao com o banco de dados bem sucedida! (:   |\n");
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   macAdress = WiFi.macAddress();
 
   macAdress.toCharArray(S_macAdress, 30);
@@ -211,7 +206,7 @@ void loop() {
     delete cur_mem_1;                                            // LIMPANDO A MEMORIA DO ESP8266
     delay(500);
     
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     
     char SELECT_RELE_2_SQL[] = "SELECT %s FROM agrotech_intel.teste_atuador WHERE mac_number = '%s'";
     sprintf(query, SELECT_RELE_2_SQL, rele_2, S_macAdress);      // CONCATENANDO A STRING SELECT_SQL PARA BUSCA NO BANCO DE DADOS
@@ -230,7 +225,7 @@ void loop() {
     delay(500);
     Serial.println(head_count_1);                                // RESUTLADO DO DB DO RELE 1
     Serial.println(head_count_2);                                // RESUTLADO DO DB DO RELE 2
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     atuaESP_BP2R(head_count_1, ATL7);                            // ATUACAO NA PORTA A. RELE 1
     atuaESP_BP2R(head_count_2, ATL8);                            // ATUACAO NA PORTA B. RELE 2
     
