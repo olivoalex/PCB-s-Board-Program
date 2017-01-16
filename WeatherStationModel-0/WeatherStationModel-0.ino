@@ -4,8 +4,8 @@
                 __________________________________
 
                 VERSAO DO PROGRAMA ARDUINO: 1.8.1
-                PROGRAMA ATUALIZADO EM: 15/01/2017
-                HORA-ULTIMO UPDATE: 16:28 p.m
+                PROGRAMA ATUALIZADO EM: 16/01/2017
+                HORA-ULTIMO UPDATE: 11:28 a.m.
                 __________________________________
 
                  PLACA WIFI ESP8266-07 AT THINKER
@@ -24,7 +24,7 @@
                 RESET MOTHOD: ck
                 UPLOAD SPEED: 115200
                 PORTA: PORTA ESP CONECTADA AO COMPUTADOR
-                _________________________________
+                __________________________________
 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - JANUARY
@@ -182,7 +182,7 @@ void GetATLbmpPT() { // SENSOR BMP180
   Serial.print(T_bmp, 2);
   Serial.print(" *C");
   Serial.println("  - - - - |");
-  Serial.print("\n| - - - - - - - - - - - - - - - - - - - - - - - - |");
+  Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22 OU DHT11
@@ -191,13 +191,14 @@ void GetATLdhtTU() {
   U_dht = dht.readHumidity();
   T_dht = dht.readTemperature();
   if (isnan(U_dht) || isnan(T_dht)) {
-    delay(2000); // WHEN DHT22 IS USED SET THIS TO 2000, OTHERWISE SET TO 5000
+    delay(2000); 
+// WHEN DHT22 IS USED SET THIS TO 2000, OTHERWISE SET TO 5000
     U_dht = dht.readHumidity();
     T_dht = dht.readTemperature();
     if (isnan(U_dht) || isnan(T_dht)) {
       Serial.println("\n>--> Falha na leitura do Sensor DHT!");
-      T_dht = 0;                        // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
-      U_dht = 0;                        // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
+      T_dht = 0; // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
+      U_dht = 0; // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
       return;
     }
   }
@@ -217,7 +218,8 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);         // INICIALIZA O LED_BUILTIN NATIVO DO ESP8266
   digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
   pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
-  pinMode(ATL4, OUTPUT);      digitalWrite(ATL4, LOW);  // GPIO-14 + BUZZER
+//  pinMode(ATL4, OUTPUT);      digitalWrite(ATL4, LOW);  
+//  ATL4 --> GPIO-14 + BUZZER - NAO USADO NA ESTACAO CLIMATICA!
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModoCallback);
@@ -228,18 +230,19 @@ void setup() {
     ESP.restart();
     delay(2000);
     if (contNcon == 3) {
-      wifiManager.resetSettings();      // CASO OCORRA FALHAS EXEPCIONAIS NA CONEXAO O ESP8266 RESETA E INICIA NOVAMENTE
+      wifiManager.resetSettings();      
+// CASO OCORRA FALHAS EXEPCIONAIS NA CONEXAO O ESP8266 RESETA E INICIA NOVAMENTE
       delay(5000);
       ESP.reset();
       delay(2000);
     }
   }
-  Serial.println("Internet conectada. Wi-fi client em rede :)");
+  Serial.println("| Internet conectada. Wi-fi client em rede :)");
   delay(500);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
   Serial.println("| AGROTECHLINK - RADIO BOARD TEST - ESP8266 - - - |");
-  Serial.println("| Iniciao da verificacao sensores:  BMP-180 & DHT22|");
+  Serial.println("| Inicio verificacao de sensores: BMP-180 & DHT22 |");
   Serial.println("| Informacoes do ESP8266 - - - - - - - - - - - -  |");
   Serial.print("| MAC NUMBER: " + WiFi.macAddress());
   Serial.println(" - - - - - - - - - |");
@@ -257,33 +260,35 @@ void setup() {
 
   Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - - |");
   Serial.println("| Conexao com o banco de dados bem sucedida! (:   |\n");
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  dht.begin();                      // INICIANDO SENSOR DE TEMPERATURA DHT22
-  pressao.begin();                  // INICIANDO SENSOR DE PRESSAO BMP-180
-  getPressure();                    // SETANDO CONFIGURAÇÕES ESPECIAIS DO BMP-180
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
+  pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
+  getPressure();             // SETANDO CONFIGURAÇÕES ESPECIAIS DO BMP-180
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
-  LedATLblinks(T);              // LED
-  GetATLbmpPT();                // BMP-180
-  GetATLdhtTU();                // DHT22
-  T++;                          // VERIFICACAO DO LED
+  LedATLblinks(T);           // LED
+  GetATLbmpPT();             // BMP-180
+  GetATLdhtTU();             // DHT22
+  T++;                       // VERIFICACAO DO LED
   if (T == 10) T = 0;
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   if (conn.connected()) {
-    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[82];  // CONVERTENDO DADOS DOS SENSORES PARA STRING
+    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[82];  
+// CONVERTENDO DADOS DOS SENSORES PARA STRING
     dtostrf(T_dht, 2, 2, ST_dht);
     dtostrf(U_dht, 2, 2, SU_dht);
     dtostrf(T_bmp, 2, 2, ST_bmp);
     dtostrf(P_bmp, 4, 2, SP_bmp);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s);";
-    sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp);  // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+    sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp);  
+// CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
     delay(500);
-    Serial.println("| Executando querry no banco de dados - - - - - - |");
+    Serial.println("\n| Executando querry no banco de dados - - - - - - |");
     cur_mem->execute(query);
     delay(500);
     Serial.println("| Querry INSERT: - - - - - - - - - - - - - - - -  |");
