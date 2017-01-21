@@ -99,7 +99,7 @@ byte                packetBuffer[NTP_PACKET_SIZE];       // BUFFER PARA OS PACOT
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22 OU DHT11
 int                 nCon, contNcon, fMysql;              // VARIAVEIS PARA WiFi MANANGER E MySQL (CONEXAO COM A INTERNET E MySQL EM CASO DE ERROS)
-String              tempo = "hh:MM:ss | dd/mm/aaaa";     // STRING DA DATA E HORA PARA O MYSQL
+String              tempo = "hh:Mm:Ss | dd/oo/aaaa";     // STRING DA DATA E HORA PARA O MYSQL
 String              hora, minuto, segundo, dia, mes, ano;// VARIAVEIS DA DATA E HORA MYSQL
 char                STempo[30];                          // VARIAVEL DA DATA E HORA MYSQL
 unsigned long       previousMillis = 0;                  // CONTADOR DE TEMPO PARA SUBIR OS DADOS NO MySQL
@@ -123,7 +123,6 @@ void        sendNTPpacket(IPAddress &address);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // BIBLIOTECAS DE DATA E HORA
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-time_t prevDisplay = 0;
 time_t getNtpTime()
 {
   IPAddress ntpServerIP;
@@ -149,14 +148,14 @@ void dataHora()
   hora = String(hour());
   minuto = String(minute());
   segundo = String(second());
-  dia = day();
-  mes = month();
-  ano = year();
+  dia = String(day());
+  mes = String(month());
+  ano = String(year());
   tempo.replace("hh", hora);
-  tempo.replace("MM", minuto);
-  tempo.replace("ss", segundo);
+  tempo.replace("Mm", minuto);
+  tempo.replace("Ss", segundo);
   tempo.replace("dd", dia);
-  tempo.replace("mm", mes);
+  tempo.replace("oo", mes);
   tempo.replace("aaaa", ano);
   tempo.toCharArray(STempo, 30);
 }
@@ -312,6 +311,7 @@ void setup() {
   Serial.println(" - - - - - - - - - |");
   Serial.println("| INICIANDO UDP - - - - - - - - - - - - - - - - - |");
   Serial.println("| SINCRONIZANDO COM SERVIDOR NTP / TEMPO - - - -  |");
+  Udp.begin(localPort);
   setSyncProvider(getNtpTime);
   setSyncInterval(300);
   Serial.println("| AGROTECHLINK - TODOS OS DIREITOS SAO RESERVADOS |");
@@ -349,13 +349,11 @@ void loop() {
       dtostrf(U_dht, 2, 2, SU_dht);
       dtostrf(T_bmp, 2, 2, ST_bmp);
       dtostrf(P_bmp, 4, 2, SP_bmp);
-      dataHora();              //REGISTRANDO A HORA
       /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+      dataHora();                             // REGISTRANDO A HORA
       char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s, '%s');";
       sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp, STempo);
       // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
-      Serial.println(query);
-      Serial.println(STempo);
       MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
       delay(200);
       Serial.println("\n| Executando querry no banco de dados - - - - - - |");
