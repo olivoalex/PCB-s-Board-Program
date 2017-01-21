@@ -1,30 +1,30 @@
 /*                    VERSÃO FINAL DO CODIGO
-                VERSÃO 1.0.1      DATA: 12/01/2017
-                COMPILADO NA VERSAO ARDUINO: 1.8.1
-                __________________________________
+               VERSÃO 1.0.1      DATA: 12/01/2017
+               COMPILADO NA VERSAO ARDUINO: 1.8.1
+               __________________________________
 
-                VERSAO DO PROGRAMA ARDUINO: 1.8.1
-                PROGRAMA ATUALIZADO EM: 17/01/2017
-                HORA-ULTIMO UPDATE: 00:20 a.m.
-                __________________________________
+               VERSAO DO PROGRAMA ARDUINO: 1.8.1
+               PROGRAMA ATUALIZADO EM: 21/01/2017
+               HORA-ULTIMO UPDATE: 13:30 p.m.
+               __________________________________
 
-                 PLACA WIFI ESP8266-07 AT THINKER
-                 PROGRAMA: MINI ESTACAO CLIMATICA
-                 CONTÉM SENSORES: BMP-180 E DHT22
-                __________________________________
+                PLACA WIFI ESP8266-07 AT THINKER
+                PROGRAMA: MINI ESTACAO CLIMATICA
+                CONTÉM SENSORES: BMP-180 E DHT22
+               __________________________________
 
-                CONFIGURACAO DA PLACA PARA GRAVACAO
-                PLACA: GENERIC ESP8266 MODULE
-                FLASH MODE: DIO
-                FLASH FREQUENCY: 40MHz
-                CPU FREQUENCY: 80MHz
-                FLASH SIZE: 1M (512K SPIFFS)
-                DEBUG PORT: SERIAL
-                DEBUG LEVEL: OTA + UPDATER
-                RESET MOTHOD: ck
-                UPLOAD SPEED: 115200
-                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
-                __________________________________
+               CONFIGURACAO DA PLACA PARA GRAVACAO
+               PLACA: GENERIC ESP8266 MODULE
+               FLASH MODE: DIO
+               FLASH FREQUENCY: 40MHz
+               CPU FREQUENCY: 80MHz
+               FLASH SIZE: 1M (512K SPIFFS)
+               DEBUG PORT: SERIAL
+               DEBUG LEVEL: OTA + UPDATER
+               RESET MOTHOD: ck
+               UPLOAD SPEED: 115200
+               PORTA: PORTA ESP CONECTADA AO COMPUTADOR
+               __________________________________
 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - JANUARY
@@ -74,7 +74,6 @@
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      LED_BUILTIN   2         // LED_BUILTIN (LED NATIVO DO ESP8266)
-//#define      ATL2         A0         // ADC
 #define      ATL3         16         // GPIO-16 + LED0
 #define      ATL4         14         // GPIO-14 + BUZZER
 #define      ATL5         12         // GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
@@ -100,6 +99,11 @@ byte                packetBuffer[NTP_PACKET_SIZE];       // BUFFER PARA OS PACOT
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22 OU DHT11
 int                 nCon, contNcon, fMysql;              // VARIAVEIS PARA WiFi MANANGER E MySQL (CONEXAO COM A INTERNET E MySQL EM CASO DE ERROS)
+String              tempo = "hh:MM:ss | dd/mm/aaaa";     // STRING DA DATA E HORA PARA O MYSQL
+String              hora, minuto, segundo, dia, mes, ano;// VARIAVEIS DA DATA E HORA MYSQL
+char                STempo[30];                          // VARIAVEL DA DATA E HORA MYSQL
+unsigned long       previousMillis = 0;                  // CONTADOR DE TEMPO PARA SUBIR OS DADOS NO MySQL
+const long          intervalo = 1200000;                 // INTERVALO DE 20 MINUTOS PARA SUBIR OS DADOS NO MySQL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -138,30 +142,23 @@ time_t getNtpTime()
       secsSince1900 |= (unsigned long)packetBuffer[43];
       return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
     }
-  }
-  return 0;
+  } return 0;
 }
-void relogioDisplay()
+void dataHora()
 {
-  Serial.println("| DATA E HORA ATUAL - - - - - - - - - - - - - - - |");
-  Serial.println("| HORA: - - - - - - - - - - - - - - - - - - - - - |");
-  Serial.print(hour());
-  printDigits(minute());
-  printDigits(second());
-  Serial.println("| DATA: - - - - - - - - - - - - - - - - - - - - - |");
-  Serial.print(day());
-  Serial.print("-");
-  Serial.print(month());
-  Serial.print("-");
-  Serial.print(year());
-  Serial.println();
-}
-void printDigits(int digits)
-{
-  Serial.print(":");
-  if (digits < 10)
-    Serial.print('0');
-  Serial.print(digits);
+  hora = String(hour());
+  minuto = String(minute());
+  segundo = String(second());
+  dia = day();
+  mes = month();
+  ano = year();
+  tempo.replace("hh", hora);
+  tempo.replace("MM", minuto);
+  tempo.replace("ss", segundo);
+  tempo.replace("dd", dia);
+  tempo.replace("mm", mes);
+  tempo.replace("aaaa", ano);
+  tempo.toCharArray(STempo, 30);
 }
 void sendNTPpacket(IPAddress &address)
 {
@@ -269,7 +266,6 @@ void GetATLdhtTU() {
       Serial.println("\n>--> Falha na leitura do Sensor DHT!");
       T_dht = 0; // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
       U_dht = 0; // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
-      return;
     }
   }
   Serial.print("\n| Temperatura ambiente.....DHT: ");
@@ -288,8 +284,6 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);         // INICIALIZA O LED_BUILTIN NATIVO DO ESP8266
   digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
   pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
-  //  pinMode(ATL4, OUTPUT);      digitalWrite(ATL4, LOW);
-  //  ATL4 --> GPIO-14 + BUZZER - NAO USADO NA ESTACAO CLIMATICA!
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModoCallback);
@@ -316,13 +310,8 @@ void setup() {
   Serial.println("| Informacoes do ESP8266 - - - - - - - - - - - -  |");
   Serial.print("| MAC NUMBER: " + WiFi.macAddress());
   Serial.println(" - - - - - - - - - |");
-  Serial.print("| IP LOCAL: " + WiFi.localIP());
-  Serial.println(" - - - - - - - - - |");
   Serial.println("| INICIANDO UDP - - - - - - - - - - - - - - - - - |");
-  Udp.begin     (localPort);
-  Serial.println("PORTA LOCAL UDP: - - - - - - - - - - - - - - - - |");
-  Serial.print(Udp.localPort()); Serial.println(" - - - - - - - - |");
-  Serial.println("| SINCRONIZANDO COM SERVIDOR NTP / TEMPO - - - - |");
+  Serial.println("| SINCRONIZANDO COM SERVIDOR NTP / TEMPO - - - -  |");
   setSyncProvider(getNtpTime);
   setSyncInterval(300);
   Serial.println("| AGROTECHLINK - TODOS OS DIREITOS SAO RESERVADOS |");
@@ -351,52 +340,53 @@ void loop() {
   GetATLbmpPT();             // BMP-180
   GetATLdhtTU();             // DHT22
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  if (conn.connected()) {
-    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[82];
-    // CONVERTENDO DADOS DOS SENSORES PARA STRING
-    dtostrf(T_dht, 2, 2, ST_dht);
-    dtostrf(U_dht, 2, 2, SU_dht);
-    dtostrf(T_bmp, 2, 2, ST_bmp);
-    dtostrf(P_bmp, 4, 2, SP_bmp);
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s);";
-    sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp);
-    // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
-    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    delay(500);
-    Serial.println("\n| Executando querry no banco de dados - - - - - - |");
-    cur_mem->execute(query);
-    delay(500);
-    Serial.println("| Querry INSERT: - - - - - - - - - - - - - - - -  |");
-    Serial.println(query);
-    Serial.println("| Limpando dados de requisicao da memoria - - - - |");
-    delete cur_mem;
-    delay(500);
-    Serial.println("| Execucao de querry bem sucedida! - - - - - - -  |");
-    fMysql = 0;
+  unsigned long currentMillis = millis();    // LOGICA DE TEMPO PARA SUBIDA DE DADOS A CADA 20 MINUTOS NO DB
+  if (currentMillis - previousMillis >= intervalo) {
+    if (conn.connected()) {
+      char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[100];
+      // CONVERTENDO DADOS DOS SENSORES PARA STRING
+      dtostrf(T_dht, 2, 2, ST_dht);
+      dtostrf(U_dht, 2, 2, SU_dht);
+      dtostrf(T_bmp, 2, 2, ST_bmp);
+      dtostrf(P_bmp, 4, 2, SP_bmp);
+      dataHora();              //REGISTRANDO A HORA
+      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+      char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s, '%s');";
+      sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp, STempo);
+      // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+      Serial.println(query);
+      Serial.println(STempo);
+      MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+      delay(200);
+      Serial.println("\n| Executando querry no banco de dados - - - - - - |");
+      cur_mem->execute(query);
+      delay(200);
+      Serial.println("| Querry INSERT: - - - - - - - - - - - - - - - -  |");
+      Serial.println(query);
+      Serial.println("| Limpando dados de requisicao da memoria - - - - |");
+      delete cur_mem;
+      delay(250);
+      Serial.println("| Execucao de querry bem sucedida! - - - - - - -  |");
+      fMysql = 0;
 
-    if (timeStatus() != timeNotSet) {
-      if (now() != prevDisplay) {
-        prevDisplay = now();
-        relogioDisplay();
+      LedATLblinks(2);           // LED. 2 VEZES = DADOS INSERIDOS NO BD!
+
+    } else {
+      conn.close();
+      Serial.println("| Reconectando ao banco de dados... - - - - - - - |");
+      if (conn.connect(server_addr, 3306, user, password)) {
+        delay(500);
+        Serial.println("| Reconectando com sucesso! (: - - - - - - - - - - |");
+        fMysql++;
+        if (fMysql == 3) {
+          Serial.println("| Maximo de reconexoes atingidas: MySQL. Resetando |");
+          delay(5000);
+          ESP.reset();
+          delay(2000);
+        }
       }
     }
-    LedATLblinks(2);           // LED. 2 VEZES = DADOS INSERIDOS NO BD!
-
-  } else {
-    conn.close();
-    Serial.println("| Reconectando ao banco de dados... - - - - - - - |");
-    if (conn.connect(server_addr, 3306, user, password)) {
-      delay(500);
-      Serial.println("| Reconectando com sucesso! (: - - - - - - - - - - |");
-      fMysql++;
-      if (fMysql == 3) {
-        Serial.println("| Maximo de reconexoes atingidas: MySQL. Resetando |");
-        delay(5000);
-        ESP.reset();
-        delay(2000);
-      }
-    }
+    previousMillis = currentMillis;
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
