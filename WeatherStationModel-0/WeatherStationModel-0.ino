@@ -99,9 +99,6 @@ byte                packetBuffer[NTP_PACKET_SIZE];       // BUFFER PARA OS PACOT
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22 OU DHT11
 int                 nCon, contNcon, fMysql;              // VARIAVEIS PARA WiFi MANANGER E MySQL (CONEXAO COM A INTERNET E MySQL EM CASO DE ERROS)
-String              tempo = "hh:Mm:Ss | dd/oo/aaaa";     // STRING DA DATA E HORA PARA O MYSQL
-String              hora, minuto, segundo, dia, mes, ano;// VARIAVEIS DA DATA E HORA MYSQL
-char                STempo[30];                          // VARIAVEL DA DATA E HORA MYSQL
 unsigned long       previousMillis = 0;                  // CONTADOR DE TEMPO PARA SUBIR OS DADOS NO MySQL
 const long          intervalo = 1200000;                 // INTERVALO DE 20 MINUTOS PARA SUBIR OS DADOS NO MySQL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -142,22 +139,6 @@ time_t getNtpTime()
       return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
     }
   } return 0;
-}
-void dataHora()
-{
-  hora = String(hour());
-  minuto = String(minute());
-  segundo = String(second());
-  dia = String(day());
-  mes = String(month());
-  ano = String(year());
-  tempo.replace("hh", hora);
-  tempo.replace("Mm", minuto);
-  tempo.replace("Ss", segundo);
-  tempo.replace("dd", dia);
-  tempo.replace("oo", mes);
-  tempo.replace("aaaa", ano);
-  tempo.toCharArray(STempo, 30);
 }
 void sendNTPpacket(IPAddress &address)
 {
@@ -343,14 +324,29 @@ void loop() {
   unsigned long currentMillis = millis();    // LOGICA DE TEMPO PARA SUBIDA DE DADOS A CADA 20 MINUTOS NO DB
   if (currentMillis - previousMillis >= intervalo) {
     if (conn.connected()) {
-      char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[100];
+      char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], STempo[30], query[100];
       // CONVERTENDO DADOS DOS SENSORES PARA STRING
       dtostrf(T_dht, 2, 2, ST_dht);
       dtostrf(U_dht, 2, 2, SU_dht);
       dtostrf(T_bmp, 2, 2, ST_bmp);
       dtostrf(P_bmp, 4, 2, SP_bmp);
       /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-      dataHora();                             // REGISTRANDO A HORA
+      String tempo = "hh:mm:ss | dd/oo/aaaa";
+      String hora, minuto, segundo, dia, mes, ano;
+      hora = String(hour());
+      minuto = String(minute());
+      segundo = String(second());
+      dia = String(day());
+      mes = String(month());
+      ano = String(year());
+      tempo.replace("hh", hora);
+      tempo.replace("mm", minuto);
+      tempo.replace("ss", segundo);
+      tempo.replace("dd", dia);
+      tempo.replace("oo", mes);
+      tempo.replace("aaaa", ano);
+      tempo.toCharArray(STempo, 30);
+      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
       char INSERT_SQL[] = "INSERT INTO agrotech_intel.teste VALUES (NULL, %s, %s, %s, %s, '%s');";
       sprintf(query, INSERT_SQL, ST_dht, SU_dht, ST_bmp, SP_bmp, STempo);
       // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
