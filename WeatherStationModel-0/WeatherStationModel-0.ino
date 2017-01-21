@@ -14,15 +14,15 @@
                __________________________________
 
                CONFIGURACAO DA PLACA PARA GRAVACAO
-               PLACA: GENERIC ESP8266 MODULE
-               FLASH MODE: DIO
-               FLASH FREQUENCY: 40MHz
-               CPU FREQUENCY: 80MHz
-               FLASH SIZE: 1M (512K SPIFFS)
-               DEBUG PORT: SERIAL
-               DEBUG LEVEL: OTA + UPDATER
-               RESET MOTHOD: ck
-               UPLOAD SPEED: 115200
+               PLACA:             GENERIC ESP8266 MODULE
+               FLASH MODE:        DIO
+               FLASH FREQUENCY:   40 MHz
+               CPU FREQUENCY:     80 MHz
+               FLASH SIZE:        1M (512K SPIFFS)
+               DEBUG PORT:        SERIAL
+               DEBUG LEVEL:       OTA + UPDATER
+               RESET MOTHOD:      ck
+               UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
                __________________________________
 */
