@@ -34,7 +34,6 @@
      PORTAS UTILIZADAS NAS PLACAS DA MINI ESTACAO CLIMATICA
 
      ATL3     >--> GPIO-16 + LED0
-     ATL4     >--> GPIO-14 + BUZZER
      ATL5     >--> GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
      ATL7     >--> GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
      ATL8     >--> GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
@@ -58,7 +57,6 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // LIVRARIAS EXTERNAS PARA FUNCIONAMENTO DOS SENSORES, CONEXÃO E DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-#include     <FS.h>                  // BIBLIOTECA WiFi DO ESP8266. DEVE SER SEMPRE A PRIMEIRA BIBLIOTECA MENCIONADA NO #INLUDE!!!!!!!
 #include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
 #include     <DNSServer.h>           // BIBLIOTECA WiFi DO ESP8266
 #include     <ESP8266WebServer.h>    // BIBLIOTECA WiFi DO ESP8266
@@ -75,7 +73,6 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      LED_BUILTIN   2         // LED_BUILTIN (LED NATIVO DO ESP8266)
 #define      ATL3         16         // GPIO-16 + LED0
-#define      ATL4         14         // GPIO-14 + BUZZER
 #define      ATL5         12         // GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
 #define      ATL7          5         // GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL8          4         // GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
@@ -84,8 +81,6 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      DHTPIN     ATL5         // SENSOR DHT22 (TEMPERATURA-HUMIDADE)
 #define      DHTTYPE    DHT22        // ESPECIFICACAO DO SENSOR UTILIZADO
-/*#define      DHTTYPE    DHT11*/    // DESMARCAR ESTE DEFINE CASO UTILIZAR O DHT11 E SUBLINHAR DHT22!!!
-#define      ALTITUDE   4.5          // ALTITUDE DA LOCALIZACAO DO ESP8266: JARAGUÁ DO SUL - SC (EM METROS - USAR PONTO AO INVES DA VIRGULA. Ex.:(23.3))
 WiFiUDP      Udp;                    // DEFINICAO DA BIBLIOTECA UDP DATA E HORA
 DHT          dht (DHTPIN, DHTTYPE);  // ENDERECAMENTO DO SENSOR DHT22
 SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
@@ -100,7 +95,7 @@ double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SEN
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22 OU DHT11
 int                 nCon, contNcon, fMysql;              // VARIAVEIS PARA WiFi MANANGER E MySQL (CONEXAO COM A INTERNET E MySQL EM CASO DE ERROS)
 unsigned long       previousMillis = 0;                  // CONTADOR DE TEMPO PARA SUBIR OS DADOS NO MySQL
-const long          intervalo = 1200000;                 // INTERVALO DE 20 MINUTOS PARA SUBIR OS DADOS NO MySQL
+unsigned long       intervalo = 40000;                   // INTERVALO DE 20 MINUTOS (1200000) / 40 SEGUNDOS (40000) PARA SUBIR OS DADOS NO MySQL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -156,23 +151,15 @@ void sendNTPpacket(IPAddress &address)
   Udp.endPacket();
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// MODO CONFIGURAÇÃO DO WiFi MANANGER
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void configModoCallback (WiFiManager *myWiFiManager) {
-  Serial.println(">--> Iniciando modo de configuracao.");
-  Serial.println(WiFi.softAPIP());
-  Serial.println(myWiFiManager->getConfigPortalSSID());
-}
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FAZER O LED PISCAR
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void LedATLblinks(unsigned M) {
   for (short j = 0; j < M; j++) {
-    digitalWrite(ATL3, HIGH);                             delay(250);
-    digitalWrite(ATL3, LOW);                              delay(250);
+    digitalWrite(ATL3, HIGH);                             delay(300);
+    digitalWrite(ATL3, LOW);                              delay(300);
   }
   digitalWrite(ATL3, LOW);
-  digitalWrite(LED_BUILTIN, LOW);                         delay(250);
+  digitalWrite(LED_BUILTIN, LOW);                         delay(300);
   digitalWrite(LED_BUILTIN, HIGH);
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -266,21 +253,7 @@ void setup() {
   pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
-  wifiManager.setAPCallback(configModoCallback);
-  if (!wifiManager.autoConnect("Agrotechlink", "agrotechlink")) {
-    Serial.println("Falha na conexao.");
-    contNcon = (nCon + 1);
-    delay(5000);
-    ESP.restart();
-    delay(2000);
-    if (contNcon == 3) {
-      wifiManager.resetSettings();
-      // CASO OCORRA FALHAS EXEPCIONAIS NA CONEXAO O ESP8266 RESETA E INICIA NOVAMENTE
-      delay(5000);
-      ESP.reset();
-      delay(2000);
-    }
-  }
+  wifiManager.autoConnect("Agrotechlink", "agrotechlink");
   Serial.println("| Internet conectada. Wi-fi client em rede :)");
   delay(500);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -324,6 +297,8 @@ void loop() {
   unsigned long currentMillis = millis();    // LOGICA DE TEMPO PARA SUBIDA DE DADOS A CADA 20 MINUTOS NO DB
   if (currentMillis - previousMillis >= intervalo) {
     if (conn.connected()) {
+       intervalo = 1200000;                   // SUBIR OS DADOS A CADA 20 MINUTOS
+      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
       char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], STempo[30], query[100];
       // CONVERTENDO DADOS DOS SENSORES PARA STRING
       dtostrf(T_dht, 2, 2, ST_dht);
@@ -370,6 +345,7 @@ void loop() {
       Serial.println("| Reconectando ao banco de dados... - - - - - - - |");
       if (conn.connect(server_addr, 3306, user, password)) {
         delay(500);
+        intervalo = 40000;
         Serial.println("| Reconectando com sucesso! (: - - - - - - - - - - |");
         fMysql++;
         if (fMysql == 3) {
