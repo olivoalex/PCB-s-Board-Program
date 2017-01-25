@@ -84,7 +84,9 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+//static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+  static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+  // ID DO PATO DONALD PARA TESTES...
 char                MAC[25];                             // MAC PARA O MySQL
 String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
 static const char   ntpServerName[] = "a.st1.ntp.br";    // DEFINICAO DO SERVIDOR NTP DE HORA BRASILEIRO
