@@ -3,11 +3,6 @@
                COMPILADO NA VERSAO ARDUINO: 1.8.1
                __________________________________
 
-               VERSAO DO PROGRAMA ARDUINO: 1.8.1
-               PROGRAMA ATUALIZADO EM: 21/01/2017
-               HORA-ULTIMO UPDATE: 13:30 p.m.
-               __________________________________
-
                 PLACA WIFI ESP8266-07 AT THINKER
                 PROGRAMA: MINI ESTACAO CLIMATICA
                 CONTÉM SENSORES: BMP-180 E DHT22
@@ -20,7 +15,7 @@
                CPU FREQUENCY:     80 MHz
                FLASH SIZE:        1M (512K SPIFFS)
                DEBUG PORT:        SERIAL
-               DEBUG LEVEL:       OTA + UPDATER
+               DEBUG LEVEL:       NENHUM
                RESET MOTHOD:      ck
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
