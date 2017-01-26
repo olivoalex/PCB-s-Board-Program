@@ -95,7 +95,7 @@ unsigned int        localPort = 8888;                    // PORTAL LOCAL PARA OS
 byte                packetBuffer[NTP_PACKET_SIZE];       // BUFFER PARA OS PACOTES DE DATA E HORA
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22 OU DHT11
-int                 nCon, contNcon, fMysql;              // VARIAVEIS PARA WiFi MANANGER E MySQL (CONEXAO COM A INTERNET E MySQL EM CASO DE ERROS)
+int                 fMysql;                              // VARIAVEl PARA MySQL EM CASO DE ERROS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -207,7 +207,7 @@ void GetATLdhtTU() {
   T_dht = dht.readTemperature();
   delay(500);
   if (isnan(U_dht) || isnan(T_dht)) {
-    for (short i = 0; i < 6; i++) {
+    for (short i = 0; i < 8; i++) {
       delay(2000);
       U_dht = dht.readHumidity();
       T_dht = dht.readTemperature();
@@ -283,16 +283,12 @@ void loop() {
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     char INSERT_SQL[] = "INSERT INTO agrotech_intel.estacao_climatica SET cpf_usuario = '%s', mac = '%s', dht_T = %s, dht_U = %s, bmp_T = %s, bmp_P = %s, data = '%s', ativo = '%s'";
     sprintf(query, INSERT_SQL, CPF, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp, STempo, SAtivo);
+    delay(500);
     // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    delay(100);
     cur_mem->execute(query);
-    delay(200);
     delete cur_mem;
-    delay(200);
-
     fMysql = 0;
-
     LedATLblinks(1);           // LED. 1 VEZ = DADOS INSERIDOS NO BD!
 
   } else {
