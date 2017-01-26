@@ -118,8 +118,7 @@ void        sendNTPpacket(IPAddress &address);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // BIBLIOTECAS DE DATA E HORA
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-time_t getNtpTime()
-{
+time_t getNtpTime(){
   IPAddress ntpServerIP;
   while (Udp.parsePacket() > 0) ;
   WiFi.hostByName(ntpServerName, ntpServerIP);
@@ -138,8 +137,7 @@ time_t getNtpTime()
     }
   } return 0;
 }
-void sendNTPpacket(IPAddress &address)
-{
+void sendNTPpacket(IPAddress &address){
   memset(packetBuffer, 0, NTP_PACKET_SIZE);
   packetBuffer[0] = 0b11100011;
   packetBuffer[1] = 0;
@@ -259,7 +257,8 @@ void loop() {
   unsigned long currentMillis = millis();    // LOGICA DE TEMPO PARA SUBIDA DE DADOS A CADA 20 MINUTOS NO DB
   if (currentMillis - previousMillis >= intervalo) {
     if (conn.connected()) {
-      intervalo = 1200000;                   // SUBIR OS DADOS A CADA 20 MINUTOS
+//    intervalo = 1200000;                   // SUBIR OS DADOS A CADA 20 MINUTOS
+      intervalo =   60000;                   // SUBIR OS DADOS A CADA 1 MINUTO
       /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
       char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], STempo[30], SAtivo[2], query[220];
       // CONVERTENDO DADOS DOS SENSORES PARA STRING
