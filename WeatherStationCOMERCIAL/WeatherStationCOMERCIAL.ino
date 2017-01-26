@@ -84,8 +84,8 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-//static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
-static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+//static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
 // ID DO PATO DONALD PARA TESTES...
 char                MAC[25];                             // MAC PARA O MySQL
 String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
@@ -104,7 +104,6 @@ char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 
 WiFiClient client;
-WiFiManager wifiManager;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FORMATACAO DA BIBLIOTECA DE DATA E HORA
@@ -222,6 +221,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
   pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  WiFiManager wifiManager;
   wifiManager.setDebugOutput(false);
   wifiManager.autoConnect("Agrotechlink", "agrotechlink");
   delay(500);
@@ -297,8 +297,10 @@ void loop() {
     if (conn.connect(server_addr, 3306, user, password)) {
       delay(500);
       fMysql++;
-      if (fMysql == 3) {
-        wifiManager.setConfigPortalTimeout(10);
+      if (fMysql == 5) {
+        delay(5000);
+        ESP.restart();
+        delay(3000);
       }
     }
   }
