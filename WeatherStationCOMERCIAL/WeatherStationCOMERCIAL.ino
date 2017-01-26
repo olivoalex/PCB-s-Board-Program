@@ -4,7 +4,7 @@
                __________________________________
 
             !!LEMBRAR DE MUDAR PARA O CPF DO USUÁRIO!!
-               
+
                 PLACA WIFI ESP8266-07 AT THINKER
                 PROGRAMA: MINI ESTACAO CLIMATICA
                 CONTÉM SENSORES: BMP-180 E DHT22
@@ -16,7 +16,7 @@
                FLASH FREQUENCY:   40 MHz
                CPU FREQUENCY:     80 MHz
                FLASH SIZE:        1M (512K SPIFFS)
-               DEBUG PORT:        SERIAL
+               DEBUG PORT:        DISABLED
                DEBUG LEVEL:       NENHUM
                RESET MOTHOD:      ck
                UPLOAD SPEED:      115200
@@ -57,7 +57,7 @@
 #include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
 #include     <DNSServer.h>           // BIBLIOTECA WiFi DO ESP8266
 #include     <ESP8266WebServer.h>    // BIBLIOTECA WiFi DO ESP8266
-#include     "WiFiManager.h"         // BIBLIOTECA WiFi-MANANGER DO ESP8266
+#include     <WiFiManager.h>         // BIBLIOTECA WiFi-MANANGER DO ESP8266
 #include     <TimeLib.h>             // BIBLIOTECA DE DATA E HORA DO ESP8266
 #include     <WiFiUdp.h>             // BIBLIOTECA DE DATA E HORA DO ESP8266
 #include     <SFE_BMP180.h>          // SENSOR BMP-180 (PRESSAO) 
@@ -86,7 +86,7 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
 static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
-  // ID DO PATO DONALD PARA TESTES...
+// ID DO PATO DONALD PARA TESTES...
 char                MAC[25];                             // MAC PARA O MySQL
 String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
 static const char   ntpServerName[] = "a.st1.ntp.br";    // DEFINICAO DO SERVIDOR NTP DE HORA BRASILEIRO
@@ -96,10 +96,8 @@ byte                packetBuffer[NTP_PACKET_SIZE];       // BUFFER PARA OS PACOT
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22 OU DHT11
 int                 nCon, contNcon, fMysql;              // VARIAVEIS PARA WiFi MANANGER E MySQL (CONEXAO COM A INTERNET E MySQL EM CASO DE ERROS)
-unsigned long       previousMillis = 0;                  // CONTADOR DE TEMPO PARA SUBIR OS DADOS NO MySQL
-unsigned long       intervalo = 40000;                   // INTERVALO DE 40 SEGUNDOS (40000) / 20 MINUTOS (1200000) PARA SUBIR OS DADOS NO MySQL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// CONFIGURACOES DE ACESSO AO BANCO DE DADOS
+// CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
@@ -112,13 +110,11 @@ MySQL_Connection conn((Client *)&client);
 // FORMATACAO DA BIBLIOTECA DE DATA E HORA
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 time_t      getNtpTime();
-void        relogioDisplay();
-void        printDigits(int digits);
 void        sendNTPpacket(IPAddress &address);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // BIBLIOTECAS DE DATA E HORA
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-time_t getNtpTime(){
+time_t getNtpTime() {
   IPAddress ntpServerIP;
   while (Udp.parsePacket() > 0) ;
   WiFi.hostByName(ntpServerName, ntpServerIP);
@@ -137,7 +133,7 @@ time_t getNtpTime(){
     }
   } return 0;
 }
-void sendNTPpacket(IPAddress &address){
+void sendNTPpacket(IPAddress &address) {
   memset(packetBuffer, 0, NTP_PACKET_SIZE);
   packetBuffer[0] = 0b11100011;
   packetBuffer[1] = 0;
@@ -156,11 +152,11 @@ void sendNTPpacket(IPAddress &address){
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void LedATLblinks(unsigned M) {
   for (short j = 0; j < M; j++) {
-    digitalWrite(ATL3, HIGH);                             delay(300);
-    digitalWrite(ATL3, LOW);                              delay(300);
+    digitalWrite(ATL3, HIGH);                    delay(300);
+    digitalWrite(ATL3, LOW);                     delay(300);
   }
   digitalWrite(ATL3, LOW);
-  digitalWrite(LED_BUILTIN, LOW);                         delay(300);
+  digitalWrite(LED_BUILTIN, LOW);                delay(300);
   digitalWrite(LED_BUILTIN, HIGH);
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -208,16 +204,15 @@ void GetATLbmpPT() {
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22 OU DHT11
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLdhtTU() {
-  delay(2000);
   U_dht = dht.readHumidity();
   T_dht = dht.readTemperature();
   if (isnan(U_dht) || isnan(T_dht)) {
-    delay(2500);
+    delay(2000);
     U_dht = dht.readHumidity();
     T_dht = dht.readTemperature();
     if (isnan(U_dht) || isnan(T_dht)) {
-      T_dht = 0; // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
-      U_dht = 0; // PARA ASSEGURAR SEJA REGISTRADO 0 NO BD DO MySQL
+      T_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
+      U_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
     }
   }
 }
@@ -254,71 +249,60 @@ void loop() {
   GetATLbmpPT();             // BMP-180
   GetATLdhtTU();             // DHT22
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  unsigned long currentMillis = millis();    // LOGICA DE TEMPO PARA SUBIDA DE DADOS A CADA 20 MINUTOS NO DB
-  if (currentMillis - previousMillis >= intervalo) {
-    if (conn.connected()) {
-//    intervalo = 1200000;                   // SUBIR OS DADOS A CADA 20 MINUTOS
-      intervalo =   60000;                   // SUBIR OS DADOS A CADA 1 MINUTO
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-      char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], STempo[30], SAtivo[2], query[220];
-      // CONVERTENDO DADOS DOS SENSORES PARA STRING
-      dtostrf(T_dht, 2, 2, ST_dht);
-      dtostrf(U_dht, 2, 2, SU_dht);
-      dtostrf(T_bmp, 2, 2, ST_bmp);
-      dtostrf(P_bmp, 4, 2, SP_bmp);
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-      String tempo = "hh:mm:ss | dd/oo/aaaa";
-      String hora, minuto, segundo, dia, mes, ano;
-      hora = String(hour());
-      minuto = String(minute());
-      segundo = String(second());
-      dia = String(day());
-      mes = String(month());
-      ano = String(year());
-      tempo.replace("hh", hora);
-      tempo.replace("mm", minuto);
-      tempo.replace("ss", segundo);
-      tempo.replace("dd", dia);
-      tempo.replace("oo", mes);
-      tempo.replace("aaaa", ano);
-      tempo.toCharArray(STempo, 30);
+  if (conn.connected()) {
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], STempo[30], SAtivo[2], query[230];
+    // CONVERTENDO DADOS DOS SENSORES PARA STRING
+    dtostrf(T_dht, 2, 2, ST_dht);
+    dtostrf(U_dht, 2, 2, SU_dht);
+    dtostrf(T_bmp, 2, 2, ST_bmp);
+    dtostrf(P_bmp, 4, 2, SP_bmp);
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    String tempo = "hh:mm:ss | dd/oo/aaaa";
+    String hora, minuto, segundo, dia, mes, ano;
+    hora = String(hour());
+    minuto = String(minute());
+    segundo = String(second());
+    dia = String(day());
+    mes = String(month());
+    ano = String(year());
+    tempo.replace("hh", hora);
+    tempo.replace("mm", minuto);
+    tempo.replace("ss", segundo);
+    tempo.replace("dd", dia);
+    tempo.replace("oo", mes);
+    tempo.replace("aaaa", ano);
+    tempo.toCharArray(STempo, 30);
 
-      String ativo = "1";
-      ativo.toCharArray(SAtivo, 2);
-      mac.toCharArray(MAC, 25);
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-      char INSERT_SQL[] = "INSERT INTO agrotech_intel.estacao_climatica SET cpf_usuario = '%s', mac = '%s', dht_T = %s, dht_U = %s, bmp_T = %s, bmp_P = %s, data = '%s', ativo = '%s';";
-      sprintf(query, INSERT_SQL, CPF, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp, STempo, SAtivo);
-      // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
-      MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-      delay(100);
-      cur_mem->execute(query);
-      delay(200);
-      delete cur_mem;
-      delay(200);
+    String ativo = "1";
+    ativo.toCharArray(SAtivo, 2);
+    mac.toCharArray(MAC, 25);
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    char INSERT_SQL[] = "INSERT INTO agrotech_intel.estacao_climatica SET cpf_usuario = '%s', mac = '%s', dht_T = %s, dht_U = %s, bmp_T = %s, bmp_P = %s, data = '%s', ativo = '%s'";
+    sprintf(query, INSERT_SQL, CPF, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp, STempo, SAtivo);
+    // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+    delay(100);
+    cur_mem->execute(query);
+    delay(200);
+    delete cur_mem;
+    delay(200);
 
-      fMysql = 0;
+    fMysql = 0;
 
-      LedATLblinks(2);           // LED. 2 VEZES = DADOS INSERIDOS NO BD!
+    LedATLblinks(1);           // LED. 1 VEZ = DADOS INSERIDOS NO BD!
 
-    } else {
-      conn.close();
-      delay(100);
-      wifiManager.setConfigPortalTimeout(10);
+  } else {
+    conn.close();
+    if (conn.connect(server_addr, 3306, user, password)) {
       delay(500);
-      if (conn.connect(server_addr, 3306, user, password)) {
-        delay(500);
-        intervalo = 40000;
-        fMysql++;
-        if (fMysql == 3) {
-          delay(5000);
-          ESP.reset();
-          delay(2000);
-        }
+      fMysql++;
+      if (fMysql == 3) {
+        wifiManager.setConfigPortalTimeout(10);
       }
     }
-    previousMillis = currentMillis;
   }
+  delay(2000);
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
