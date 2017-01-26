@@ -205,14 +205,17 @@ void GetATLbmpPT() {
 void GetATLdhtTU() {
   U_dht = dht.readHumidity();
   T_dht = dht.readTemperature();
+  delay(500);
   if (isnan(U_dht) || isnan(T_dht)) {
-    delay(2000);
-    U_dht = dht.readHumidity();
-    T_dht = dht.readTemperature();
-    if (isnan(U_dht) || isnan(T_dht)) {
-      T_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
-      U_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
+    for (short i = 0; i < 6; i++) {
+      delay(2000);
+      U_dht = dht.readHumidity();
+      T_dht = dht.readTemperature();
     }
+  }
+  if (isnan(U_dht) || isnan(T_dht)) {
+    T_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
+    U_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -304,7 +307,7 @@ void loop() {
       }
     }
   }
-  delay(2000);
+  delay(2500);
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
