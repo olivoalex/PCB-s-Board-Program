@@ -58,8 +58,6 @@
 #include     <DNSServer.h>           // BIBLIOTECA WiFi DO ESP8266
 #include     <ESP8266WebServer.h>    // BIBLIOTECA WiFi DO ESP8266
 #include     <WiFiManager.h>         // BIBLIOTECA WiFi-MANANGER DO ESP8266
-#include     <TimeLib.h>             // BIBLIOTECA DE DATA E HORA DO ESP8266
-#include     <WiFiUdp.h>             // BIBLIOTECA DE DATA E HORA DO ESP8266
 #include     <SFE_BMP180.h>          // SENSOR BMP-180 (PRESSAO) 
 #include     <Wire.h>                // NECESSÁRIO PARA COMUNICACAO I2C (PRESSAO)
 #include     "DHT.h"                 // SENSOR DHT22 OU DHT11 (TEMPERATURA-HUMIDADE)   
@@ -78,7 +76,6 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      DHTPIN     ATL5         // SENSOR DHT22 (TEMPERATURA-HUMIDADE)
 #define      DHTTYPE    DHT22        // ESPECIFICACAO DO SENSOR UTILIZADO
-WiFiUDP      Udp;                    // DEFINICAO DA BIBLIOTECA UDP DATA E HORA
 DHT          dht (DHTPIN, DHTTYPE);  // ENDERECAMENTO DO SENSOR DHT22
 SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -89,12 +86,8 @@ static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APEN
 // ID DO PATO DONALD PARA TESTES...
 char                MAC[25];                             // MAC PARA O MySQL
 String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
-static const char   ntpServerName[] = "a.st1.ntp.br";    // DEFINICAO DO SERVIDOR NTP DE HORA BRASILEIRO
-const int           timeZone = -2, NTP_PACKET_SIZE = 48; // DEFINIDO COMO -2 DEVIDO AO HORÁRIO DE VERÃO. DEPOIS DO DIA 19/02 MUDAR PARA -3!
-unsigned int        localPort = 8888;                    // PORTAL LOCAL PARA OS PACOTES UDP
-byte                packetBuffer[NTP_PACKET_SIZE];       // BUFFER PARA OS PACOTES DE DATA E HORA
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
-float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22 OU DHT11
+float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
 int                 fMysql;                              // VARIAVEl PARA MySQL EM CASO DE ERROS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
@@ -106,45 +99,11 @@ char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// FORMATACAO DA BIBLIOTECA DE DATA E HORA
+// CONFIGURACAO WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-time_t      getNtpTime();
-void        sendNTPpacket(IPAddress &address);
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// BIBLIOTECAS DE DATA E HORA
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-time_t getNtpTime() {
-  IPAddress ntpServerIP;
-  while (Udp.parsePacket() > 0) ;
-  WiFi.hostByName(ntpServerName, ntpServerIP);
-  sendNTPpacket(ntpServerIP);
-  uint32_t beginWait = millis();
-  while (millis() - beginWait < 1500) {
-    int size = Udp.parsePacket();
-    if (size >= NTP_PACKET_SIZE) {
-      Udp.read(packetBuffer, NTP_PACKET_SIZE);
-      unsigned long secsSince1900;
-      secsSince1900 =  (unsigned long)packetBuffer[40] << 24;
-      secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
-      secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
-      secsSince1900 |= (unsigned long)packetBuffer[43];
-      return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
-    }
-  } return 0;
-}
-void sendNTPpacket(IPAddress &address) {
-  memset(packetBuffer, 0, NTP_PACKET_SIZE);
-  packetBuffer[0] = 0b11100011;
-  packetBuffer[1] = 0;
-  packetBuffer[2] = 6;
-  packetBuffer[3] = 0xEC;
-  packetBuffer[12] = 49;
-  packetBuffer[13] = 0x4E;
-  packetBuffer[14] = 49;
-  packetBuffer[15] = 52;
-  Udp.beginPacket(address, 123);
-  Udp.write(packetBuffer, NTP_PACKET_SIZE);
-  Udp.endPacket();
+void configModeCallback (WiFiManager *myWiFiManager) {
+  Serial.println(WiFi.softAPIP());
+  Serial.println(myWiFiManager->getConfigPortalSSID());
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FAZER O LED PISCAR
@@ -207,7 +166,7 @@ void GetATLdhtTU() {
   T_dht = dht.readTemperature();
   delay(500);
   if (isnan(U_dht) || isnan(T_dht)) {
-    for (short i = 0; i < 8; i++) {
+    for (short i = 0; i < 11; i++) {
       delay(2000);
       U_dht = dht.readHumidity();
       T_dht = dht.readTemperature();
@@ -225,14 +184,11 @@ void setup() {
   pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
-  wifiManager.setDebugOutput(false);
+  wifiManager.setAPCallback(configModeCallback);
   wifiManager.autoConnect("Agrotechlink", "agrotechlink");
   delay(500);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
-  Udp.begin(localPort);
-  setSyncProvider(getNtpTime);
-  setSyncInterval(300);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   while (conn.connect(server_addr, 3306, user, password) != true) {
     delay(500);
@@ -254,35 +210,17 @@ void loop() {
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   if (conn.connected()) {
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], STempo[30], SAtivo[2], query[230];
+    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[190];
     // CONVERTENDO DADOS DOS SENSORES PARA STRING
     dtostrf(T_dht, 2, 2, ST_dht);
     dtostrf(U_dht, 2, 2, SU_dht);
     dtostrf(T_bmp, 2, 2, ST_bmp);
     dtostrf(P_bmp, 4, 2, SP_bmp);
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    String tempo = "hh:mm:ss | dd/oo/aaaa";
-    String hora, minuto, segundo, dia, mes, ano;
-    hora = String(hour());
-    minuto = String(minute());
-    segundo = String(second());
-    dia = String(day());
-    mes = String(month());
-    ano = String(year());
-    tempo.replace("hh", hora);
-    tempo.replace("mm", minuto);
-    tempo.replace("ss", segundo);
-    tempo.replace("dd", dia);
-    tempo.replace("oo", mes);
-    tempo.replace("aaaa", ano);
-    tempo.toCharArray(STempo, 30);
 
-    String ativo = "1";
-    ativo.toCharArray(SAtivo, 2);
     mac.toCharArray(MAC, 25);
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    char INSERT_SQL[] = "INSERT INTO agrotech_intel.estacao_climatica SET cpf_usuario = '%s', mac = '%s', dht_T = %s, dht_U = %s, bmp_T = %s, bmp_P = %s, data = '%s', ativo = '%s'";
-    sprintf(query, INSERT_SQL, CPF, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp, STempo, SAtivo);
+    char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET cpf='%s', mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', data=CURRENT_DATE, hora=CURRENT_TIME";
+    sprintf(query, INSERT_SQL, CPF, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
     delay(500);
     // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
@@ -296,7 +234,7 @@ void loop() {
     if (conn.connect(server_addr, 3306, user, password)) {
       delay(500);
       fMysql++;
-      if (fMysql == 5) {
+      if (fMysql >= 7) {
         delay(5000);
         ESP.restart();
         delay(3000);
