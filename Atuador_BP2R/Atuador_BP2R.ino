@@ -66,7 +66,9 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-static const char   CPF[] = "09084678931";          // CPF DO USUARIO. APENAS NUMEROS!!!!
+//static const char   CPF[] = "09084678931";          // CPF DO USUARIO. APENAS NUMEROS!!!!
+static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+// ID DO PATO DONALD PARA TESTES...
 String              macAdress;
 char                query[200], S_macAdress[30];    // QUERY E MAC PARA BANCO DE DADOS
 int                 fMysql;                         // VARIAVEl PARA MySQL EM CASO DE ERROS
