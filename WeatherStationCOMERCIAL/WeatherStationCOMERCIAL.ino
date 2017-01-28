@@ -143,18 +143,11 @@ float getPressure() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLbmpPT() {
   getPressure();
-  if (isnan(P_bmp)) {
-    delay(500);
-    getPressure();
-    if (isnan(P_bmp)) {
-      return;
-    }
-  }
-  if (isnan(T_bmp)) {
-    delay(500);
-    getPressure();
-    if (isnan(T_bmp)) {
-      return;
+  delay(500);
+  if ((P_bmp || T_bmp) == 0) {
+    for (short i = 0; i < 11; i++) {
+      delay(500);
+      getPressure();
     }
   }
 }
@@ -232,16 +225,17 @@ void loop() {
   } else {
     conn.close();
     if (conn.connect(server_addr, 3306, user, password)) {
-      delay(500);
+      delay(1000);
       fMysql++;
       if (fMysql >= 7) {
-        delay(5000);
-        ESP.restart();
-        delay(3000);
+        WiFi.reconnect();
+        while (WiFi.status() != WL_CONNECTED) {
+          delay(500);
+        }
       }
     }
   }
-  delay(2500);
+  delay(2000);
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
