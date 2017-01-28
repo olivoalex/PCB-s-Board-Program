@@ -2,7 +2,9 @@
                 VERSÃO 1.0.0      DATA: 12/01/2017
                 COMPILADO NA VERSAO ARDUINO: 1.8.1
                 __________________________________
-
+                
+             !!LEMBRAR DE MUDAR PARA O CPF DO USUÁRIO!!
+ 
                  PLACA WIFI ESP8266-07 AT THINKER
                  PROGRAMA: ATUADOR DE BAIXA POTENCIA
                  CONTÉM SENSORES: 2 RELES
@@ -108,12 +110,15 @@ void atuaESP_BP2R(int comando, uint8_t PIN) {
   switch (comando) {
     case 1:
       digitalWrite(PIN, HIGH);
+      digitalWrite(LED_BUILTIN, LOW);
       break;
     case 0:
       digitalWrite(PIN, LOW);
+      digitalWrite(LED_BUILTIN, HIGH);
       break;
     default:
       digitalWrite(PIN, LOW);
+      digitalWrite(LED_BUILTIN, HIGH);
       break;
   }
 }
@@ -196,15 +201,20 @@ void loop() {
     atuaESP_BP2R(head_count_1, ATL7);                            // ATUACAO NA PORTA A. RELE 1
     atuaESP_BP2R(head_count_2, ATL8);                            // ATUACAO NA PORTA B. RELE 2
 
+    LedATLblinks(1);           // LED. 1 VEZ = DADOS LIDOS NO BD!
+
   } else {
     conn.close();
     if (conn.connect(server_addr, 3306, user, password)) {
       delay(500);
       fMysql++;
       if (fMysql >= 7) {
-        delay(5000);
-        ESP.restart();
-        delay(3000);
+        digitalWrite(ATL3, HIGH);
+        WiFi.reconnect();
+        while (WiFi.status() != WL_CONNECTED) {
+          delay(500);
+        }
+        digitalWrite(ATL3, LOW);
       }
     }
   }

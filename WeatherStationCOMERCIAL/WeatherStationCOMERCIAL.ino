@@ -228,10 +228,12 @@ void loop() {
       delay(1000);
       fMysql++;
       if (fMysql >= 7) {
+        digitalWrite(ATL3, HIGH);
         WiFi.reconnect();
         while (WiFi.status() != WL_CONNECTED) {
           delay(500);
         }
+        digitalWrite(ATL3, LOW);
       }
     }
   }
