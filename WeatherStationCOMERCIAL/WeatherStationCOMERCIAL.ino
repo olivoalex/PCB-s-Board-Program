@@ -219,22 +219,19 @@ void loop() {
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
     cur_mem->execute(query);
     delete cur_mem;
-    fMysql = 0;
     LedATLblinks(1);           // LED. 1 VEZ = DADOS INSERIDOS NO BD!
 
   } else {
     conn.close();
-    if (conn.connect(server_addr, 3306, user, password)) {
-      delay(1000);
-      fMysql++;
-      if (fMysql >= 7) {
-        digitalWrite(ATL3, HIGH);
-        WiFi.reconnect();
-        while (WiFi.status() != WL_CONNECTED) {
-          delay(500);
-        }
-        digitalWrite(ATL3, LOW);
-      }
+    digitalWrite(ATL3, HIGH);
+    WiFi.reconnect();
+    WiFi.begin(WiFi.SSID().c_str(), WiFi.psk().c_str());
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+    }
+    digitalWrite(ATL3, LOW);
+    while (conn.connect(server_addr, 3306, user, password) != true) {
+      delay(500);
     }
   }
   delay(2000);
