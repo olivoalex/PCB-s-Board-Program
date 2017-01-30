@@ -72,7 +72,7 @@ static const char   CPF[] = "09084678931";            // CPF DO USUARIO. APENAS 
 //static const char   CPF[] = "01234567890";
 // ID DO PATO DONALD PARA TESTES...
 String              macAdress;
-char                query[200], S_macAdress[30], login[20], senha[15]; // MAC PARA O MySQL, LOGIN E SENHA PARA RECONECTAR A INTERNET
+char                query[200], S_macAdress[30];    // MAC PARA O MySQL
 int                 fMysql;                         // VARIAVEl PARA MySQL EM CASO DE ERROS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
@@ -146,11 +146,6 @@ void setup() {
   macAdress = WiFi.macAddress();
   macAdress.toCharArray(S_macAdress, 30);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  String ssid = String(WiFi.SSID().c_str());
-  String pass = String(WiFi.psk().c_str());
-  ssid.toCharArray(login, 20);
-  pass.toCharArray(senha, 15);
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   char INSERT_SQL[] = "INSERT INTO agrotech_intel.cont_BP2R SET cpf_usuario='%s', mac='%s'";
   sprintf(query, INSERT_SQL, CPF, S_macAdress);
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
@@ -209,13 +204,14 @@ void loop() {
 
   } else {
     conn.close();
-    delay(2000); digitalWrite(ATL3, HIGH); delay(2000);
-    WiFi.disconnect(); delay(2000);
-    WiFi.begin(login, senha); delay(50);
+    atuaESP_BP2R(0, ATL7); delay(500);                          // ATUACAO SEGURANÇA NA PORTA A. RELE 1
+    atuaESP_BP2R(0, ATL8);                                      // ATUACAO SEGURANÇA NA PORTA B. RELE 2
+    delay(5000); digitalWrite(ATL3, HIGH); delay(5000);
+    WiFi.reconnect();
     while (WiFi.status() != WL_CONNECTED) {
       delay(500);
     }
-    delay(2000);
+    delay(1000);
     while (conn.connect(server_addr, 3306, user, password) != true) {
       delay(500);
     }
