@@ -81,8 +81,8 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
-//static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+//static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
 // ID DO PATO DONALD PARA TESTES...
 char                MAC[25], login[20], senha[15];       // MAC PARA O MySQL, LOGIN E SENHA PARA RECONECTAR A INTERNET
 String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
@@ -237,12 +237,11 @@ void loop() {
   } else {
     conn.close();
     delay(5000); digitalWrite(ATL3, HIGH); delay(5000);
-    WiFi.disconnect(); delay(5000);
-    WiFi.begin(login, senha);
+    WiFi.reconnect();
     while (WiFi.status() != WL_CONNECTED) {
       delay(500);
     }
-    delay(2000);
+    delay(1000);
     while (conn.connect(server_addr, 3306, user, password) != true) {
       delay(500);
     }
