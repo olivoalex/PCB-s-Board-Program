@@ -236,9 +236,9 @@ void loop() {
 
   } else {
     conn.close();
-    delay(2000); digitalWrite(ATL3, HIGH); delay(2000);
-    WiFi.disconnect(); delay(2000);
-    WiFi.begin(login, senha); delay(50);
+    delay(5000); digitalWrite(ATL3, HIGH); delay(5000);
+    WiFi.disconnect(); delay(5000);
+    WiFi.begin(login, senha);
     while (WiFi.status() != WL_CONNECTED) {
       delay(500);
     }
