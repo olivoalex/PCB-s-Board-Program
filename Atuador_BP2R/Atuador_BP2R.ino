@@ -2,9 +2,9 @@
                 VERSÃO 1.0.0      DATA: 12/01/2017
                 COMPILADO NA VERSAO ARDUINO: 1.8.1
                 __________________________________
-                
+
              !!LEMBRAR DE MUDAR PARA O CPF DO USUÁRIO!!
- 
+
                  PLACA WIFI ESP8266-07 AT THINKER
                  PROGRAMA: ATUADOR DE BAIXA POTENCIA
                  CONTÉM SENSORES: 2 RELES
@@ -68,11 +68,11 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-static const char   CPF[] = "09084678931";          // CPF DO USUARIO. APENAS NUMEROS!!!!
-//static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+static const char   CPF[] = "09084678931";            // CPF DO USUARIO. APENAS NUMEROS!!!!
+//static const char   CPF[] = "01234567890";
 // ID DO PATO DONALD PARA TESTES...
 String              macAdress;
-char                query[200], S_macAdress[30];    // QUERY E MAC PARA BANCO DE DADOS
+char                query[200], S_macAdress[30], login[20], senha[15]; // MAC PARA O MySQL, LOGIN E SENHA PARA RECONECTAR A INTERNET
 int                 fMysql;                         // VARIAVEl PARA MySQL EM CASO DE ERROS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
@@ -110,15 +110,15 @@ void atuaESP_BP2R(int comando, uint8_t PIN) {
   switch (comando) {
     case 1:
       digitalWrite(PIN, HIGH);
-      digitalWrite(LED_BUILTIN, LOW);
+      LedATLblinks(2);
       break;
     case 0:
       digitalWrite(PIN, LOW);
-      digitalWrite(LED_BUILTIN, HIGH);
+      LedATLblinks(2);
       break;
     default:
       digitalWrite(PIN, LOW);
-      digitalWrite(LED_BUILTIN, HIGH);
+      LedATLblinks(2);
       break;
   }
 }
@@ -133,6 +133,7 @@ void setup() {
   pinMode(ATL8, OUTPUT);      digitalWrite(ATL8, LOW);  // GPIO-04 + RELE 2 / B
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
+  wifiManager.setDebugOutput(false); delay(100);
   wifiManager.setAPCallback(configModeCallback);
   wifiManager.autoConnect("Agrotechlink", "agrotechlink");
   delay(500);
@@ -144,6 +145,11 @@ void setup() {
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   macAdress = WiFi.macAddress();
   macAdress.toCharArray(S_macAdress, 30);
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  String ssid = String(WiFi.SSID().c_str());
+  String pass = String(WiFi.psk().c_str());
+  ssid.toCharArray(login, 20);
+  pass.toCharArray(senha, 15);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   char INSERT_SQL[] = "INSERT INTO agrotech_intel.cont_BP2R SET cpf_usuario='%s', mac='%s'";
   sprintf(query, INSERT_SQL, CPF, S_macAdress);
@@ -162,7 +168,8 @@ void loop() {
   int head_count_1 = 0;
   int head_count_2 = 0;
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  if (conn.connected()) {                                       // VERIFICA A CONEXAO COM O DB DO MySQL
+  if (WiFi.status() == WL_CONNECTED) {                          // VERIFICA A CONEXAO COM A INTERNET
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     macAdress.toCharArray(S_macAdress, 30);                     // CONVERTE O MAC DE STRING PARA CHAR
     char SELECT_RELE_A_SQL[] = "SELECT r_A FROM agrotech_intel.cont_BP2R WHERE mac='%s'";
     sprintf(query, SELECT_RELE_A_SQL, S_macAdress);             // CONCATENANDO A STRING SELECT_SQL PARA BUSCA NO BANCO DE DADOS
@@ -195,28 +202,24 @@ void loop() {
     } while (row_2 != NULL);
 
     delete cur_mem_2;                                            // LIMPANDO A MEMORIA DO ESP8266
-    Serial.println(head_count_1);                                // RESUTLADO DO DB DO RELE 1
-    Serial.println(head_count_2);                                // RESUTLADO DO DB DO RELE 2
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     atuaESP_BP2R(head_count_1, ATL7);                            // ATUACAO NA PORTA A. RELE 1
     atuaESP_BP2R(head_count_2, ATL8);                            // ATUACAO NA PORTA B. RELE 2
-
-    LedATLblinks(1);           // LED. 1 VEZ = DADOS LIDOS NO BD!
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
   } else {
     conn.close();
-    if (conn.connect(server_addr, 3306, user, password)) {
+    delay(2000); digitalWrite(ATL3, HIGH); delay(2000);
+    WiFi.disconnect(); delay(2000);
+    WiFi.begin(login, senha); delay(50);
+    while (WiFi.status() != WL_CONNECTED) {
       delay(500);
-      fMysql++;
-      if (fMysql >= 7) {
-        digitalWrite(ATL3, HIGH);
-        WiFi.reconnect();
-        while (WiFi.status() != WL_CONNECTED) {
-          delay(500);
-        }
-        digitalWrite(ATL3, LOW);
-      }
     }
+    delay(2000);
+    while (conn.connect(server_addr, 3306, user, password) != true) {
+      delay(500);
+    }
+    digitalWrite(ATL3, LOW);
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/

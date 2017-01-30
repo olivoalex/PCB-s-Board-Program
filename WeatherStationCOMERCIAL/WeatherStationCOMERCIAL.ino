@@ -81,10 +81,10 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-//static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
-static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+static const char   CPF[] = "09084678931";               // CPF DO USUARIO. APENAS NUMEROS!!!!
+//static const char   CPF[] = "01234567890";               // CPF DO USUARIO. APENAS NUMEROS!!!!
 // ID DO PATO DONALD PARA TESTES...
-char                MAC[25];                             // MAC PARA O MySQL
+char                MAC[25], login[20], senha[15];       // MAC PARA O MySQL, LOGIN E SENHA PARA RECONECTAR A INTERNET
 String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
@@ -148,6 +148,9 @@ void GetATLbmpPT() {
     for (short i = 0; i < 11; i++) {
       delay(500);
       getPressure();
+      if ((P_bmp || T_bmp) != 0) {
+        i = 11;
+      }
     }
   }
 }
@@ -163,6 +166,9 @@ void GetATLdhtTU() {
       delay(2000);
       U_dht = dht.readHumidity();
       T_dht = dht.readTemperature();
+      if ((U_dht || T_dht) != 0) {
+        i = 11;
+      }
     }
   }
   if (isnan(U_dht) || isnan(T_dht)) {
@@ -177,11 +183,17 @@ void setup() {
   pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
+  wifiManager.setDebugOutput(false); delay(100);
   wifiManager.setAPCallback(configModeCallback);
   wifiManager.autoConnect("Agrotechlink", "agrotechlink");
   delay(500);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  String ssid = String(WiFi.SSID().c_str());
+  String pass = String(WiFi.psk().c_str());
+  ssid.toCharArray(login, 20);
+  pass.toCharArray(senha, 15);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   while (conn.connect(server_addr, 3306, user, password) != true) {
     delay(500);
@@ -200,8 +212,8 @@ void setup() {
 void loop() {
   GetATLbmpPT();             // BMP-180
   GetATLdhtTU();             // DHT22
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  if (conn.connected()) {
+
+  if (WiFi.status() == WL_CONNECTED) {
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[190];
     // CONVERTENDO DADOS DOS SENSORES PARA STRING
@@ -219,22 +231,24 @@ void loop() {
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
     cur_mem->execute(query);
     delete cur_mem;
+
     LedATLblinks(1);           // LED. 1 VEZ = DADOS INSERIDOS NO BD!
 
   } else {
     conn.close();
-    digitalWrite(ATL3, HIGH);
-    WiFi.reconnect();
-    WiFi.begin(WiFi.SSID().c_str(), WiFi.psk().c_str());
+    delay(2000); digitalWrite(ATL3, HIGH); delay(2000);
+    WiFi.disconnect(); delay(2000);
+    WiFi.begin(login, senha); delay(50);
     while (WiFi.status() != WL_CONNECTED) {
       delay(500);
     }
-    digitalWrite(ATL3, LOW);
+    delay(2000);
     while (conn.connect(server_addr, 3306, user, password) != true) {
       delay(500);
     }
+    digitalWrite(ATL3, LOW);
   }
-  delay(2000);
+  delay(120000);
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
