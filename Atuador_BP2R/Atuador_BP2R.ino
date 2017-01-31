@@ -61,19 +61,16 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-#define      LED_BUILTIN   2    // LED_BUILTIN (LED NATIVO DO ESP8266)
 #define      ATL3         16    // GPIO-16 + LED
+#define      ATL4         15    // GPIO-15 + ESTADO NORMAL DO ESP / PERMITE ROTINAS E RESTART
 #define      ATL7          4    // GPIO-04 + RELE 1 / A 
 #define      ATL8          5    // GPIO-05 + RELE 2 / B
+#define      ATL9          2    // GPIO-02 + LED NATIVO DO ESP8266 / PERMITE ROTINAS E RESTART
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-static const char   CPF[] = "09084678931";            // CPF DO USUARIO. APENAS NUMEROS!!!!
-//static const char   CPF[] = "01234567890";
-// ID DO PATO DONALD PARA TESTES...
 String              macAdress;
-char                query[200], S_macAdress[30];    // MAC PARA O MySQL
-int                 fMysql;                         // VARIAVEl PARA MySQL EM CASO DE ERROS
+char                query[100], S_macAdress[30];    // MAC PARA O MySQL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -84,13 +81,6 @@ char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// CONFIGURACAO WiFi
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void configModeCallback (WiFiManager *myWiFiManager) {
-  Serial.println(WiFi.softAPIP());
-  Serial.println(myWiFiManager->getConfigPortalSSID());
-}
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FAZER O LED PISCAR
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void LedATLblinks(unsigned M) {
@@ -99,9 +89,6 @@ void LedATLblinks(unsigned M) {
     digitalWrite(ATL3, HIGH);                     delay(300);
     digitalWrite(ATL3, LOW);                      delay(300);
   }
-  digitalWrite(ATL3, LOW);
-  digitalWrite(LED_BUILTIN, LOW);                 delay(300);
-  digitalWrite(LED_BUILTIN, HIGH);
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONTROLE DE ATUAÇÃO DAS DUAS TOMADAS / RELES
@@ -126,28 +113,26 @@ void atuaESP_BP2R(int comando, uint8_t PIN) {
 // INICIO DO MODO SETUP DO ATUADOR ESP8266 BP-2R
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);         // INICIALIZA O LED_BUILTIN NATIVO DO ESP8266
-  digitalWrite(LED_BUILTIN, HIGH);      // DESLIGA O LED_BUILTIN NATIVO DO ESP8266
-  pinMode(ATL3, OUTPUT);      digitalWrite(ATL3, LOW);  // GPIO-16 + LED0
-  pinMode(ATL7, OUTPUT);      digitalWrite(ATL7, LOW);  // GPIO-05 + RELE 1 / A
-  pinMode(ATL8, OUTPUT);      digitalWrite(ATL8, LOW);  // GPIO-04 + RELE 2 / B
+  pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, LOW);   // GPIO-16 + LED0
+  pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);  // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
+  pinMode(ATL7, OUTPUT);     digitalWrite(ATL7, LOW);   // GPIO-05 + RELE 1 / A
+  pinMode(ATL8, OUTPUT);     digitalWrite(ATL8, LOW);   // GPIO-04 + RELE 2 / B
+  pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);  // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
   wifiManager.setDebugOutput(false); delay(100);
-  wifiManager.setAPCallback(configModeCallback);
-  wifiManager.autoConnect("Agrotechlink", "agrotechlink");
-  delay(500);
+  wifiManager.autoConnect("Agrotechlink", "agrotechlink"); delay(500);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   while (conn.connect(server_addr, 3306, user, password) != true) {
-    delay(500);
+    yield();
   }
   delay(500);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   macAdress = WiFi.macAddress();
   macAdress.toCharArray(S_macAdress, 30);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  char INSERT_SQL[] = "INSERT INTO agrotech_intel.cont_BP2R SET cpf_usuario='%s', mac='%s'";
-  sprintf(query, INSERT_SQL, CPF, S_macAdress);
+  char INSERT_SQL[] = "INSERT INTO agrotech_intel.cont_BP2R SET mac='%s'";
+  sprintf(query, INSERT_SQL, S_macAdress);
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
   cur_mem->execute(query);
   delete cur_mem;
@@ -166,7 +151,7 @@ void loop() {
   if (WiFi.status() == WL_CONNECTED) {                          // VERIFICA A CONEXAO COM A INTERNET
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     macAdress.toCharArray(S_macAdress, 30);                     // CONVERTE O MAC DE STRING PARA CHAR
-    char SELECT_RELE_A_SQL[] = "SELECT r_A FROM agrotech_intel.cont_BP2R WHERE mac='%s'";
+    char SELECT_RELE_A_SQL[] = "SELECT r_A FROM agrotech_intel.cont_BP2R WHERE mac='%s' LIMIT 1";
     sprintf(query, SELECT_RELE_A_SQL, S_macAdress);             // CONCATENANDO A STRING SELECT_SQL PARA BUSCA NO BANCO DE DADOS
 
     MySQL_Cursor *cur_mem_1 = new MySQL_Cursor(&conn);
@@ -182,7 +167,7 @@ void loop() {
 
     delete cur_mem_1;                                             // LIMPANDO A MEMORIA DO ESP8266
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    char SELECT_RELE_B_SQL[] = "SELECT r_B FROM agrotech_intel.cont_BP2R WHERE mac='%s'";
+    char SELECT_RELE_B_SQL[] = "SELECT r_B FROM agrotech_intel.cont_BP2R WHERE mac='%s' LIMIT 1";
     sprintf(query, SELECT_RELE_B_SQL, S_macAdress);              // CONCATENANDO A STRING SELECT_SQL PARA BUSCA NO BANCO DE DADOS
 
     MySQL_Cursor *cur_mem_2 = new MySQL_Cursor(&conn);
@@ -204,16 +189,22 @@ void loop() {
 
   } else {
     conn.close();
-    atuaESP_BP2R(0, ATL7); delay(500);                          // ATUACAO SEGURANÇA NA PORTA A. RELE 1
-    atuaESP_BP2R(0, ATL8);                                      // ATUACAO SEGURANÇA NA PORTA B. RELE 2
-    delay(5000); digitalWrite(ATL3, HIGH); delay(5000);
+    atuaESP_BP2R(0, ATL7);      delay(500);                      // ATUACAO SEGURANÇA NA PORTA A. RELE 1
+    atuaESP_BP2R(0, ATL8);      delay(500);                      // ATUACAO SEGURANÇA NA PORTA B. RELE 2
+    digitalWrite(ATL3, HIGH);   delay(1000);
     WiFi.reconnect();
-    while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
+    for (short i = 0; i < 35; i++) {
+      if (WiFi.status() != WL_CONNECTED) {
+        yield();
+        if (i == 33) {
+          delay(3000);
+          ESP.restart();
+        }
+      }
+      else (i = 36);
     }
-    delay(1000);
     while (conn.connect(server_addr, 3306, user, password) != true) {
-      delay(500);
+      yield();
     }
     digitalWrite(ATL3, LOW);
   }

@@ -148,11 +148,13 @@ void GetATLbmpPT() {
 void GetATLdhtTU() {
   U_dht = dht.readHumidity();
   T_dht = dht.readTemperature();
+  delay(500);
   if (isnan(U_dht) || isnan(T_dht)) {
     for (short i = 0; i < 11; i++) {
       delay(2000);
       U_dht = dht.readHumidity();
       T_dht = dht.readTemperature();
+      delay(500);
       if ((U_dht || T_dht) != 0) {
         i = 12;
       }
@@ -198,7 +200,7 @@ void loop() {
 
     if (WiFi.status() == WL_CONNECTED) {
       /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-      char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[160];
+      char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
       // CONVERTENDO DADOS DOS SENSORES PARA STRING
       dtostrf(T_dht, 2, 2, ST_dht);
       dtostrf(U_dht, 2, 2, SU_dht);
@@ -223,7 +225,7 @@ void loop() {
       for (short i = 0; i < 35; i++) {
         if (WiFi.status() != WL_CONNECTED) {
           yield();
-          if (i == 30) {
+          if (i == 33) {
             delay(3000);
             ESP.restart();
           }
