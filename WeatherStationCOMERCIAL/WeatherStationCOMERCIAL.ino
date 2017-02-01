@@ -131,6 +131,7 @@ float getPressure() {
 // GET DADOS DE TEMPERATURA E PRESSAO DO BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLbmpPT() {
+  yield();
   getPressure();
   if ((P_bmp || T_bmp) == 0) {
     for (short i = 0; i < 11; i++) {
@@ -146,6 +147,7 @@ void GetATLbmpPT() {
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22 OU DHT11
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLdhtTU() {
+  yield();
   U_dht = dht.readHumidity();
   T_dht = dht.readTemperature();
   delay(500);
@@ -172,15 +174,14 @@ void setup() {
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
-  wifiManager.setDebugOutput(false); delay(100);
-  wifiManager.autoConnect("Agrotechlink", "agrotechlink"); delay(500);
+  wifiManager.setDebugOutput(false);
+  wifiManager.autoConnect("Agrotechlink", "agrotechlink");
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   while (conn.connect(server_addr, 3306, user, password) != true) {
     yield();
   }
-  delay(500);
 
   LedATLblinks(3);           // LED. 3 VEZES = PRIMEIRA CONEXAO COM BD OK!
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -221,14 +222,16 @@ void loop() {
       LedATLblinks(1);           // LED. 1 VEZ = DADOS INSERIDOS NO BD!
 
     } else {
-      conn.close(); delay(1000);
+      conn.close();
       digitalWrite(ATL3, HIGH); delay(1000);
+      ESP.wdtFeed();
       WiFi.reconnect();
       unsigned long millisReset = millis();
+      unsigned long tempoConexao = 60000;
       while (WiFi.status() != WL_CONNECTED) {
         yield();
-        if (millisReset - tempoPrevio >= intervalo) {
-          delay(3000);
+        if (millis() - millisReset <= tempoConexao) {
+          delay(1000);
           ESP.restart();
         }
       }
@@ -238,6 +241,7 @@ void loop() {
       digitalWrite(ATL3, LOW);
     }
   }
+  yield();
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL

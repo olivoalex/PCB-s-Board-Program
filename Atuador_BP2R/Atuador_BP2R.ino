@@ -189,15 +189,15 @@ void loop() {
 
   } else {
     conn.close();
-    atuaESP_BP2R(0, ATL7);      delay(500);                      // ATUACAO SEGURANÇA NA PORTA A. RELE 1
-    atuaESP_BP2R(0, ATL8);      delay(500);                      // ATUACAO SEGURANÇA NA PORTA B. RELE 2
-    digitalWrite(ATL3, HIGH);   delay(1000);
+    digitalWrite(ATL3, HIGH); delay(1000);
+    ESP.wdtFeed();
     WiFi.reconnect();
     unsigned long millisReset = millis();
+    unsigned long tempoConexao = 60000;
     while (WiFi.status() != WL_CONNECTED) {
       yield();
-      if (millisReset >= 300000) {
-        delay(3000);
+      if (millis() - millisReset <= tempoConexao) {
+        delay(1000);
         ESP.restart();
       }
     }
@@ -206,6 +206,7 @@ void loop() {
     }
     digitalWrite(ATL3, LOW);
   }
+  yield();
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
