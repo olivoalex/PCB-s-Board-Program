@@ -98,6 +98,13 @@ char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// CALLBACK DO WIFI
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void configModeCallback (WiFiManager *myWiFiManager) {
+  WiFi.softAPIP();
+  myWiFiManager->getConfigPortalSSID();
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FAZER O LED PISCAR
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void LedATLblinks(unsigned M) {
@@ -175,6 +182,7 @@ void setup() {
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
   wifiManager.setDebugOutput(false);
+  wifiManager.setAPCallback(configModeCallback);
   wifiManager.autoConnect("Agrotechlink", "agrotechlink");
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
