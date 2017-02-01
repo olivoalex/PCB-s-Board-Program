@@ -193,15 +193,13 @@ void loop() {
     atuaESP_BP2R(0, ATL8);      delay(500);                      // ATUACAO SEGURANÇA NA PORTA B. RELE 2
     digitalWrite(ATL3, HIGH);   delay(1000);
     WiFi.reconnect();
-    for (short i = 0; i < 35; i++) {
-      if (WiFi.status() != WL_CONNECTED) {
-        yield();
-        if (i == 33) {
-          delay(3000);
-          ESP.restart();
-        }
+    unsigned long millisReset = millis();
+    while (WiFi.status() != WL_CONNECTED) {
+      yield();
+      if (millisReset >= 300000) {
+        delay(3000);
+        ESP.restart();
       }
-      else (i = 36);
     }
     while (conn.connect(server_addr, 3306, user, password) != true) {
       yield();

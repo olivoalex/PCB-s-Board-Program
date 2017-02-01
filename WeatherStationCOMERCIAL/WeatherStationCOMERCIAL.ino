@@ -197,6 +197,8 @@ void loop() {
 
   unsigned long currentMillis = millis();
   if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO 1.° MINUTO
+    tempoPrevio = currentMillis;
+    intervalo = 300000;                              // APOS; SOBE OS DADOS A CADA CINCO MINUTOS
 
     if (WiFi.status() == WL_CONNECTED) {
       /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -219,26 +221,22 @@ void loop() {
       LedATLblinks(1);           // LED. 1 VEZ = DADOS INSERIDOS NO BD!
 
     } else {
-      conn.close();
-      delay(1000); digitalWrite(ATL3, HIGH); delay(1000);
+      conn.close(); delay(1000);
+      digitalWrite(ATL3, HIGH); delay(1000);
       WiFi.reconnect();
-      for (short i = 0; i < 35; i++) {
-        if (WiFi.status() != WL_CONNECTED) {
-          yield();
-          if (i == 33) {
-            delay(3000);
-            ESP.restart();
-          }
+      unsigned long millisReset = millis();
+      while (WiFi.status() != WL_CONNECTED) {
+        yield();
+        if (millisReset - tempoPrevio >= intervalo) {
+          delay(3000);
+          ESP.restart();
         }
-        else (i = 36);
       }
       while (conn.connect(server_addr, 3306, user, password) != true) {
         yield();
       }
       digitalWrite(ATL3, LOW);
     }
-    tempoPrevio = currentMillis;
-    intervalo = 300000;                             // APOS; SOBE OS DADOS A CADA CINCO MINUTOS
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
