@@ -84,10 +84,10 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char                MAC[25];                             // VARIAVEL MAC PARA O MySQL
 String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
-double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
+double              P_bmp, T_bmp;                        // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
 unsigned long       tempoPrevio = 0;                     // VARIAVEL DE CONTROLE DE TEMPO
-unsigned long       intervalo = 30000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 1 MINUTO)
+unsigned long       intervalo = 60000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 1 MINUTO)
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
@@ -110,22 +110,22 @@ void configModeCallback (WiFiManager *myWiFiManager) {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void LedATLblinks(unsigned M) {
   for (unsigned short j = 0; j < M; j++) {
-    digitalWrite(ATL3, HIGH);                    delay(500);
-    digitalWrite(ATL3, LOW);                     delay(500);
+    digitalWrite(ATL3, HIGH); delay(500);
+    digitalWrite(ATL3, LOW);
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // PRESSAO E TEMPERATURA DO BMP180 - ESPECIAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-float getPressure() {
+double getPressure() {
   char status;
   status = pressao.startTemperature();
-  if (status != 0)  {
+  if (status != 0) {
     delay(status);
     status = pressao.getTemperature(T_bmp);
-    if (status != 0)    {
+    if (status != 0) {
       status = pressao.startPressure(3);
-      if (status != 0)      {
+      if (status != 0) {
         delay(status);
         status = pressao.getPressure(P_bmp, T_bmp);
         if (status != 0) {
@@ -141,8 +141,7 @@ float getPressure() {
 void GetATLbmpPT() {
   getPressure();
   if ((P_bmp || T_bmp) == 0) {
-    for (short i = 0; i < 11; i++) {
-      delay(500);
+    for (short i = 0; i < 10; i++) {
       getPressure();
       if ((P_bmp || T_bmp) != 0) {
         i = 12;
@@ -151,33 +150,32 @@ void GetATLbmpPT() {
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22 OU DHT11
+// GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLdhtTU() {
-  delay(2000);
   U_dht = dht.readHumidity();
   T_dht = dht.readTemperature();
-  delay(500);
   if (isnan(U_dht) || isnan(T_dht)) {
-    for (short i = 0; i < 11; i++) {
+    for (short i = 0; i < 10; i++) {
       delay(2000);
       U_dht = dht.readHumidity();
       T_dht = dht.readTemperature();
-      delay(500);
       if ((U_dht || T_dht) != 0) {
         i = 12;
       }
     }
   }
-  if (isnan(U_dht) || isnan(T_dht)) {
+  if (isnan(T_dht)) {
     T_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
-    U_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
+    if (isnan(U_dht)) {
+      U_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
+    }
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
   Serial.begin(115200);
-  pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, LOW);    // GPIO-16 + LED0
+  pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -188,11 +186,11 @@ void setup() {
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  LedATLblinks(3);           // LED. 3 VEZES = PRIMEIRA CONEXAO COM BD OK!
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
   pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
-  getPressure();             // SETANDO CONFIGURACOES ESPECIAIS DO BMP-180
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  Serial.println("SETUP OK");
+  digitalWrite(ATL3, LOW);   // GPIO-16 + LED0
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
@@ -200,20 +198,22 @@ void setup() {
 void loop() {
   yield();
   GetATLbmpPT();             // BMP-180
-  GetATLdhtTU();             // DHT22
-
+  
   unsigned long currentMillis = millis();
   if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO 1.° MINUTO
     tempoPrevio = currentMillis;
-    //intervalo = 30000;                              // APOS SOBE OS DADOS A CADA 50 SEGUNDOS...TESTE ONLY
+    //intervalo = 30000;                             // APOS SOBE OS DADOS A CADA 50 SEGUNDOS...TESTE ONLY
 
-    unsigned int conexao = WiFi.status();
+    GetATLdhtTU();             // DHT22
+
+    int conexao = WiFi.status();
 
     switch (conexao) {
       case WL_CONNECTED: {
           while (conn.connect(server_addr, 3306, user, password) != true) {
             yield();
           }
+          Serial.println("CONECTOU!!");
           /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
           char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
           // CONVERTENDO DADOS DOS SENSORES PARA STRING
@@ -231,18 +231,16 @@ void loop() {
           delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
           conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
           LedATLblinks(1);                // LED 1 VEZ = DADOS INSERIDOS NO BD!
+          Serial.println("SUBIU OS DADOS NO BANCO!!");
         }
         break;
 
       default: {
-          digitalWrite(ATL3, HIGH); delay(1000);
-          WiFi.reconnect();
-          WiFi.waitForConnectResult();
-          if (WiFi.status() != WL_CONNECTED) {
-            delay(3000);
-            ESP.restart();
-          }
+          Serial.println("SEM INTERNET!!!");
+          digitalWrite(ATL3, HIGH); delay(5000);
           digitalWrite(ATL3, LOW);
+          Serial.println("RESETANDO O ESP!!");
+          ESP.restart();
         }
         break;
     }
