@@ -87,7 +87,8 @@ String              mac;                                 // VARIAVEL MAC STRING 
 double              baseline, P_bmp, T_bmp;              // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
 unsigned long       tempoPrevio = 0;                     // VARIAVEL DE CONTROLE DE TEMPO
-unsigned long       intervalo = 60000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 1 MINUTO)
+unsigned long       intervalo = 30000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 1 MINUTO)
+char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -98,7 +99,7 @@ char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// CALLBACK DO WIFI
+// CALLBACK DO WIFIMANANGER
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void configModeCallback (WiFiManager *myWiFiManager) {
   WiFi.softAPIP();
@@ -108,9 +109,9 @@ void configModeCallback (WiFiManager *myWiFiManager) {
 // FAZER O LED PISCAR
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void LedATLblinks(unsigned M) {
-  for (short j = 0; j < M; j++) {
-    digitalWrite(ATL3, HIGH);                    delay(300);
-    digitalWrite(ATL3, LOW);                     delay(300);
+  for (unsigned short j = 0; j < M; j++) {
+    digitalWrite(ATL3, HIGH);                    delay(500);
+    digitalWrite(ATL3, LOW);                     delay(500);
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -138,7 +139,6 @@ float getPressure() {
 // GET DADOS DE TEMPERATURA E PRESSAO DO BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLbmpPT() {
-  yield();
   getPressure();
   if ((P_bmp || T_bmp) == 0) {
     for (short i = 0; i < 11; i++) {
@@ -154,7 +154,7 @@ void GetATLbmpPT() {
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22 OU DHT11
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void GetATLdhtTU() {
-  yield();
+  delay(2000);
   U_dht = dht.readHumidity();
   T_dht = dht.readTemperature();
   delay(500);
@@ -176,6 +176,7 @@ void GetATLdhtTU() {
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
+  Serial.begin(115200);
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, LOW);    // GPIO-16 + LED0
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
@@ -187,10 +188,6 @@ void setup() {
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  while (conn.connect(server_addr, 3306, user, password) != true) {
-    yield();
-  }
-
   LedATLblinks(3);           // LED. 3 VEZES = PRIMEIRA CONEXAO COM BD OK!
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
@@ -201,55 +198,55 @@ void setup() {
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
+  yield();
   GetATLbmpPT();             // BMP-180
   GetATLdhtTU();             // DHT22
 
   unsigned long currentMillis = millis();
   if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO 1.° MINUTO
     tempoPrevio = currentMillis;
-    intervalo = 300000;                              // APOS; SOBE OS DADOS A CADA CINCO MINUTOS
+    //intervalo = 30000;                              // APOS SOBE OS DADOS A CADA 50 SEGUNDOS...TESTE ONLY
 
-    if (WiFi.status() == WL_CONNECTED) {
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-      char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
-      // CONVERTENDO DADOS DOS SENSORES PARA STRING
-      dtostrf(T_dht, 2, 2, ST_dht);
-      dtostrf(U_dht, 2, 2, SU_dht);
-      dtostrf(T_bmp, 2, 2, ST_bmp);
-      dtostrf(P_bmp, 4, 2, SP_bmp);
+    unsigned int conexao = WiFi.status();
 
-      mac.toCharArray(MAC, 25);
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-      char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
-      sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
-      // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
-      MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-      cur_mem->execute(query);
-      delete cur_mem;
+    switch (conexao) {
+      case WL_CONNECTED: {
+          while (conn.connect(server_addr, 3306, user, password) != true) {
+            yield();
+          }
+          /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+          char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
+          // CONVERTENDO DADOS DOS SENSORES PARA STRING
+          dtostrf(T_dht, 2, 2, ST_dht);
+          dtostrf(U_dht, 2, 2, SU_dht);
+          dtostrf(T_bmp, 2, 2, ST_bmp);
+          dtostrf(P_bmp, 4, 2, SP_bmp);
 
-      LedATLblinks(1);           // LED. 1 VEZ = DADOS INSERIDOS NO BD!
-
-    } else {
-      conn.close();
-      digitalWrite(ATL3, HIGH); delay(1000);
-      ESP.wdtFeed();
-      WiFi.reconnect();
-      unsigned long millisReset = millis();
-      unsigned long tempoConexao = 60000;
-      while (WiFi.status() != WL_CONNECTED) {
-        yield();
-        if (millis() - millisReset <= tempoConexao) {
-          delay(1000);
-          ESP.restart();
+          mac.toCharArray(MAC, 25);
+          /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+          sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
+          // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+          cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
+          delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
+          conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
+          LedATLblinks(1);                // LED 1 VEZ = DADOS INSERIDOS NO BD!
         }
-      }
-      while (conn.connect(server_addr, 3306, user, password) != true) {
-        yield();
-      }
-      digitalWrite(ATL3, LOW);
+        break;
+
+      default: {
+          digitalWrite(ATL3, HIGH); delay(1000);
+          WiFi.reconnect();
+          WiFi.waitForConnectResult();
+          if (WiFi.status() != WL_CONNECTED) {
+            delay(3000);
+            ESP.restart();
+          }
+          digitalWrite(ATL3, LOW);
+        }
+        break;
     }
   }
-  yield();
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
