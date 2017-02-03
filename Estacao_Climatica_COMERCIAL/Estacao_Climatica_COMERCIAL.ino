@@ -3,8 +3,6 @@
                COMPILADO NA VERSAO ARDUINO: 1.8.1
                __________________________________
 
-            !!LEMBRAR DE MUDAR PARA O CPF DO USUÁRIO!!
-
                 PLACA WIFI ESP8266-07 AT THINKER
                 PROGRAMA: MINI ESTACAO CLIMATICA
                 CONTÉM SENSORES: BMP-180 E DHT22
@@ -92,7 +90,7 @@ SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char                MAC[25];                             // VARIAVEL MAC PARA O MySQL
-String              mac;                                 // VARIAVEL MAC STRING TO CHAR. MySQL
+String              mac;                                 // VARIAVEL MAC STRING TO CHAR PARA O MySQL
 double              P_bmp, T_bmp;                        // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
 unsigned long       tempoPrevio = 0;                     // VARIAVEL DE CONTROLE DE TEMPO
@@ -175,15 +173,14 @@ void GetATLdhtTU() {
     }
   }
   if (isnan(T_dht)) {
-    T_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
+    T_dht = 0;      // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
     if (isnan(U_dht)) {
-      U_dht = 0; // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
+      U_dht = 0;    // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
     }
   }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
-  Serial.begin(115200);
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
@@ -198,22 +195,21 @@ void setup() {
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
   pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  Serial.println("SETUP OK");
-  digitalWrite(ATL3, LOW);   // GPIO-16 + LED0
+  digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   yield();
-  GetATLbmpPT();             // BMP-180
-  
+  GetATLbmpPT();                                     // BMP-180
+
   unsigned long currentMillis = millis();
   if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO 1.° MINUTO
     tempoPrevio = currentMillis;
-    //intervalo = 30000;                             // APOS SOBE OS DADOS A CADA 50 SEGUNDOS...TESTE ONLY
+    intervalo = 900000;                              // APOS; SOBE OS DADOS A CADA 15 MINUTOS
 
-    GetATLdhtTU();             // DHT22
+    GetATLdhtTU();                                   // DHT22
 
     int conexao = WiFi.status();
 
@@ -222,7 +218,6 @@ void loop() {
           while (conn.connect(server_addr, 3306, user, password) != true) {
             yield();
           }
-          Serial.println("CONECTOU!!");
           /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
           char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
           // CONVERTENDO DADOS DOS SENSORES PARA STRING
@@ -240,15 +235,10 @@ void loop() {
           delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
           conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
           LedATLblinks(1);                // LED 1 VEZ = DADOS INSERIDOS NO BD!
-          Serial.println("SUBIU OS DADOS NO BANCO!!");
         }
         break;
 
       default: {
-          Serial.println("SEM INTERNET!!!");
-          digitalWrite(ATL3, HIGH); delay(5000);
-          digitalWrite(ATL3, LOW);
-          Serial.println("RESETANDO O ESP!!");
           ESP.restart();
         }
         break;
