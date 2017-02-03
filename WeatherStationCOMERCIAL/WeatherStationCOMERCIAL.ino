@@ -10,7 +10,7 @@
                 CONTÉM SENSORES: BMP-180 E DHT22
                __________________________________
 
-               CONFIGURACAO DA PLACA PARA GRAVACAO
+               CONFIGURACAO DA PLACA PARA GRAVACAO - ESP-07
                PLACA:             GENERIC ESP8266 MODULE
                FLASH MODE:        DIO
                FLASH FREQUENCY:   40 MHz
@@ -22,6 +22,15 @@
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
                __________________________________
+
+               CONFIGURACAO DA PLACA PARA GRAVACAO - ESP-12E
+               PLACA:             NODE MCU 1.0 (ESP-12E MODULE)
+               CPU FREQUENCY:     80 MHz
+               FLASH SIZE:        4M (3M SPIFFS)
+               UPLOAD SPEED:      115200
+               PORTA: PORTA ESP CONECTADA AO COMPUTADOR
+               __________________________________
+
 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - JANUARY
