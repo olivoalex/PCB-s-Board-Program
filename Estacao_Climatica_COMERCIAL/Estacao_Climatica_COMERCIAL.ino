@@ -36,8 +36,9 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*   CADA GPIO POSSUI UMA IDENTIFICACAO ESPECIFICA
      PORTAS UTILIZADAS NAS PLACAS DA MINI ESTACAO CLIMATICA
-
+     ATL2     >--> ADC
      ATL3     >--> GPIO-16 + LED0
+     ATL4     >--> GPIO-14 + BUZZER
      ATL5     >--> GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
      ATL7     >--> GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
      ATL8     >--> GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
@@ -84,6 +85,7 @@
 // ATL9 >--> ERA MELHOR USAR OUTRA NOMENCLATURA PARA NAO SER CONFUNDIDO
 // COM UMA DAS E/S DA NOSS PLACA!!! P. EX. NATIVELED, ETC...
 // TERMINAL ATL9 NÃO PODE SER MODIFICADO FISICAMENTE POIS ESTA LIGADO NO VCC!
+// VEJA LA CORRIJA ESSA PARTE COMO LHE CONVIER, MAS CUIDADOS COM S IDENTIFICACAO DOS TERMINAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // SENSOR PINS SETTINGS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -188,6 +190,7 @@ void GetATLdhtTU() {
 void setup() {
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
+// ATL4 >---> GPIO-14
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
@@ -212,8 +215,8 @@ void loop() {
   unsigned long currentMillis = millis();
   if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO 1.° MINUTO
     tempoPrevio = currentMillis;
-    intervalo = 900000;                              // APOS; SOBE OS DADOS A CADA 15 MINUTOS
-
+//    intervalo = 900000;                              // APOS; SOBE OS DADOS A CADA 15 MINUTOS
+    intervalo = 300000;                              // APOS; SOBE OS DADOS A CADA  5 MINUTOS
     GetATLdhtTU();                                   // DHT22
 
     int conexao = WiFi.status();
