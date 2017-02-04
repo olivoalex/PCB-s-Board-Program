@@ -74,11 +74,16 @@
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      ATL3         16         // GPIO-16 + LED0
-#define      ATL4         15         // GPIO-15 + ESTADO NORMAL DO ESP / PERMITE ROTINAS E RESTART
+#define      ATL4         14         // GPIO-14 + BUZZER
+//#define      ATL4         15         // GPIO-15 + ESTADO NORMAL DO ESP / PERMITE ROTINAS E RESTART
 #define      ATL5         12         // GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
+// #define      ATL6         13         // GPIO-13 = NAO USADO
 #define      ATL7          5         // GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL8          4         // GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL9          2         // GPIO-02 + LED NATIVO DO ESP8266 / PERMITE ROTINAS E RESTART
+// ATL9 >--> ERA MELHOR USAR OUTRA NOMENCLATURA PARA NAO SER CONFUNDIDO
+// COM UMA DAS E/S DA NOSS PLACA!!! P. EX. NATIVELED, ETC...
+// TERMINAL ATL9 NÃO PODE SER MODIFICADO FISICAMENTE POIS ESTA LIGADO NO VCC!
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // SENSOR PINS SETTINGS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
