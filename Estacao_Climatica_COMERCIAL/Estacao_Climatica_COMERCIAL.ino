@@ -14,8 +14,8 @@
                FLASH FREQUENCY:   40 MHz
                CPU FREQUENCY:     80 MHz
                FLASH SIZE:        1M (512K SPIFFS)
-               DEBUG PORT:        DISABLED
-               DEBUG LEVEL:       NENHUM
+               DEBUG PORT:        SERIAL
+               DEBUG LEVEL:       TODOS
                RESET MOTHOD:      ck
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
@@ -36,7 +36,7 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*   CADA GPIO POSSUI UMA IDENTIFICACAO ESPECIFICA
      PORTAS UTILIZADAS NAS PLACAS DA MINI ESTACAO CLIMATICA
-     ATL2     >--> ADC
+
      ATL3     >--> GPIO-16 + LED0
      ATL4     >--> GPIO-14 + BUZZER
      ATL5     >--> GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
@@ -75,17 +75,11 @@
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      ATL3         16         // GPIO-16 + LED0
-#define      ATL4         14         // GPIO-14 + BUZZER
-//#define      ATL4         15         // GPIO-15 + ESTADO NORMAL DO ESP / PERMITE ROTINAS E RESTART
+#define      ATL4         15         // GPIO-15 + ESTADO NORMAL DO ESP / PERMITE ROTINAS E RESTART
 #define      ATL5         12         // GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
-// #define      ATL6         13         // GPIO-13 = NAO USADO
 #define      ATL7          5         // GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL8          4         // GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL9          2         // GPIO-02 + LED NATIVO DO ESP8266 / PERMITE ROTINAS E RESTART
-// ATL9 >--> ERA MELHOR USAR OUTRA NOMENCLATURA PARA NAO SER CONFUNDIDO
-// COM UMA DAS E/S DA NOSS PLACA!!! P. EX. NATIVELED, ETC...
-// TERMINAL ATL9 NÃO PODE SER MODIFICADO FISICAMENTE POIS ESTA LIGADO NO VCC!
-// VEJA LA CORRIJA ESSA PARTE COMO LHE CONVIER, MAS CUIDADOS COM S IDENTIFICACAO DOS TERMINAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // SENSOR PINS SETTINGS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -118,15 +112,6 @@ MySQL_Connection conn((Client *)&client);
 void configModeCallback (WiFiManager *myWiFiManager) {
   WiFi.softAPIP();
   myWiFiManager->getConfigPortalSSID();
-}
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// FAZER O LED PISCAR
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void LedATLblinks(unsigned M) {
-  for (unsigned short j = 0; j < M; j++) {
-    digitalWrite(ATL3, HIGH); delay(500);
-    digitalWrite(ATL3, LOW);
-  }
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // PRESSAO E TEMPERATURA DO BMP180 - ESPECIAL
@@ -190,13 +175,12 @@ void GetATLdhtTU() {
 void setup() {
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
-// ATL4 >---> GPIO-14
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
   wifiManager.setDebugOutput(false);
   wifiManager.setAPCallback(configModeCallback);
-  wifiManager.autoConnect("Agrotechlink", "agrotechlink");
+  wifiManager.autoConnect();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -209,15 +193,14 @@ void setup() {
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
-  yield();
-  GetATLbmpPT();                                     // BMP-180
 
   unsigned long currentMillis = millis();
   if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO 1.° MINUTO
     tempoPrevio = currentMillis;
-//    intervalo = 900000;                              // APOS; SOBE OS DADOS A CADA 15 MINUTOS
-    intervalo = 300000;                              // APOS; SOBE OS DADOS A CADA  5 MINUTOS
+    intervalo = 300000;                              // APOS; SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
+
     GetATLdhtTU();                                   // DHT22
+    GetATLbmpPT();                                   // BMP-180
 
     int conexao = WiFi.status();
 
@@ -239,10 +222,11 @@ void loop() {
           sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
           // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
           MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+          digitalWrite(ATL3, HIGH);       // GPIO-16 + LED0 | LIGA NO INICIO DA SUBIDA NO BANCO
           cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
           delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
           conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
-          LedATLblinks(1);                // LED 1 VEZ = DADOS INSERIDOS NO BD!
+          digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO FIM DA SUBIDA OK! (SUBSTITUI A BLINK DO LED. -1 DELAY) (:
         }
         break;
 
@@ -252,6 +236,7 @@ void loop() {
         break;
     }
   }
+  yield();
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL

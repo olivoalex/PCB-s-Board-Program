@@ -14,8 +14,8 @@
                FLASH FREQUENCY:   40 MHz
                CPU FREQUENCY:     80 MHz
                FLASH SIZE:        1M (512K SPIFFS)
-               DEBUG PORT:        DISABLED
-               DEBUG LEVEL:       NENHUM
+               DEBUG PORT:        SERIAL
+               DEBUG LEVEL:       TODOS
                RESET MOTHOD:      ck
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
@@ -77,13 +77,15 @@
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 String              macAdress;
-char                query[100], S_macAdress[30];         // MAC PARA O MySQL
+char                query[120], S_macAdress[30];         // MAC PARA O MySQL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // QUERY PARAS AS INTERACOES COM O BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.cont_BP2R SET mac='%s'";
 char SELECT_RELE_A_SQL[] = "SELECT r_A FROM agrotech_intel.cont_BP2R WHERE mac='%s' LIMIT 1";
 char SELECT_RELE_B_SQL[] = "SELECT r_B FROM agrotech_intel.cont_BP2R WHERE mac='%s' LIMIT 1";
+char UPDATE_A[] = "UPDATE agrotech_intel.cont_BP2R SET lig_A='%d' WHERE mac='%s' LIMIT 1";
+char UPDATE_B[] = "UPDATE agrotech_intel.cont_BP2R SET lig_B='%d' WHERE mac='%s' LIMIT 1";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -101,30 +103,48 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   myWiFiManager->getConfigPortalSSID();
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// FAZER O LED PISCAR
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void LedATLblinks(unsigned M) {
-  for (unsigned short j = 0; j < M; j++) {
-    digitalWrite(ATL3, HIGH); delay(500);
-    digitalWrite(ATL3, LOW);
-  }
-}
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONTROLE DE ATUAÇÃO DAS DUAS TOMADAS / RELES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void atuaESP_BP2R(int comando, uint8_t PIN) {
   switch (comando) {
-    case 1:
-      digitalWrite(PIN, HIGH);
-      LedATLblinks(1);
+    case 1: {
+        digitalWrite(ATL3, HIGH);                  // GPIO-16 + LED0
+        digitalWrite(PIN, HIGH);
+        if (PIN == 4) {
+          sprintf(query, UPDATE_A, 1, S_macAdress);
+          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE A
+          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
+
+        } else if (PIN == 5) {
+          sprintf(query, UPDATE_B, 1, S_macAdress);
+          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE B
+          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
+        }
+      }
+      digitalWrite(ATL3, LOW);
       break;
-    case 0:
-      digitalWrite(PIN, LOW);
-      LedATLblinks(1);
+    case 0: {
+        digitalWrite(ATL3, HIGH);                    // GPIO-16 + LED0
+        digitalWrite(PIN, LOW);
+        if (PIN == 4) {
+          sprintf(query, UPDATE_A, 0, S_macAdress);
+          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE A
+          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
+
+        } else if (PIN == 5) {
+          sprintf(query, UPDATE_B, 0, S_macAdress);
+          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE B
+          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
+        }
+      }
+      digitalWrite(ATL3, LOW);
       break;
     default:
       digitalWrite(PIN, LOW);
-      LedATLblinks(1);
       break;
   }
 }
@@ -132,6 +152,7 @@ void atuaESP_BP2R(int comando, uint8_t PIN) {
 // INICIO DO MODO SETUP DO ATUADOR ESP8266 BP-2R
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
+  Serial.begin(115200);
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
@@ -141,7 +162,7 @@ void setup() {
   WiFiManager wifiManager;
   wifiManager.setDebugOutput(false);
   wifiManager.setAPCallback(configModeCallback);
-  wifiManager.autoConnect("Agrotechlink", "agrotechlink");
+  wifiManager.autoConnect();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   while (conn.connect(server_addr, 3306, user, password) != true) {
     yield();
@@ -154,7 +175,6 @@ void setup() {
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
   cur_mem->execute(query);
   delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
-  conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
   digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 / DESLIGA SETUP OK!
 
 }
@@ -174,7 +194,6 @@ void loop() {
         while (conn.connect(server_addr, 3306, user, password) != true) {
           yield();
         }
-        macAdress.toCharArray(S_macAdress, 30);                   // CONVERTE O MAC DE STRING PARA CHAR
         sprintf(query, SELECT_RELE_A_SQL, S_macAdress);           // CONCATENANDO A STRING SELECT_SQL PARA BUSCA NO BANCO DE DADOS
 
         MySQL_Cursor *cur_mem_1 = new MySQL_Cursor(&conn);
@@ -204,19 +223,19 @@ void loop() {
         } while (row_2 != NULL);
 
         delete cur_mem_2;                                         // LIMPANDO A MEMORIA DO ESP8266
-        conn.close();                                             // ENCERRANDO CONEXAO COM BANCO DE DADOS
         /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
         atuaESP_BP2R(head_count_1, ATL7);                         // ATUACAO NA PORTA A. RELE 1
         atuaESP_BP2R(head_count_2, ATL8);                         // ATUACAO NA PORTA B. RELE 2
         /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+        conn.close();
       }
       break;
-
     default: {
         ESP.restart();
       }
       break;
   }
+  yield();
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
