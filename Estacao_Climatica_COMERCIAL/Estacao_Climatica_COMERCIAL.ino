@@ -1,5 +1,5 @@
 /*                    VERSÃO FINAL DO CODIGO
-               VERSÃO 1.0.1      DATA: 12/01/2017
+               VERSÃO 1.0.1      DATA: 06/02/2017
                COMPILADO NA VERSAO ARDUINO: 1.8.1
                __________________________________
 
@@ -175,6 +175,11 @@ void GetATLdhtTU() {
 void setup() {
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
+// A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+// O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
+// NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
+// SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES 
+// PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFiManager wifiManager;
