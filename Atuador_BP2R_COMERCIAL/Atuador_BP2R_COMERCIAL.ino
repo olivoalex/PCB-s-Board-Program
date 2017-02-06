@@ -78,14 +78,13 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 String              macAdress;
 char                query[120], S_macAdress[30];         // MAC PARA O MySQL
+int                 comando[3];                          // ARMAZENA COMANDO LIGA/DESLIGA RELE
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // QUERY PARAS AS INTERACOES COM O BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.cont_BP2R SET mac='%s'";
-char SELECT_RELE_A_SQL[] = "SELECT r_A FROM agrotech_intel.cont_BP2R WHERE mac='%s' LIMIT 1";
-char SELECT_RELE_B_SQL[] = "SELECT r_B FROM agrotech_intel.cont_BP2R WHERE mac='%s' LIMIT 1";
-char UPDATE_A[] = "UPDATE agrotech_intel.cont_BP2R SET lig_A='%d' WHERE mac='%s' LIMIT 1";
-char UPDATE_B[] = "UPDATE agrotech_intel.cont_BP2R SET lig_B='%d' WHERE mac='%s' LIMIT 1";
+char SELECT_RELE_SQL[] = "SELECT r_A, r_B FROM agrotech_intel.cont_BP2R WHERE mac='%s' LIMIT 1";
+char UPDATE_SQL[] = "UPDATE agrotech_intel.cont_BP2R SET lig_A='%d',lig_B='%d' WHERE mac='%s' LIMIT 1";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -107,41 +106,11 @@ void configModeCallback (WiFiManager *myWiFiManager) {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void atuaESP_BP2R(int comando, uint8_t PIN) {
   switch (comando) {
-    case 1: {
-        digitalWrite(ATL3, HIGH);                  // GPIO-16 + LED0
-        digitalWrite(PIN, HIGH);
-        if (PIN == 4) {
-          sprintf(query, UPDATE_A, 1, S_macAdress);
-          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE A
-          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
-
-        } else if (PIN == 5) {
-          sprintf(query, UPDATE_B, 1, S_macAdress);
-          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE B
-          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
-        }
-      }
-      digitalWrite(ATL3, LOW);
+    case 1:
+      digitalWrite(PIN, HIGH);
       break;
-    case 0: {
-        digitalWrite(ATL3, HIGH);                    // GPIO-16 + LED0
-        digitalWrite(PIN, LOW);
-        if (PIN == 4) {
-          sprintf(query, UPDATE_A, 0, S_macAdress);
-          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE A
-          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
-
-        } else if (PIN == 5) {
-          sprintf(query, UPDATE_B, 0, S_macAdress);
-          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-          cur_mem->execute(query);                 // CONFIRMANDO QUE O COMANDO FOI RECEBIDO RELE B
-          delete cur_mem;                          // DELETANDO A QUERY EXECUTADA DA MEMORIA
-        }
-      }
-      digitalWrite(ATL3, LOW);
+    case 0:
+      digitalWrite(PIN, LOW);
       break;
     default:
       digitalWrite(PIN, LOW);
@@ -152,7 +121,6 @@ void atuaESP_BP2R(int comando, uint8_t PIN) {
 // INICIO DO MODO SETUP DO ATUADOR ESP8266 BP-2R
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
-  Serial.begin(115200);
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
@@ -182,58 +150,36 @@ void setup() {
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
-  row_values *row_1 = NULL;
-  row_values *row_2 = NULL;
-  int head_count_1 = 0;
-  int head_count_2 = 0;
-
   int conexao = WiFi.status();
 
   switch (conexao) {
     case WL_CONNECTED: {
-        while (conn.connect(server_addr, 3306, user, password) != true) {
-          yield();
-        }
-        sprintf(query, SELECT_RELE_A_SQL, S_macAdress);           // CONCATENANDO A STRING SELECT_SQL PARA BUSCA NO BANCO DE DADOS
+        sprintf(query, SELECT_RELE_SQL, S_macAdress);
+        MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+        cur_mem->execute(query);
+        column_names *cols = cur_mem->get_columns();
 
-        MySQL_Cursor *cur_mem_1 = new MySQL_Cursor(&conn);
-        cur_mem_1 -> execute(query);
-        column_names *columns_1 = cur_mem_1 -> get_columns();     // PESQUISANDO POR COLUNAS. IMPORTANTE DEVIDO A MEMORIA DO ESP8266 SER POUCA
-
-        do {                                                      // LE O ROW SELECIONADO
-          row_1 = cur_mem_1 -> get_next_row();
-          if (row_1 != NULL) {
-            head_count_1 = atol(row_1 -> values[0]);
+        row_values *row = NULL;
+        do {
+          row = cur_mem->get_next_row();
+          if (row != NULL) {
+            for (int f = 0; f < cols->num_fields; f++) {
+              comando[f] = atoi(row->values[f]);
+            }
           }
-        } while (row_1 != NULL);
+        } while (row != NULL);
+        delete cur_mem;
 
-        delete cur_mem_1;                                         // LIMPANDO A MEMORIA DO ESP8266
-        /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-        sprintf(query, SELECT_RELE_B_SQL, S_macAdress);           // CONCATENANDO A STRING SELECT_SQL PARA BUSCA NO BANCO DE DADOS
+        digitalWrite(ATL3, HIGH);          // LED LIGA DIZENDO QUE A ATUAÇÃO ESTA EM ANDAMENTO
+        atuaESP_BP2R(comando[0], ATL7);
+        atuaESP_BP2R(comando[1], ATL8);
 
-        MySQL_Cursor *cur_mem_2 = new MySQL_Cursor(&conn);
-        cur_mem_2 -> execute(query);
-        column_names *columns_2 = cur_mem_2 -> get_columns();     // PESQUISANDO POR COLUNAS. IMMPORTANTE DEVIDO A MEMORIA DO ESP8266 SER POUCA
-
-        do {                                                      // LE O ROW SELECIONADO
-          row_2 = cur_mem_2 -> get_next_row();
-          if (row_2 != NULL) {
-            head_count_2 = atol(row_2 -> values[0]);
-          }
-        } while (row_2 != NULL);
-
-        delete cur_mem_2;                                         // LIMPANDO A MEMORIA DO ESP8266
-        /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-        atuaESP_BP2R(head_count_1, ATL7);                         // ATUACAO NA PORTA A. RELE 1
-        atuaESP_BP2R(head_count_2, ATL8);                         // ATUACAO NA PORTA B. RELE 2
-        /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-        conn.close();
+        sprintf(query, UPDATE_SQL, comando[0], comando[1], S_macAdress);
+        MySQL_Cursor *cur_mem_up = new MySQL_Cursor(&conn);
+        cur_mem_up->execute(query);
+        delete cur_mem_up;                 // DIZENDO AO USUÁRIO SE O COMANDO FOI EXECUTADO
+        digitalWrite(ATL3, LOW);           // LED DESLIGA LOOP OK. ATUACAO TERMINOU!
       }
-      break;
-    default: {
-        ESP.restart();
-      }
-      break;
   }
   yield();
 }
