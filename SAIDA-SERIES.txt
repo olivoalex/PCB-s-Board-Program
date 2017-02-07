@@ -1,36 +1,66 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-ALEXANDRE CLONA-GEN - JOINVILLE - SC
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 MEC - MINI ESTACAO CLIMATICA ID + RADIO ID + MAC
-id Descending	mac	d_T	d_U	b_T	b_P	hora	dia	ativo
+id 	mac	d_T	d_U	b_T	b_P	hora	dia	ativo
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-PRIMEIRO - MEC
+BP2R - BAIXA POTENCIA 2 RELES
+id	mac	r_A	lig_A	r_B	lig_B	ativo
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+ALEXANDRE CLONA-GEN - JOINVILLE - SC - 08/02/2017
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+PRIMEIRO - MEC - 08/02/2017
 MEC-03 + ID-B1 + MAC-5C-CF-7F-D1-27-A7
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
 5039	5C:CF:7F:D1:27:A7	27.70	50.70	28.23	1004.40	10:20:07	2017-02-06	1
 "F:\GIT\PCB-s-Board-Program\Estacao_Climatica_COMERCIAL\Estacao_Climatica_COMERCIAL.ino"
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-SEGUNDO - MEC
+SEGUNDO - MEC - 08/02/2017
 MEC-01 + ID-AE + MAC-5C-CF-7F-D3-D2-9D
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
 5050	5C:CF:7F:D3:D2:9D	28.50	53.00	29.06	1004.63	10:55:02	2017-02-06	1
 "F:\GIT\PCB-s-Board-Program\Estacao_Climatica_COMERCIAL\Estacao_Climatica_COMERCIAL.ino"
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-TERCEIRO - MEC
+TERCEIRO - MEC - 08/02/2017
 MEC-04 + ID-A6 + MAC-5C-CF-7F-D3-D3-89
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
 5068	5C:CF:7F:D3:D3:89	29.60	57.80	29.80	1003.87	11:35:39	2017-02-06	1
 "F:\GIT\PCB-s-Board-Program\Estacao_Climatica_COMERCIAL\Estacao_Climatica_COMERCIAL.ino"
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-QUARTO - MBP
-MEC-03 + ID-B1 + MAC-5C-CF-7F-D1-27-A7
+QUARTO - MBP - 08/02/2017
+BP2R-009 + ID-AD + MAC-60-01-94-06-08-CC
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
-
+119	60:01:94:06:08:CC	0	0	0	0	1
 "F:\GIT\PCB-s-Board-Program\Atuador_BP2R_COMERCIAL\Atuador_BP2R_COMERCIAL.ino"
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-QUINTO - MBP
-MEC-03 + ID-B1 + MAC-5C-CF-7F-D1-27-A7
+QUINTO - MBP - 08/02/2017
+BP2R-001 + ID-B4 + MAC-60-01-94-06-0A-18
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
-
+120	60:01:94:06:0A:18	0	0	0	0	1
 "F:\GIT\PCB-s-Board-Program\Atuador_BP2R_COMERCIAL\Atuador_BP2R_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+>>-->> POSSIVEL CLIENTE - PARA LUCIANO LEVAR... ESTRADA DE MAFRA!!!???
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+SEXTO - MBP - 08/02/2017
+BP2R-06 + ID-A4 + MAC-5C-CF-7F-D1-27-27
+CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
+SEM CODIGO - NAO TESTADO - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE
+ - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE
+ - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE
+"F:\GIT\PCB-s-Board-Program\Atuador_BP2R_COMERCIAL\Atuador_BP2R_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+>>-->> FERNANDO - JUNDIAÍ
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+SETIMO - MBP - 08/02/2017
+MEC-02 + ID-A3 + MAC-5C-CF-7F-D1-2E-D9
+CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
+5906	5C:CF:7F:D1:2E:D9	29.60	45.30	28.77	1008.12	12:11:07	2017-02-07	1
+"F:\GIT\PCB-s-Board-Program\Estacao_Climatica_COMERCIAL\Estacao_Climatica_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
