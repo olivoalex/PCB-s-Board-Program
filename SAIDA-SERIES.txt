@@ -1,9 +1,36 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 ALEXANDRE CLONA-GEN - JOINVILLE - SC
-
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 MEC - MINI ESTACAO CLIMATICA ID + RADIO ID + MAC
-
+id Descending	mac	d_T	d_U	b_T	b_P	hora	dia	ativo
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+PRIMEIRO - MEC
+MEC-03 + ID-B1 + MAC-5C-CF-7F-D1-27-A7
+CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
+5039	5C:CF:7F:D1:27:A7	27.70	50.70	28.23	1004.40	10:20:07	2017-02-06	1
+"F:\GIT\PCB-s-Board-Program\Estacao_Climatica_COMERCIAL\Estacao_Climatica_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+SEGUNDO - MEC
+MEC-01 + ID-AE + MAC-5C-CF-7F-D3-D2-9D
+CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
+5050	5C:CF:7F:D3:D2:9D	28.50	53.00	29.06	1004.63	10:55:02	2017-02-06	1
+"F:\GIT\PCB-s-Board-Program\Estacao_Climatica_COMERCIAL\Estacao_Climatica_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+TERCEIRO - MEC
+MEC-04 + ID-A6 + MAC-5C-CF-7F-D3-D3-89
+CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
+5068	5C:CF:7F:D3:D3:89	29.60	57.80	29.80	1003.87	11:35:39	2017-02-06	1
+"F:\GIT\PCB-s-Board-Program\Estacao_Climatica_COMERCIAL\Estacao_Climatica_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+QUARTO - MBP
 MEC-03 + ID-B1 + MAC-5C-CF-7F-D1-27-A7
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
 
-MEC-01 + ID-AE + MAC-5C-CF-7F-D3-D2-9D
+"F:\GIT\PCB-s-Board-Program\Atuador_BP2R_COMERCIAL\Atuador_BP2R_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+QUINTO - MBP
+MEC-03 + ID-B1 + MAC-5C-CF-7F-D1-27-A7
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
+
+"F:\GIT\PCB-s-Board-Program\Atuador_BP2R_COMERCIAL\Atuador_BP2R_COMERCIAL.ino"
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
