@@ -51,9 +51,9 @@ SEM CODIGO - NAO TESTADO - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM F
  - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE - SEM FONTE
 "F:\GIT\PCB-s-Board-Program\Atuador_BP2R_COMERCIAL\Atuador_BP2R_COMERCIAL.ino"
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
->>-->> FERNANDO - JUNDIAÍ
+>>-->> LUCIANO - JOINVILLE - ERA O QUE IRIA PARA JUNDIAI...
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-SETIMO - MBP - 08/02/2017
+SETIMO - MBP - 14/02/2017
 MEC-02 + ID-A3 + MAC-5C-CF-7F-D1-2E-D9
 CODIGO - FIRMWARE VERSAO: OLIVO-06-02-2017
 5906	5C:CF:7F:D1:2E:D9	29.60	45.30	28.77	1008.12	12:11:07	2017-02-07	1

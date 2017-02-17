@@ -198,11 +198,10 @@ void setup() {
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
-
   unsigned long currentMillis = millis();
-  if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO 1.° MINUTO
+  if (currentMillis - tempoPrevio >= intervalo) {    // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
     tempoPrevio = currentMillis;
-    intervalo = 300000;                              // APOS; SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
+    intervalo = 300000;                              // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
 
     GetATLdhtTU();                                   // DHT22
     GetATLbmpPT();                                   // BMP-180
@@ -214,7 +213,7 @@ void loop() {
           while (conn.connect(server_addr, 3306, user, password) != true) {
             yield();
           }
-          /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
           char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
           // CONVERTENDO DADOS DOS SENSORES PARA STRING
           dtostrf(T_dht, 2, 2, ST_dht);
@@ -227,21 +226,29 @@ void loop() {
           sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
           // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
           MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-          digitalWrite(ATL3, HIGH);       // GPIO-16 + LED0 | LIGA NO INICIO DA SUBIDA NO BANCO
+//          digitalWrite(ATL3, HIGH);       // GPIO-16 + LED0 | LIGA NO INICIO DA SUBIDA NO BANCO
+          digitalWrite(ATL3, LOW);       // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO
           cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
           delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
           conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
-          digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO FIM DA SUBIDA OK! (SUBSTITUI A BLINK DO LED. -1 DELAY) (:
+//          digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO FIM DA SUBIDA OK! (SUBSTITUI A BLINK DO LED. -1 DELAY) (:
+          digitalWrite(ATL3, HIGH);       // LIGA NO FIM DA SUBIDA OK! (SUBSTITUI A BLINK DO LED. -1 DELAY) (:
         }
         break;
 
       default: {
+          digitalWrite(ATL3, LOW);       // DESLIGA QUANDO NAO TEM CONEXAO
+// VERIFICAR ESSE AQUI!!! 
+// COLOCAR ONDE POSSA INDICAR QUE NAO HA CONEXAO!!!          
           ESP.restart();
         }
         break;
     }
   }
   yield();
+  digitalWrite(ATL3, HIGH);   // REMAINS TURNED ON - MEANS ALSO THAT DEVICE IS POWERED ON
+// VERIFICAR SE O TEMPO PARA CONEXAO PERMITE SER OBSERVADO OU FICA INSTANTANEO...
+// AQUI NAO QUIS USAR DELAY!!! - FAVOR VERIFICAR E REMOVER ESTE COMENTARIO SE OK!!!  
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
