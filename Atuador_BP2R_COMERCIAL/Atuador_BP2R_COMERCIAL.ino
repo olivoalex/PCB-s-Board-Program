@@ -151,7 +151,7 @@ void setup() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   int conexao = WiFi.status();
-
+  
   switch (conexao) {
     case WL_CONNECTED: {
         sprintf(query, SELECT_RELE_SQL, S_macAdress);
@@ -180,6 +180,7 @@ void loop() {
         delete cur_mem_up;                 // DIZENDO AO USUÁRIO SE O COMANDO FOI EXECUTADO
         digitalWrite(ATL3, LOW);           // LED DESLIGA LOOP OK. ATUACAO TERMINOU!
       }
+      break;
   }
   yield();
 }
