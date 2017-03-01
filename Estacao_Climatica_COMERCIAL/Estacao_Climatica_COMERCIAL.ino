@@ -96,9 +96,6 @@ double              P_bmp, T_bmp;                        // VARIAVEIS PARA O SEN
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
 unsigned long       tempoPrevio = 0;                     // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 45000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
-unsigned long       tempoPrevioLED = 0;                  // VARIAVEL DE CONTROLE DE TEMPO DO LED
-unsigned long       intervaloLED = 500;                  // VARIAVEL PARA CONTROLE DE BLINK LED 2 SEGUNDOS
-int                 estadoLED = HIGH;                    // ESTADO DE USO DO LED. HIGH OU LOW
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
@@ -202,15 +199,7 @@ void setup() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   unsigned long currentMillis = millis();
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  // FUNCAO IF() DE BLINK DO LED. INTERVALO DE 0,5 SEGUNDO
-  if (currentMillis - tempoPrevioLED >= intervaloLED) {
-    tempoPrevioLED = currentMillis;
-    if (estadoLED == LOW) { estadoLED = HIGH; }        // GPIO-16 + LED0 HIGH           
-    else { estadoLED = LOW; }                          // GPIO-16 + LED0 LOW
-    digitalWrite(ATL3, estadoLED);                     // GPIO-16 + LED0 | BLINK DO LED!
-  }
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  
   if (currentMillis - tempoPrevio >= intervalo) {      // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
     digitalWrite(ATL3, HIGH);                          // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
     tempoPrevio = currentMillis;
