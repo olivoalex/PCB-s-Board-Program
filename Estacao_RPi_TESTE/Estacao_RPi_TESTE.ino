@@ -139,6 +139,12 @@ void GetATLbmpPT() {
       }
     }
   }
+Serial.println("\n- - - - - - - - - - - - - - - - -");
+Serial.print("Pressao atmosferica......BMP: ");
+Serial.print(P_bmp, 2);    Serial.println(" hPa");
+Serial.print("Temperatura ambiente.....BMP: ");
+Serial.print(T_bmp, 2);    Serial.print(" *C");
+Serial.println("\n- - - - - - - - - - - - - - - - -");
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22
@@ -162,11 +168,20 @@ void GetATLdhtTU() {
       U_dht = 0;    // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
     }
   }
+Serial.print("\nTemperatura ambiente.....DHT: ");
+Serial.print(T_dht);
+Serial.println(" *C");
+Serial.print("Umidade relativa do ar...DHT: ");
+Serial.print(U_dht);
+Serial.println(" %UR");
+Serial.println("- - - - - - - - - - - - - - - - -");
+
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
+  Serial.begin(115200);
   // A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
   // O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
   // NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
@@ -175,9 +190,16 @@ void setup() {
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+Serial.print("Conectando A internet...");
   while (WiFi.status() != WL_CONNECTED) {
+Serial.print(".");
     yield();
   }
+Serial.println();
+Serial.print("Conectado a: ");
+Serial.println(WiFi.localIP());
+Serial.println("MAC: " + WiFi.macAddress());
+
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -191,46 +213,38 @@ void setup() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   unsigned long currentMillis = millis();
-  
   if (currentMillis - tempoPrevio >= intervalo) {      // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
     digitalWrite(ATL3, HIGH);                          // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
     tempoPrevio = currentMillis;
 //    intervalo = 300000;                                // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
     intervalo = 60000;                                // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
-
     GetATLdhtTU();                                     // DHT22
     GetATLbmpPT();                                     // BMP-180
-
     int conexao = WiFi.status();
-
     switch (conexao) {
       case WL_CONNECTED: {
-
           while (conn.connect(server_addr, 3306, user, password) != true) {
             yield();
           }
-          /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
           char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
           // CONVERTENDO DADOS DOS SENSORES PARA STRING
           dtostrf(T_dht, 2, 2, ST_dht);
           dtostrf(U_dht, 2, 2, SU_dht);
           dtostrf(T_bmp, 2, 2, ST_bmp);
           dtostrf(P_bmp, 4, 2, SP_bmp);
-
           mac.toCharArray(MAC, 25);
-          /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
           sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
           // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
           MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 
           digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
-
           cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
           delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
           conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
         }
         break;
-
       default: {
           ESP.restart();
         }
