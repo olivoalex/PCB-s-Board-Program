@@ -13,7 +13,7 @@
                FLASH MODE:        DIO
                FLASH FREQUENCY:   40 MHz
                CPU FREQUENCY:     80 MHz
-               FLASH SIZE:        1M (128K SPIFFS)
+               FLASH SIZE:        1M (128K SPIFFS) <---<
                DEBUG PORT:        SERIAL
                DEBUG LEVEL:       CORE
                RESET MOTHOD:      ck
@@ -82,8 +82,10 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      DHTPIN     ATL5         // SENSOR DHT22 (TEMPERATURA-HUMIDADE)
 #define      DHTTYPE    DHT22        // ESPECIFICACAO DO SENSOR UTILIZADO
-#define      WIFI_SSID "GVT-FBCB"        // NOME DA INTERNET DO RASPBERRY-PI
-#define      WIFI_PASSWORD "S1E9059562"  // SENHA DA INTERNET
+//#define      WIFI_SSID "GVT-FBCB"        // NOME DA INTERNET DO RASPBERRY-PI
+//#define      WIFI_PASSWORD "S1E9059562"  // SENHA DA INTERNET
+#define      WIFI_SSID "ATLRPi"        // NOME DA INTERNET DO RASPBERRY-PI
+#define      WIFI_PASSWORD "agrotechlink"  // SENHA DA INTERNET
 DHT          dht (DHTPIN, DHTTYPE);  // ENDERECAMENTO DO SENSOR DHT22
 SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -94,7 +96,7 @@ String              mac;                                 // VARIAVEL MAC STRING 
 double              P_bmp, T_bmp;                        // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
 unsigned long       tempoRotina = 0;                     // VARIAVEL DE CONTROLE DE TEMPO ROTINA
-unsigned long       intervaloRotina = 45000;             // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
+unsigned long       intervaloRotina = 30000;             // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1a. SUBIDA = 30 SEGUNDOS)
 unsigned long       tempoLED = 0;                        // VARIAVEL PARA O CONTROLE DO TEMPO DO LED
 unsigned int        tempoReset = 0;                      // VARIAVEL PARA RESETAR O ESP DEPOIS DE 5 HORAS
 int                 estadoLED = LOW;                     // VARIAVEL PARA BLINK DO LED. COMECA EM LOW DEVIDO AO END DO SETUP
@@ -103,10 +105,10 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s',d_T='%s',
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
+//IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
+IPAddress   server_addr (11, 12, 13, 40);   // IP DO MySQL SERVER - LOCAL - RPi
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
-
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -179,11 +181,10 @@ void GetATLdhtTU() {
   Serial.print(U_dht);
   Serial.println(" %UR");
   Serial.println("- - - - - - - - - - - - - - - - -");
-
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
-  Serial.begin(115200);
+Serial.begin(115200);
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   // A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
@@ -192,8 +193,8 @@ void setup() {
   // SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES
   // PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  Serial.println("Conectando A internet");
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+Serial.println("\nConectando A internet...");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     yield();
@@ -202,19 +203,20 @@ void setup() {
   Serial.print("Conectado a: ");
   Serial.println(WiFi.localIP());
   Serial.println("MAC: " + WiFi.macAddress());
-
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  Serial.println("Conectando ao banco de dados...");
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+Serial.println("Conectando ao banco de dados...");
+Serial.print(" . ");
   while (conn.connect(server_addr, 3306, user, password) != true) {
     yield();
+Serial.print(" + ");    
   }
   Serial.println("Banco de dados conectado!!");
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
   pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -222,7 +224,7 @@ void setup() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   unsigned long millisRotina = millis();
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   if ((millisRotina - tempoLED) >= intervaloLED) {
     tempoLED = millisRotina;
     tempoReset++;
@@ -235,33 +237,31 @@ void loop() {
         break;
     }
     digitalWrite(ATL3, estadoLED);
-    
     if (tempoReset >= 36000){
       ESP.restart();
     }
   }
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   if ((millisRotina - tempoRotina) >= intervaloRotina) {     // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
     digitalWrite(ATL3, HIGH);                                // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
     tempoRotina = millisRotina;
-    intervaloRotina = 60000;                          // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
-    GetATLdhtTU();                                    // DHT22
-    GetATLbmpPT();                                    // BMP-180
-
+    intervaloRotina = 30000;                          // APOS - SOBE OS DADOS A CADA  1/2 MINUTO >--> testes com RPi
+GetATLdhtTU();                                    // DHT22
+GetATLbmpPT();                                    // BMP-180
     if (conn.connected()) {
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
       char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
-      // CONVERTENDO DADOS DOS SENSORES PARA STRING
+// CONVERTENDO DADOS DOS SENSORES PARA STRING
       dtostrf(T_dht, 2, 2, ST_dht);
       dtostrf(U_dht, 2, 2, SU_dht);
       dtostrf(T_bmp, 2, 2, ST_bmp);
       dtostrf(P_bmp, 4, 2, SP_bmp);
       mac.toCharArray(MAC, 25);
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
       sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
-      // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+// CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
       MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-      /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
       cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
       delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
       conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
