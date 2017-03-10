@@ -210,7 +210,7 @@ Serial.println("Conectando ao banco de dados...");
 //Serial.print(" . ");
   while (conn.connect(server_addr, 3306, user, password) != true) {
     yield();
-Serial.print(" + ");    
+Serial.println(" + ");
   }
   Serial.println("Banco de dados conectado!!");
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
