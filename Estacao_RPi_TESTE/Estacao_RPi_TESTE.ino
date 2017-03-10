@@ -24,7 +24,7 @@
                CONFIGURACAO DA PLACA PARA GRAVACAO - ESP-12E
                PLACA:             NODE MCU 1.0 (ESP-12E MODULE)
                CPU FREQUENCY:     80 MHz
-               FLASH SIZE:        4M (3M SPIFFS)
+               FLASH SIZE:        4M (1M SPIFFS) <---<
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
                __________________________________
@@ -106,7 +106,7 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s',d_T='%s',
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
-IPAddress   server_addr (11, 12, 13, 40);   // IP DO MySQL SERVER - LOCAL - RPi
+IPAddress   server_addr (1, 2, 3, 4);   // IP DO MySQL SERVER - LOCAL - RPi
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
@@ -207,7 +207,7 @@ Serial.println("\nConectando A internet...");
   mac = WiFi.macAddress();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 Serial.println("Conectando ao banco de dados...");
-Serial.print(" . ");
+//Serial.print(" . ");
   while (conn.connect(server_addr, 3306, user, password) != true) {
     yield();
 Serial.print(" + ");    
