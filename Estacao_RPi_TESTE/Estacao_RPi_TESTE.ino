@@ -106,7 +106,7 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s',d_T='%s',
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
-IPAddress   server_addr (1, 2, 3, 4);   // IP DO MySQL SERVER - LOCAL - RPi
+IPAddress   server_addr (127, 0, 0, 1);   // IP DO MySQL SERVER - LOCAL - RPi
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
@@ -145,13 +145,12 @@ void GetATLbmpPT() {
       }
     }
   }
-  Serial.println("\n- - - - - - - - - - - - - - - - -");
-  Serial.print("Pressao atmosferica......BMP: ");
-  Serial.print(P_bmp, 2);    Serial.println(" hPa");
-  Serial.print("Temperatura ambiente.....BMP: ");
-  Serial.print(T_bmp, 2);    Serial.print(" *C");
-  Serial.println("\n- - - - - - - - - - - - - - - - -");
-}
+Serial.println("\n- - - - - - - - - - - - - - - - -");
+Serial.print("Pressao atmosferica......BMP: ");
+Serial.print(P_bmp, 2);    Serial.println(" hPa");
+Serial.print("Temperatura ambiente.....BMP: ");
+Serial.print(T_bmp, 2);    Serial.print(" *C");
+Serial.println("\n- - - - - - - - - - - - - - - - -");}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -174,24 +173,23 @@ void GetATLdhtTU() {
       U_dht = 0;    // PARA ASSEGURAR O REGISTRO 0 NO BD DO MySQL
     }
   }
-  Serial.print("\nTemperatura ambiente.....DHT: ");
-  Serial.print(T_dht);
-  Serial.println(" *C");
-  Serial.print("Umidade relativa do ar...DHT: ");
-  Serial.print(U_dht);
-  Serial.println(" %UR");
-  Serial.println("- - - - - - - - - - - - - - - - -");
-}
+Serial.print("\nTemperatura ambiente.....DHT: ");
+Serial.print(T_dht);
+Serial.println(" *C");
+Serial.print("Umidade relativa do ar...DHT: ");
+Serial.print(U_dht);
+Serial.println(" %UR");
+Serial.println("- - - - - - - - - - - - - - - - -");}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
 Serial.begin(115200);
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
-  // A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
-  // O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
-  // NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
-  // SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES
-  // PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+// O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
+// NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
+// SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES
+// PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 Serial.println("\nConectando A internet...");
@@ -208,11 +206,11 @@ Serial.println("\nConectando A internet...");
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 Serial.println("Conectando ao banco de dados...");
 //Serial.print(" . ");
+unsigned num = 1;
   while (conn.connect(server_addr, 3306, user, password) != true) {
     yield();
-Serial.println(" + ");
-  }
-  Serial.println("Banco de dados conectado!!");
+Serial.print(" + "); Serial.println(num++); }
+Serial.println("Banco de dados conectado!!");
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
   pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
