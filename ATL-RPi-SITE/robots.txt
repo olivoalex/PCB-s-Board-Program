@@ -1,0 +1,17 @@
+User-Agent: *
+Disallow: /
+Disallow: /2096
+Disallow: /demo
+Disallow: /php.ini
+Disallow: /cpanel
+Disallow: /styles.css
+Disallow: /settings.css
+Disallow: /firebase.js
+Disallow: /indexDataFirebase.js
+Disallow: /.htaccess
+Disallow: /404.html
+
+User-agent: *
+Allow: /index.html
+Allow: 1.2.3.4
+Allow: 1.2.3.41
