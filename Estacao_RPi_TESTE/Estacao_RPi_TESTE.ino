@@ -106,7 +106,8 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s',d_T='%s',
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
-IPAddress   server_addr (127, 0, 0, 1);   // IP DO MySQL SERVER - LOCAL - RPi
+//IPAddress   server_addr (127, 0, 0, 1);   // IP DO MySQL SERVER - LOCAL - RPi
+IPAddress   server_addr (1, 2, 3, 4);   // IP DO MySQL SERVER - LOCAL - RPi
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
