@@ -13,7 +13,7 @@
                FLASH MODE:        DIO
                FLASH FREQUENCY:   40 MHz
                CPU FREQUENCY:     80 MHz
-               FLASH SIZE:        1M (512K SPIFFS)
+               FLASH SIZE:        1M (128K SPIFFS) <---<
                DEBUG PORT:        SERIAL
                DEBUG LEVEL:       TODOS
                RESET MOTHOD:      ck
@@ -24,7 +24,7 @@
                CONFIGURACAO DA PLACA PARA GRAVACAO - ESP-12E
                PLACA:             NODE MCU 1.0 (ESP-12E MODULE)
                CPU FREQUENCY:     80 MHz
-               FLASH SIZE:        4M (3M SPIFFS)
+               FLASH SIZE:        4M (1M SPIFFS) <---<
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
                __________________________________
