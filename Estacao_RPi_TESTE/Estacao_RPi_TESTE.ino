@@ -63,6 +63,7 @@
 // LIVRARIAS EXTERNAS PARA FUNCIONAMENTO DOS SENSORES, CONEXÃO E DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
+#include     <Dns.h>                 // BIBLIOTECA DNS DO ESP8266
 #include     <SFE_BMP180.h>          // SENSOR BMP-180 (PRESSAO) 
 #include     <Wire.h>                // NECESSÁRIO PARA COMUNICACAO I2C (PRESSAO)
 #include     "DHT.h"                 // SENSOR DHT22 OU DHT11 (TEMPERATURA-HUMIDADE)   
@@ -103,11 +104,18 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s',d_T='%s',
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
+//IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
+static char hostname[] = "www.agrotechlink.com"; // LOCALHOST PARA BANCOS LOCAIS
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 
-WiFiClient client;
+IPAddress server_addr;
+
+DNSClient dns;
+dns.begin(Ethernet.dnsServerIP());
+dns.getHostByName(hostname, server_addr);
+
+WiFiClient  client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // PRESSAO E TEMPERATURA DO BMP180 - ESPECIAL
@@ -206,6 +214,8 @@ void setup() {
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   mac = WiFi.macAddress();
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  Serial.println("Endereco do servidor MySQL: ");
+  Serial.println(server_addr);
   Serial.println("Conectando ao banco de dados...");
   while (conn.connect(server_addr, 3306, user, password) != true) {
     yield();
@@ -235,8 +245,8 @@ void loop() {
         break;
     }
     digitalWrite(ATL3, estadoLED);
-    
-    if (tempoReset >= 36000){
+
+    if (tempoReset >= 36000) {
       ESP.restart();
     }
   }

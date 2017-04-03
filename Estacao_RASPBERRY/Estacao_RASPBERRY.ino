@@ -80,12 +80,12 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // SENSOR PINS E CONFIGURACAO Wi-Fi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-#define      DHTPIN     ATL5         // SENSOR DHT22 (TEMPERATURA-HUMIDADE)
-#define      DHTTYPE    DHT22        // ESPECIFICACAO DO SENSOR UTILIZADO
-#define      WIFI_SSID "ATLRPi"      // NOME DA INTERNET DO RASPBERRY-PI
-#define      WIFI_PASSWORD "agrotechlink"  // SENHA DA INTERNET
-DHT          dht (DHTPIN, DHTTYPE);  // ENDERECAMENTO DO SENSOR DHT22
-SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
+#define      DHTPIN        ATL5             // SENSOR DHT22 (TEMPERATURA-HUMIDADE)
+#define      DHTTYPE       DHT22            // ESPECIFICACAO DO SENSOR UTILIZADO
+#define      WIFI_SSID     "Agrotechlink"   // NOME DA INTERNET DO RASPBERRY-PI
+#define      WIFI_PASSWORD "agricultura"    // SENHA DA INTERNET
+DHT          dht (DHTPIN, DHTTYPE);         // ENDERECAMENTO DO SENSOR DHT22
+SFE_BMP180   pressao;                       // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -94,12 +94,12 @@ String              mac;                                 // VARIAVEL MAC STRING 
 double              P_bmp, T_bmp;                        // VARIAVEIS PARA O SENSOR BMP-180
 float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
 unsigned long       tempoPrevio = 0;                     // VARIAVEL DE CONTROLE DE TEMPO
-unsigned long       intervalo = 45000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
+unsigned long       intervalo = 20000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-IPAddress   server_addr (11, 12, 13, 40);       // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
+IPAddress   server_addr (10, 3, 141, 1);    // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 
@@ -184,6 +184,10 @@ void setup() {
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
   pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  while (conn.connect(server_addr, 3306, user, password) != true) {
+    yield();
+  }
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -191,51 +195,33 @@ void setup() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   unsigned long currentMillis = millis();
-  
-  if (currentMillis - tempoPrevio >= intervalo) {      // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
-    digitalWrite(ATL3, HIGH);                          // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
+
+  if (currentMillis - tempoPrevio >= intervalo) {     // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
+    digitalWrite(ATL3, HIGH);                         // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
     tempoPrevio = currentMillis;
-//    intervalo = 300000;                                // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
+    //    intervalo = 300000;                         // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
     intervalo = 60000;                                // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
 
-    GetATLdhtTU();                                     // DHT22
-    GetATLbmpPT();                                     // BMP-180
+    GetATLdhtTU();                                    // DHT22
+    GetATLbmpPT();                                    // BMP-180
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
+    // CONVERTENDO DADOS DOS SENSORES PARA STRING
+    dtostrf(T_dht, 2, 2, ST_dht);
+    dtostrf(U_dht, 2, 2, SU_dht);
+    dtostrf(T_bmp, 2, 2, ST_bmp);
+    dtostrf(P_bmp, 4, 2, SP_bmp);
 
-    int conexao = WiFi.status();
+    mac.toCharArray(MAC, 25);
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
+    // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+    MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 
-    switch (conexao) {
-      case WL_CONNECTED: {
+    digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
 
-          while (conn.connect(server_addr, 3306, user, password) != true) {
-            yield();
-          }
-          /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-          char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
-          // CONVERTENDO DADOS DOS SENSORES PARA STRING
-          dtostrf(T_dht, 2, 2, ST_dht);
-          dtostrf(U_dht, 2, 2, SU_dht);
-          dtostrf(T_bmp, 2, 2, ST_bmp);
-          dtostrf(P_bmp, 4, 2, SP_bmp);
-
-          mac.toCharArray(MAC, 25);
-          /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-          sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
-          // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
-          MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-
-          digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
-
-          cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
-          delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
-          conn.close();                   // ENCERRANDO CONEXAO COM BANCO DE DADOS
-        }
-        break;
-
-      default: {
-          ESP.restart();
-        }
-        break;
-    }
+    cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
+    delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
   }
   yield();
 }

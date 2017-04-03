@@ -172,6 +172,7 @@ void loop() {
 
         digitalWrite(ATL3, HIGH);          // LED LIGA DIZENDO QUE A ATUAÇÃO ESTA EM ANDAMENTO
         atuaESP_BP2R(comando[0], ATL7);
+        delay(500);
         atuaESP_BP2R(comando[1], ATL8);
 
         sprintf(query, UPDATE_SQL, comando[0], comando[1], S_macAdress);
