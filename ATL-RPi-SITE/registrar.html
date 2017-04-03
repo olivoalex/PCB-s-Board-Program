@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar | Agrotechlink ®</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="author" content="Agrotechlink ®">
+    <meta name="description" content="Agricultura e tecnologia conectadas a serviço do agricultor.">
+    <meta name="keywords" content="agricultura, joinville, sensor, sensores, atuadores, motores, controle, tempo">
+    <meta name="reply-to" content="todos@agrotechlink.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="shortcut icon" href="images/iconeLogo.ico">
+
+    <!--Core CSS -->
+    <link href="bs3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]>
+    <script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+  <body class="login-body">
+    <div class="container">
+      <form class="form-signin" action="cadastra.php" method="post">
+        <h2 class="form-signin-heading">Faça seu registro conosco</h2>
+        <div class="login-wrap">
+            <p>Informe o seus dados nos campos abaixo.</p>
+            <input id="nome" name="nome" type="text" class="form-control" placeholder="Seu nome" maxlength="40" minlength="3" autofocus required>
+            <input id="sobrenome" name="sobrenome" type="text" class="form-control" placeholder="Seu sobrenome" minlength="3" maxlength="40" autofocus required>
+            <input id="cpf" name="cpf" type="number" class="form-control" placeholder="Seu CPF. Apenas números!" minlength="10" maxlength="15" autofocus required>
+            <p>Sua data de nascimento</p>
+            <input id="nascimento" name="nascimento" type="date" class="form-control" autofocus required>
+            <input id="email" name="email" type="email" class="form-control" placeholder="E-mail" minlength="3" autofocus required>
+            <p style="margin-top: 20px">Como entramos em contato com você?</p>
+            <input id="celular" name="celular" type="number" class="form-control" minlength="10" maxlength="20" placeholder="Telefone Celular" autofocus required>
+            <p style="margin-top: 20px">Qual seu sexo?</p>
+            <div class="radios">
+                <label class="label_radio col-lg-6 col-sm-6" for="sexo_1">
+                    <input name="sexo" id="sexo_1" value="Masc" type="radio" checked /> Masculino
+                </label>
+                <label class="label_radio col-lg-6 col-sm-6" for="sexo_2">
+                    <input name="sexo" id="sexo_2" value="Fem" type="radio" /> Feminino
+                </label>
+            </div>
+            <p style="margin-top: 50px">Sua senha de acesso</p>
+            <input id="senha" name="senha" type="password" class="form-control" placeholder="Senha" minlength="5" maxlength="30" autofocus required>
+            <label style="margin-top: 30px" class="checkbox">
+                <input id="aceito" name="aceito" type="checkbox" value="1" required> Eu concordo com os Termos de Serviços,
+                Políticas de Privacidade e que a senha cadastrada não foi minha data de nascimento.
+            </label>
+            <button class="btn btn-lg btn-login btn-block" id="submit" type="submit">Se inscrever (:</button>
+
+            <div class="registration">
+                Já é registrado? Então faz o seu
+                <a href="login.php">
+                    Login
+                </a>
+            </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+
+    <!-- Placed js at the end of the document so the pages load faster -->
+
+    <!--Core js-->
+    <script src="js/jquery.js"></script>
+    <script src="bs3/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
