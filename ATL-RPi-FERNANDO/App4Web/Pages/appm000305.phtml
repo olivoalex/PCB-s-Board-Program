@@ -1,0 +1,418 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+?>
+<script type="text/javascript">
+
+   var empresa = <?php echo $view_emp_id;?>;
+   var filial = <?php echo $view_fil_id;?>;
+   var usuario = <?php echo $view_login_id;?>;
+   var _controller     = '<?php echo $view_controller;?>';
+   var _task           = '<?php echo $view_task;?>';
+   var _action         = '<?php echo $view_action;?>';	
+   var js_link         = "<?php echo $_SESSION['PORTAL_DOMINIO_LINK'];?>";	 
+   
+   // guardando dados anteriores para verificar valores
+   var antDados = null;
+
+   function appm000305(aAcao, aComple) {
+   
+	   // Saindo ...
+	   if ( aAcao.toUpperCase() == "SAIR" ) {	
+		   // Determina o que esse botao tem que fazer
+		   window.location.hash = "#dashboard.phtml";	
+	   } else {
+		   if ( aAcao.toUpperCase() == "PROCESSAR" ) {
+			  appm000305_processarDados(aAcao, aComple);
+		   } else {
+			   var _msg = "Acao Nao Implementada: "+aAcao+" Complemento "+aComple+"\n";
+			   // Exibe uma mensagem no canto inferior direito 
+			   Lobibox.notify("error", {
+				  position: 'top right',
+				  msg: _msg
+			   });          
+			}
+	   }
+   }       
+
+   function appm000305_processarDados(aAcao, aComple) {
+	  // Aciona o AJAX e indeica como receber o JSON
+	  var cpf    = "<?php echo $view_cpf;?>";
+	  var mac    = "<?php echo $view_mac;?>";
+
+	  var url = js_link + "appm000300_AJAX/ajax/" + aAcao 
+						+ "/empresa/" + empresa
+						+ "/filial/" + filial 
+						+ "/usuario/" + usuario
+						+ "/cpf/" + cpf
+						+ "/mac/" + mac;
+						
+	  //alert ("Url: " + url);
+	  
+	  $.getJSON(url, function (dados_retorno){ 
+		   // Aciona funcao para processar o retorno do AJAX em formato JSON
+		   appm000305_processarRetornoAJAX(aAcao, dados_retorno);   			   
+	  } );           
+		 
+   }   
+
+   function appm000305_processarRetornoAJAX(aAcao, aDados) {
+	  
+	  //alert("Acao : "+ aAcao);
+	  
+	  if (aDados.status == true ){	
+		 
+         appm000305_atualizar(aAcao, aDados);
+						 
+	  } else {
+		 // Nesse caso mantem a tabela q esta apenas da uma mensagem para o usuario
+		 // Exibe uma mensagem no canto inferior direito 
+		 Lobibox.notify("error", {
+		   position: 'top right',
+		   msg: aDados.mensagem
+		 });
+	  }           
+   }   
+   
+   function appm000305_atualizar(aAcao, aDados) {
+	 		
+		var _tot = aDados.dados.EST_CLIMA.length;
+			 
+		// Percorrendo os dados
+		for ( var _l=0; _l < _tot; _l++) {	
+			//Add row
+			var _lin = aDados.dados.EST_CLIMA[_l];			
+			// Atualizando valores para
+			$("#cpf_estacao").html(_lin["id"] + " - " + _lin["descricao"]);
+			$("#cpf_estacao").attr("title","CPF: " + _lin["cpf"]).tooltip('fixTitle');
+			
+			$("#mac_estacao").html(_lin["mac"]);
+			$("#dat_estacao").html(_lin["dia"]);
+			$("#hor_estacao").html(_lin["hora"]);		
+			
+			$("#tmp_estacao").html(_lin["temp1"]);		
+			$("#tm2_estacao").html(_lin["temp2"]);	
+			$("#umd_estacao").html(_lin["umidade"]);		
+			$("#prs_estacao").html(_lin["pressao"]);		
+			break;		
+		}		 
+		
+		// Atualizado grafico caso precise
+		appm000305_grafico_atualiza(aAcao, aDados);
+		
+		// Forca atualizar os tooltip
+		$('[data-toggle="tooltip"]').tooltip();
+   }   
+</script>
+   
+<div id='appm000305'>	
+
+	<div class="app-container">		
+	
+        <div class="row">
+		    <div class="col-sm-6 col-lg-4">
+			   <h4>
+			     <b>Estação</b>&nbsp;<span id="cpf_estacao" class='cursor_hand' data-toggle='tooltip'  data-placement='bottom' title='Informações adicionais.'></span>
+				</h4>
+			</div>
+			
+			<div class="col-sm-6 col-lg-4">
+			    <h4>
+				  <b>MAC:</b>&nbsp;<span id="mac_estacao"></span>
+				</h4>
+			</div>
+			<div class="col-sm-6 col-lg-4">
+			   <h4>
+				 <i class="fa fa-calendar"></i>&nbsp;
+			     <span id="dat_estacao"></span>&nbsp;|&nbsp;
+			     <span id="hor_estacao"></span>
+			   </h4>
+			</div>
+		</div>
+
+        <div class="row">
+            <div class="col-sm-6 col-lg-4">
+                <div class="tile border-1 bg-white">
+                    <div class="tile-body">
+                        <h2 class="margin-top-5 margin-bottom-5">
+						   <span id="tmp_estacao"></span>&nbsp;&ordm;C&nbsp;
+						   /&nbsp;
+						   <span id="tm2_estacao"></span>&nbsp;&ordm;C
+						</h2>
+                        <h5><b>Temperatura</b></h5>
+                        <i class="fa fa-cloud fa-4x tile-icon text-green-dark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="tile border-1 bg-white">
+                    <div class="tile-body">
+                        <h2 class="margin-top-5"><span id="umd_estacao"></span>&nbsp;%HR</h2>
+                        <h5><b>Umidade</b></h5>
+                        <i class="fa fa-tint fa-4x tile-icon text-blue-dark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="tile border-1 bg-white">
+                    <div class="tile-body">
+                        <h2 class="margin-top-5"><span id="prs_estacao"></span>&nbsp;hPA</h2>
+                        <h5><b>Pressão</b></h5>
+                        <i class="fa fa-tachometer fa-4x tile-icon text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+	
+		<!-- INICIO: temperatura -->
+		<div>
+		   <div id="dashboard-statisticts-panel" class="panel panel-light">
+			  <div class="panel-heading">
+				 <div class="panel-title">
+					<i class="fa fa-cloud"></i> Temperatura					
+					<button class="btn btn-xs btn-primary pull-right btn-voltar">Voltar</button>
+					<span class='pull-right'>&nbsp;</span>
+					<button class="btn btn-xs btn-warning pull-right btn-atualizar">Atualizar</button>
+					<span class='pull-right'>&nbsp;</span>
+					<span class='label label-danger pull-right lbl-grafico'>&nbsp;</span>					
+				 </div>
+			  </div>
+			  <div class="panel-body">
+				 <div class="row">
+					<div class="col-lg-12">
+						<div>
+							<canvas id="grf_temperatura" height="200" width="900"></canvas>
+						</div>
+					</div>
+				</div>
+			  </div>
+		   </div>
+		</div>	
+		<!-- FIM: temperatura -->
+		
+		<!-- INICIO: umidade -->
+		<div>
+		   <div id="dashboard-statisticts-panel" class="panel panel-light">
+			  <div class="panel-heading">
+				 <div class="panel-title">
+					<i class="fa fa-tint"></i> Umidade
+					<button class="btn btn-xs btn-primary pull-right btn-voltar">Voltar</button>
+					<span class='pull-right'>&nbsp;</span>
+					<button class="btn btn-xs btn-warning pull-right btn-atualizar">Atualizar</button>
+					<span class='pull-right'>&nbsp;</span>
+					<span class='label label-danger pull-right lbl-grafico'>&nbsp;</span>					
+				 </div>
+			  </div>
+			  <div class="panel-body">
+				 <div class="row">
+					<div class="col-lg-12">
+						<div>
+							<canvas id="grf_umidade" height="200" width="900"></canvas>
+						</div>
+					</div>
+				</div>
+			  </div>
+		   </div>
+		</div>		  
+		<!-- FIM: Umidade -->
+
+		<!-- INICIO: Pressao -->
+		<div>
+		   <div id="dashboard-statisticts-panel" class="panel panel-light">
+			  <div class="panel-heading">
+				 <div class="panel-title">
+					<i class="fa fa-tachometer"></i> Pressão
+					<button class="btn btn-xs btn-primary pull-right btn-voltar">Voltar</button>
+					<span class='pull-right'>&nbsp;</span>
+					<button class="btn btn-xs btn-warning pull-right btn-atualizar">Atualizar</button>
+					<span class='pull-right'>&nbsp;</span>
+					<span class='label label-danger pull-right lbl-grafico'>&nbsp;</span>					
+				 </div>
+			  </div>
+			  <div class="panel-body">
+				 <div class="row">
+					<div class="col-lg-12">
+						<div>
+							<canvas id="grf_pressao" height="200" width="900"></canvas>
+						</div>
+					</div>
+				</div>
+			  </div>
+		   </div>
+		</div>		  
+		<!-- FIM: Pressao -->
+	</div>	   
+</div>
+
+<script>
+
+function appm000305_grafico_atualiza(aAcao, aDados) {
+	    
+   // Dados default
+   var _faixas  = ["01/01","02/01","03/01","04/01","05/01","06/01","07/01","08/01","09/01","10/01"];
+   var _temp_1  = [0,0,0,0,0,0,0,0,0,0];
+   var _temp_2  = [0,0,0,0,0,0,0,0,0,0];
+   var _umidade = [0,0,0,0,0,0,0,0,0,0];
+   var _pressao = [0,0,0,0,0,0,0,0,0,0];
+   var _tot = 0;   
+   
+   if ( aDados.dados.GRAFICO != undefined ) {
+	   _tot = aDados.dados.GRAFICO.length;
+   }
+
+   if ( _tot == 0 ) {
+	   // Sinaliza que esta vazio nao tem dados para esse MAC
+	   $(".lbl-grafico").html("SEM DADOS PARA MONTAR O GRAFICO");
+	   // desabilitando botoes de atualizacao
+	   $(".btn-atualizar").addClass("disabled");
+   } else {
+	   // Habilitando botoes de atualizacao
+	   $(".btn-atualizar").removeClass("disabled");		 
+	   
+	   $(".lbl-grafico").html("");
+	  // Exibe dados nos graficos
+      _faixas  = aDados.dados.GRAFICO[0]["FAIXA"];
+      _temp_1  = aDados.dados.GRAFICO[0]["TEMP_1"];
+      _temp_2  = aDados.dados.GRAFICO[0]["TEMP_2"];
+      _umidade = aDados.dados.GRAFICO[0]["UMIDADE"];
+      _pressao = aDados.dados.GRAFICO[0]["PRESSAO"];
+	  
+	   //Load and initialize chartjs
+	   LobiAdmin.loadScript([
+			'<?php echo LOBIADMIN;?>js/plugin/chartjs/Chart.min.js'
+	   ], iniciaGrafico);	
+	   
+	   function iniciaGrafico() {
+		   //
+		   // Montando o grafico
+		   //
+		   var options = {
+				responsive: true
+		   };
+		   var COLOR1 = LobiAdmin.lightenColor(LobiAdmin.DEFAULT_COLOR, -15);
+		   var COLOR2 = LobiAdmin.lightenColor(LobiAdmin.DEFAULT_COLOR_1, 0);
+		   var COLOR3 = LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR_2, 20);
+		   var COLOR4 = LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR_3, 40);
+
+		   var FADEOUT_COLOR_FACTOR = 20;
+
+		   //Initialize line chart
+		   (function(){
+				// Get the context of the canvas element we want to select
+				// TEMPERARURA : 1 e 2
+				var temperaturaData = {
+					labels: _faixas,
+					datasets: fillChartJsColors('line', [
+						{
+							label: "Temperatura #1",
+							strokeColor: LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR, 20),
+							data: _temp_1
+						},
+						{
+							label: "Temperatura #2",
+							strokeColor: LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR, 60),
+							data:  _temp_2
+						}
+					])
+				};
+				var canvas = $('#grf_temperatura');
+				var ctx = canvas[0].getContext("2d");
+				var statistictsChart = new Chart(ctx).Line(temperaturaData, options);
+				var legend = $(statistictsChart.generateLegend());
+				canvas.parent().append(legend);
+				
+				//Update charts on panel size change
+				$('#dashboard-statisticts-panel').on('onFullScreen.lobiPanel onSmallSize.lobiPanel resizeStop.lobiPanel onPin.lobiPanel onUnpin.lobiPanel dragged.lobiPanel', function(ev){
+					statistictsChart.destroy();
+					statistictsChart = new Chart(statistictsChart.chart.ctx).Line(temperaturaData, options);
+				});
+
+				// UMIDADE
+				var umidadeData = {
+					labels: _faixas,
+					datasets: fillChartJsColors('line', [
+						{
+							label: "Umidade",
+							strokeColor: LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR, 20),
+							data: _umidade
+						}
+					])
+				};
+				var canvas = $('#grf_umidade');
+				var ctx = canvas[0].getContext("2d");
+				var statistictsChart = new Chart(ctx).Line(umidadeData, options);
+				var legend = $(statistictsChart.generateLegend());
+				canvas.parent().append(legend);
+				
+				//Update charts on panel size change
+				$('#dashboard-statisticts-panel').on('onFullScreen.lobiPanel onSmallSize.lobiPanel resizeStop.lobiPanel onPin.lobiPanel onUnpin.lobiPanel dragged.lobiPanel', function(ev){
+					statistictsChart.destroy();
+					statistictsChart = new Chart(statistictsChart.chart.ctx).Line(umidadeData, options);
+				});
+
+				// PRESSAO
+				var pressaoData = {
+					labels: _faixas,
+					datasets: fillChartJsColors('line', [
+						{
+							label: "Pressão",
+							strokeColor: LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR, 20),
+							data: _pressao
+						}
+					])
+				};
+				var canvas = $('#grf_pressao');
+				var ctx = canvas[0].getContext("2d");
+				var statistictsChart = new Chart(ctx).Line(pressaoData, options);
+				var legend = $(statistictsChart.generateLegend());
+				canvas.parent().append(legend);
+				
+				//Update charts on panel size change
+				$('#dashboard-statisticts-panel').on('onFullScreen.lobiPanel onSmallSize.lobiPanel resizeStop.lobiPanel onPin.lobiPanel onUnpin.lobiPanel dragged.lobiPanel', function(ev){
+					statistictsChart.destroy();
+					statistictsChart = new Chart(statistictsChart.chart.ctx).Line(pressaoData, options);
+				});
+				
+		   })();
+	   
+		}
+   }   
+}
+     
+   $(function () {
+   
+	   // Executando os scripts dessa .phtml uhuuuu
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+	   // Carregando dados via JSON para as Estacaos Climatica pois recebemos o CPF e MAC
+	   appm000305("PROCESSAR", "");
+	   
+	   $('[data-toggle="tooltip"]').tooltip(); 	 
+
+       $(".btn-voltar").click(function(){
+			window.history.back();
+	   });    
+
+       $(".btn-atualizar").click(function(){
+			appm000305("PROCESSAR", "");
+	   }); 
+	   
+	    // Forcando atualizacao do Breadcrumb
+	   var lobiAdmin = $('body').data('lobiAdmin');
+	   lobiAdmin.setBreadcrumbs([{texto : "<?php echo $view_page_header;?>", href: "NONE", cssicon: "<?php echo $view_page_icone;?>"}]);
+	     	   
+   });
+
+</script>
+</div>

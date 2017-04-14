@@ -1,0 +1,240 @@
+<script src="<?php echo $_SESSION["PORTAL_AJAX_LINK"];?>appm000000_AJAX.js"></script>
+ 
+<script type="text/javascript">
+       
+    var empresa = <?php echo $view_emp_id;?>;
+    var filial = <?php echo $view_fil_id;?>;
+    var usuario = <?php echo $view_login_id;?>;
+	
+    // Embora consiga identificar a uia ativa eu nao consigo passa-la como parametro pois estou usando tudo estatico no href
+	// teria que mudar TUDO, eu dio TUDO para redirecionar por uma funcao atraves de LOCATION. fica para depois
+	var guia            = "<?php echo $view_guia;?>";
+	var guia_lock       = "<?php echo $view_guia_lock;?>";
+	guia = "gui_criterio"; // forca para aplicacao 
+
+	var pagina          = <?php echo $view_pagina_corrente;?>;
+	var pagina_corrente = <?php echo $view_pagina_corrente;?>;
+	var pagina_total    = <?php echo $view_pagina_total;?>;
+		
+	// Para Aplicacao o Modo eh fixo APP
+	nav_modo            = "APP";
+		  
+	var _controller     = '<?php echo $view_controller;?>';
+	var _task           = '<?php echo $view_task;?>';
+	var _action         = '<?php echo $view_action;?>';	
+    var js_link         = "<?php echo $_SESSION['PORTAL_DOMINIO_LINK'];?>";	 
+	
+	var intervalDateTime = 0;
+   
+    function appm000000(aAcao,aLoginId) {
+		
+		_mensagem = "Acao: " + aAcao + "\nLogin ID#: " + aLoginId;
+		// Exibe uma mensagem no canto inferior direito 
+		Lobibox.notify("warning", {
+		  position: 'top right',
+		  msg: _mensagem
+		});
+	}
+	
+</script>
+<!-- Main content -->
+<!-- INICIO: appm000000 -->
+<div id='appm000000'>
+
+   <!-- INICIO: Panel com titulo e botoes -->
+   <div class="panel panel-primary">
+		<!-- Default panel contents -->
+		<div class="panel-heading">
+		   <div class="panel-title">
+		   <div class='div_esquerda'>
+			  <!--Vai ser atualizado no java script -->
+			  <h3 name="modo_titulo" id="modo_titulo"></h3>			 
+		   </div>
+		   <div class='div_direita'>
+			  <center>
+				<h4><span id="page_data"><?php echo $view_page_data;?></span></h4>					
+				<h6><span id="page_hora"><?php echo $view_page_hora;?></span></h6>
+			  </center>
+		   </div>
+		   </div>
+		</div>
+		<div class="panel-body">
+			<!-- Botoes de nevegacao para os dados e acoes -->
+			<div class='div_esquerda'>
+			   <button class="btn btn-sm btn-success" data-toggle='tooltip' data-placement='bottom' title='Pesquisar' id="btn_pesquisar">
+					   <i class='fa fa-search'></i>&nbsp;
+					   Pesquisar            
+			   </button>
+   
+			   <button class="btn btn-sm btn-warning" data-toggle='tooltip' data-placement='bottom' title='Limpar Parametros' id="btn_limpar">
+					   <i class='fa fa-close'></i>&nbsp;
+					   Limpar            
+			   </button>
+								
+			</div>
+			
+			<div class='div_direita'>				
+			   <button id="btn_sair" class='btn btn-danger btn-sm'> 
+				 <i class='fa fa-sign-out'></i>&nbsp;
+				 Sair
+			   </button>	
+				
+		   </div>								
+		</div>        
+   </div>
+   <!-- FIM: Panel com titulo e botoes -->
+		   
+   <!-- INICIO: Navegar -->
+   <div id='div_navegar'> 
+	  
+	  <!-- INICIO: Navigation Tabs --> 
+	  <div>		 
+		 <!-- INICIO: Nav tabs -->
+		 <ul id='tab_guias' class="nav nav-tabs">
+			<li id="tab_criterio" onclick="setGuia('gui_criterio');" role="presentation" class="active"><a href="#gui_criterio" aria-controls="gui_criterio" role="tab" data-toggle="tab">Criterio</a></li>			    			    
+			<li id="tab_consulta" onclick="setGuia('gui_consulta');" role="presentation"><a href="#gui_consulta" aria-controls="gui_consulta" role="tab" data-toggle="tab">Consulta</a></li>			    			    
+			<li id="tab_complemento" onclick="setGuia('gui_complemento');" role="presentation"><a href="#gui_complemento" aria-controls="gui_complemento" role="tab" data-toggle="tab">Complemento</a></li>
+		 </ul>
+		 <!-- FIM: Nav tabs -->		
+		 <div class="tab-content bg-white padding-15">
+			<!-- INICIO: tab criterio -->
+			<div role="tabpanel" class="tab-pane fade in active" id="gui_criterio">
+			    <span>Guia de Criterio...</span>
+			</div>	
+			<!-- FIM: tab criterio -->				 
+			
+			<!-- INICIO: tab consulta -->
+			<div role="tabpanel" class="tab-pane fade" id="gui_consulta">
+			    <span>Guia de Consulta...</span>
+			</div>	
+			<!-- FIM: tab consulta -->
+	   
+			<!-- INICIO: tab Complemento -->
+			<div role="tabpanel" class="tab-pane fade" id="gui_complemento">
+			   <span>Guia de Complemento...</span>
+			</div>	
+			<!-- FIM: tab Complemento -->
+		 </div> <!--  tab content -->						 
+	  </div>
+	  <!-- FIM: Navigation Tabs --> 
+	  
+   </div>
+   <!-- FIM: Navegar -->
+   
+   <br>
+			 
+	<!-- INICIO: Botoes de navegacao -->
+	<div id='div_rodape' class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">
+		  <div class="panel-title ">
+			<div class="div_esquerda">
+				<!-- Botoes de nevegacao para os dados e acoes -->	
+				<button id="btn_primeiro" class="btn btn-primary btn-sm " data-toggle='tooltip' data-placement='bottom' title='Vai para a primeira página de dados.'> 
+				   <i class='fa fa-step-backward'></i>
+				   Primeiro
+				</button>
+				
+				<button id="btn_proximo" class="btn btn-primary btn-sm " data-toggle='tooltip' data-placement='bottom' title='Vai para a próxima página de dados.'> 
+				   <i class='fa fa-play'></i>
+				   Próximo
+				</button>
+				
+				<button id="btn_anterior" class="btn btn-primary btn-sm " data-toggle='tooltip' data-placement='bottom' title='Vai para a página anterior de dados.'> 
+				   <i class='fa fa-play fa-rotate-180'></i>
+				   Anterior
+				</button>
+				
+				<button id="btn_ultimo" class="btn btn-primary btn-sm " data-toggle='tooltip' data-placement='bottom' title='Vai para a última página de Dados.'> 
+				   <i class='fa fa-step-forward'></i>
+				   Último
+				</button>   
+										
+			</div>
+			<div class="div_direita">			
+				<button id="btn_voltar" class='btn btn-default btn-sm'> 
+				  <i class='fa fa-reply'></i>
+				  Voltar
+				</button>	
+			</div>
+		  </div>
+		</div>	
+		<div class="panel-body">
+			<div class='div_esquerda esquerda'>
+			   <?php echo $view_copyright_esquerda;?>
+			</div>
+			<div class='div_direita direita'>
+			   <span id='pag_titulo'>Pagina</span>&nbsp;<button id="btn_pagina_corrente" type="button" class='btn btn-xs btn-primary' data-toggle='tooltip' data-placement='bottom' title='Pagina Corrente'><?php echo $view_pagina_corrente;?></button>
+			   &nbsp;<span id='pag_de'>de</span>&nbsp;
+			   <button type="button" id="btn_pagina_total" class='btn btn-xs btn-primary' data-toggle='tooltip' data-placement='bottom' title='Total de Paginas'><?php echo $view_pagina_total;?></button>              
+			</div>
+		</div>
+	</div>
+	<!-- FIM: Botoes de navegacao -->   			 
+		
+	<!-- Montando uma DIALOG WINDOW Modal - Part#1 -->
+
+</div> 
+<!-- FIM: appm000000 -->
+<script>
+   
+$(function () {
+		     
+  // Executando os scripts dessa .phtml uhuuuu
+  // Atualizando dados para o programa
+  modo_programa_titulo("<?php echo $view_page_icone;?>", "<?php echo $view_page_header;?>","<?php echo $view_controle_de_versao;?>");
+
+  // Ajustando o nav_modo da tela
+  modo_titulo("fa fa-filter", "Critério", "<?php echo $view_controle_de_versao;?>");
+  
+  modo_seleciona(nav_modo);
+	
+  // Forca mudar Hora e data
+  intervalDateTime = setInterval(function(){ pageDateTime()}, 1000);
+   
+  // Definindo acao para os botoes	 
+  $("#btn_pesquisar").click(function(e) {         
+	 appm000000('PESQUISAR',<?php echo $view_login_id;?>);
+  });	 
+
+  $("#btn_limpar").click(function(e) {
+	 appm000000('LIMPAR',<?php echo $view_login_id;?>);
+  });	 
+  
+  $("#btn_primeiro").click(function(e) {
+	 appm000000('PRIMEIRA',<?php echo $view_login_id;?>);
+  });	 	  
+  
+  $("#btn_proximo").click(function(e) {
+	 appm000000('PROXIMA',<?php echo $view_login_id;?>);
+  });	 	  
+
+  $("#btn_anterior").click(function(e) {
+	 appm000000('ANTERIOR',<?php echo $view_login_id;?>);
+  });	 	  
+
+  $("#btn_ultimo").click(function(e) {
+	 appm000000('ULTIMA',<?php echo $view_login_id;?>);
+  });	 	  
+  
+  $("#btn_sair").click(function(e) {
+	   // Parando o intervalDefaults 
+	   clearInterval(intervalDateTime);		  
+	   // Determina o que esse botao tem que fazer
+	   window.location.hash = "#dashboard.phtml";
+  });		
+  
+  $("#btn_voltar").click(function(e) {
+	   // Parando o intervalDefaults 
+	   clearInterval(intervalDateTime);		  
+	   // Determina o que esse botao tem que fazer
+	   window.location.hash = "#dashboard.phtml";
+  });		
+  
+
+  $(document).ready(function(){	
+	 $('[data-toggle="tooltip"]').tooltip();   
+  });		  
+  
+});		   
+</script>

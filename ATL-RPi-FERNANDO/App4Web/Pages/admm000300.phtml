@@ -1,0 +1,175 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+  
+  define ('PORTAL_SKIN_LINK', $_SESSION["DOM_SKIN_LINK"]);
+  
+  define ('PORTAL_WEBFILES_LINK', $_SESSION["PORTAL_WEBFILES_LINK"]); 	
+  
+  define ('PORTAL_JSON_LINK', $_SESSION["PORTAL_JSON_LINK"]); 
+
+?>
+<script>
+   //Carregando dados para Calculadora 
+   LobiAdmin.loadCSS([
+       '<?php echo PORTAL_WEBFILES_LINK;?>CalculatorMaster/assets/stylesheets/xapplication.css'
+   ], null);
+</script>
+<style>
+   .bg_verde {
+	      background-color: lightgreen;
+   }
+</style>
+<div id='admm000300'>  
+
+   <div class="meu-content">
+   
+        <div class="row">
+          <div class="col-sm-5 col-lg-5">
+            <div id="calculator-screen" class="well uneditable-input bg_verde">&nbsp;</div>
+          </div>
+          <div class="col-sm-1 col-lg-1" style="text-align: center;">
+		     <div class='well'>=</div>            
+          </div>
+          <div class="col-sm-5 col-lg-6">
+            <div id="calculator-result"  class="well bg_verde uneditable-input">0</div>
+          </div>
+        </div>
+
+      <div class="row">
+
+        <div class="col-sm-6 col-lg-6">
+          <div id="calc-board">
+            <div class="row">
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-warning btn-lg btn-block btn-huge" data-constant="SIN" data-key="115">sin</a>
+			  </div>
+              <div class="col-sm-2 col-lg-2">
+			     <a href="#" class="btn btn-warning btn-lg btn-block btn-huge " data-constant="COS" data-key="99">cos</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-warning btn-lg btn-block btn-huge " data-constant="MOD" data-key="109">md</a>
+			  </div>
+			  <div class="col-sm-4 col-lg-4">
+                 <a href="#" class="btn btn-danger btn-lg btn-block btn-huge " data-method="reset" data-key="8">Limpar</a>
+			  </div>
+            </div>
+			<div class="row">
+			   <div class="col-sm-12 col-lg-12">&nbsp;</div>
+			</div>
+            <div class="row">
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="55">7</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="56">8</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="57">9</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-constant="BRO" data-key="40">(</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-constant="BRC" data-key="41">)</a>
+			  </div>
+            </div>
+			<div class="row">
+			   <div class="col-sm-12 col-lg-12">&nbsp;</div>
+			</div>
+            <div class="row">
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge " data-key="52">4</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="53">5</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="54">6</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-constant="MIN" data-key="45">-</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-constant="SUM" data-key="43">+</a>
+			  </div>
+            </div>
+			<div class="row">
+			   <div class="col-sm-12 col-lg-12">&nbsp;</div>
+			</div>			
+            <div class="row">
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="49">1</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="50">2</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="51">3</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-constant="DIV" data-key="47">/</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-constant="MULT" data-key="42">*</a>
+			  </div>
+            </div>
+			<div class="row">
+			   <div class="col-sm-12 col-lg-12">&nbsp;</div>
+			</div>			
+            <div class="row">
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="46">.</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-key="48">0</a>
+			  </div>
+			  <div class="col-sm-2 col-lg-2">
+                 <a href="#" class="btn btn-default btn-lg btn-block btn-huge" data-constant="PROC" data-key="37">%</a>
+			  </div>
+			  <div class="col-sm-4 col-lg-4">
+                 <a href="#" class="btn btn-success btn-lg btn-block btn-huge" data-method="calculate" data-key="61">=</a>
+			  </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-6">
+          <legend>Histórico</legend>
+          <div id="calc-panel">
+            <div id="calc-history">
+              <ol id="calc-history-list"></ol>
+            </div>
+          </div>
+        </div>
+		
+      </div>   
+   </div>  
+   
+</div>
+
+<script>	
+
+   LobiAdmin.loadScript([
+       '<?php echo PORTAL_WEBFILES_LINK;?>CalculatorMaster/assets/javascripts/calculator.js'
+   ], null);	
+    
+   $(function () {
+	   // Executando os scripts dessa .phtml uhuuuu
+
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+   });
+   
+</script>
+</div>

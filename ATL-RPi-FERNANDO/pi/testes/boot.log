@@ -1,0 +1,91 @@
+Entrada as  Thu 13 Apr 10:31:16 BRT 2017
+IP: 11.12.13.30
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 10:31:47
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (111)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 10:43:13 BRT 2017
+IP: 11.12.13.32
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 10:43:21
+Status do Pino 24 esta como 0
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (113)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 10:48:54 BRT 2017
+IP: 11.12.13.32
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 10:48:56
+Status do Pino 24 esta como 0
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (113)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 10:57:17 BRT 2017
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 10:57:17
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 11:02:05 BRT 2017
+IP: 11.12.13.23
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 11:02:07
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (113)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 11:04:16 BRT 2017
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 11:04:18
+Status do Pino 24 esta como 0
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 11:36:43 BRT 2017
+IP: 192.168.0.100
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 11:36:45
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (4)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 11:36:37 BRT 2017
+IP: 169.254.49.101
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 11:36:39
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 12:14:31 BRT 2017
+IP: 11.12.13.30
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 12:14:33
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (111)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 12:29:37 BRT 2017
+IP: 11.12.13.30
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 12:29:40
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (111)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 13:57:05 BRT 2017
+IP: 11.12.13.30
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 13:57:05
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (111)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 23:35:36 BRT 2017
+IP: 11.12.13.30
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 23:35:39
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (111)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36
+Entrada as  Thu 13 Apr 23:48:59 BRT 2017
+IP: 11.12.13.30
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-04-13
+Hora: 23:49:01
+Status do Pino 24 esta como 1
+ConectarRPI3Include.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (111)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/entrada.php on line 36

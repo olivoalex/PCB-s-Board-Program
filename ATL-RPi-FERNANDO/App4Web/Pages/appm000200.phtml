@@ -1,0 +1,465 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+?>
+<script type="text/javascript">
+
+   var empresa = <?php echo $view_emp_id;?>;
+   var filial = <?php echo $view_fil_id;?>;
+   var usuario = <?php echo $view_login_id;?>;
+   var _controller     = '<?php echo $view_controller;?>';
+   var _task           = '<?php echo $view_task;?>';
+   var _action         = '<?php echo $view_action;?>';	
+   var js_link         = "<?php echo $_SESSION['PORTAL_DOMINIO_LINK'];?>";	 
+   
+   function appm000200(aId, aNome, aRow, aAcao, aGpioPino) {
+   
+	   // Saindo ...
+	   if ( aAcao.toUpperCase() == "SAIR" ) {	
+		   // Determina o que esse botao tem que fazer
+		   window.location.hash = "#dashboard.phtml";	
+	   } else {
+		   if ( aAcao.toUpperCase() == "PROCESSAR" ) {
+			  appm000200_processarDados(aId, aNome, aRow, aAcao, aGpioPino);
+		   } else {
+			  if ( aAcao.toUpperCase() == "READ" ) {
+			     appm000200_processarDados(aId, aNome, aRow, aAcao, aGpioPino);
+			  } else {
+				if ( aAcao.toUpperCase() == "WRITE-ON" ) {
+				   appm000200_processarDados(aId, aNome, aRow, aAcao, aGpioPino);
+				} else {
+				  if ( aAcao.toUpperCase() == "WRITE-OFF" ) {
+					  appm000200_processarDados(aId, aNome, aRow, aAcao, aGpioPino);
+				  } else {
+					  if ( aAcao.toUpperCase() == "SHUTDOWN" ) { // CUIDADO com essa vai derrubar o RASPBERRY
+					       appm000200_processarDados(aId, aNome, aRow, aAcao, aGpioPino);
+				      } else {
+					      var aComple = "<br>ID: " + aId + "<br>Linha: " + aRow + "<br>Pino: " + aGpioPino;
+				          var _msg = "Acao Nao Implementada: "+aAcao+"<br>Complemento: "+aComple+"\n";
+				          // Exibe uma mensagem no canto inferior direito 
+		                  Lobibox.notify("error", {
+			                 position: 'top right',
+			                 msg: _msg
+		                  });          
+					  }
+				}
+			 }
+		   }
+	   }
+	 }
+   }       
+
+   function appm000200_processarDados(aId, aNome, aRow, aAcao, aGpioPino) {
+	  // Aciona o AJAX e indeica como receber o JSON
+	  var cpf    = "NONE"; //"01234567890";
+	  var mac    = "NONE";
+
+	  var url = js_link + "appm000200_AJAX/ajax/" + aAcao
+						+ "/empresa/" + empresa
+						+ "/filial/" + filial 
+						+ "/usuario/" + usuario
+						+ "/cpf/" + cpf
+						+ "/mac/" + mac
+						+ "/saida/" + aId
+						+ "/saida_descricao/" + aNome
+						+ "/linha/" + aRow
+						+ "/pino/" + aGpioPino;
+						
+	  //alert ("Url: " + url);
+	  
+	  $.getJSON(url, function (dados_retorno){ 
+		   // Aciona funcao para processar o retorno do AJAX em formato JSON
+		   appm000200_processarRetornoAJAX(dados_retorno);   			   
+	  } );           
+		 
+   }   
+
+   function appm000200_processarRetornoAJAX(aDados) {
+	  
+	  if (aDados.status == true ) {	
+		 if ( aDados.acao == "PROCESSAR" ) {
+            appm000200_table("tbl_container", "tbl_acionadores", "CARREGA", aDados);
+		 } else {
+			appm000200_gpio_retorno(aDados);
+		 }		 
+	  } else {
+		 // Nesse caso mantem a tabela q esta apenas da uma mensagem para o usuario
+		 // Exibe uma mensagem no canto inferior direito 
+		 Lobibox.notify("error", {
+		   position: 'top right',
+		   msg: aDados.mensagem
+		 });
+	  }           
+   }   
+
+</script>
+   
+<div id='appm000200'>	
+	<div id="tbl_container" class="table-responsive">		
+	</div>	   
+</div>
+
+<script>
+	//Compose template string
+	String.prototype.compose = (function (){
+	var re = /\{{(.+?)\}}/g;
+	return function (o){
+			return this.replace(re, function (_, k){
+				return typeof o[k] != 'undefined' ? o[k] : '';
+			});
+		}
+	}());
+
+   function appm000200_table(aContainer, aId, aAcao, aDados) {
+		
+	    var _container = "#" + aContainer;
+		var _id = "#" + aId
+		
+		// Criando a tabela dinamicamente
+        var _html = "<table id='" + aId +"' class='display'>" +
+			        "<thead>"+
+						"<tr>"+
+							"<th>Nro#</th>"+
+							"<th>Acionador</th>"+
+							"<th>CPF</th>"+
+							"<th>MAC</th>"+
+							"<th>Saída A</th>"+
+							"<th>Saída B</th>"+
+						"</tr>"+
+					"</thead>"+
+					"<tbody>"+
+					"</tbody>"+
+				    "</table>";
+        $(_container).append(_html);
+		
+		// Adicionando os dados
+		var tbody = $(_id).children('tbody');
+		var table = tbody.length ? tbody : $(_id);
+		var row = '<tr>'+
+					'<td>{{id}}</td>'+
+					'<td>{{descricao}}</td>'+
+					'<td>{{cpf}}</td>'+
+					'<td>{{mac}}</td>'+
+					'<td>{{saidaA}}</td>'+
+					'<td>{{saidaB}}</td>'+
+				  '</tr>';
+
+	    // Se tem linhas na base para aDados, preprara para adicionalas na tabela mas antes limpar as que estao pois eh um refresh
+		var _del_rule = _id + " tbody tr";
+		$( _del_rule ).each( function(){
+           this.parentNode.removeChild( this ); 
+        });
+		
+		var _tot = aDados.dados.ACIONADOR.length;
+ 			
+        // Tratando os pinos e seus status
+		var _pino_a = ["disabled","","Desligado",0]; // botao_on, boto_off, status e pino da gpio
+		var _pino_b = ["disabled","","Desligado",0]; // botao_on, boto_off, status e pino da gpio
+		
+		// Percorrendo os dados
+		for ( var _l=0; _l < _tot; _l++) {	
+            // Add row
+			var _lin = aDados.dados.ACIONADOR[_l];		
+			
+		    // Verificando o pino	A e B para esse acionador		
+			// Para cada grupo de duas saidas, inicializa controles como desligado
+			_pino_a = [ "disabled","","Desligado",_lin["saidaA"], _lin["descricao"], "label-danger" ]; // botao_on, boto_off, status, pino da gpio, nome do acionador
+			_pino_b = [ "disabled","","Desligado",_lin["saidaB"], _lin["descricao"], "label-danger" ]; // botao_on, boto_off, status, pino da gpio, nome do acionador
+
+			//
+			// SAIDA A
+			//			
+			// Determinando status do pino
+			if ( _lin["saidaA_status"] == 0 ) {
+				// Desligado
+				_pino_a[0] = "";
+				_pino_a[1] = "disabled";
+				_pino_a[2] = "Desligado";
+				_pino_a[5] = "label-danger";
+			} else {
+				// Ligado
+				_pino_a[0] = "disabled";
+				_pino_a[1] = "";
+				_pino_a[2] = "Ligado";					
+				_pino_a[5] = "label-success";
+			}	
+
+			//
+			// SAIDA B
+			//
+			// Determinando status do pino
+			if ( _lin["saidaB_status"] == 0 ) {
+				// Desligado
+				_pino_b[0] = "";
+				_pino_b[1] = "disabled";
+				_pino_b[2] = "Desligado";
+				_pino_b[5] = "label-danger";
+			} else {
+				// Ligado
+				_pino_b[0] = "disabled";
+				_pino_b[1] = "";
+				_pino_b[2] = "Ligado";					
+				_pino_b[5] = "label-success";
+			}
+						
+			// Montando botao para cada acionador retornado
+			_lin["saidaA"] = "<button id='a_on_" + _l + "' onclick='appm000200(\"A\", \"" + _pino_a[4] +"\"," + _l + ",\"WRITE-ON\","+ _pino_a[3]+");' class='btn btn-sm btn-default " + _pino_a[0] + " '><i class='fa fa-toggle-on fa-rotate-90 verde'></i>Liga</button>"
+				           + "&nbsp;&nbsp;"
+						   + "<button id='a_off_" + _l + "' onclick='appm000200(\"A\", \"" + _pino_a[4] +"\"," + _l + ",\"WRITE-OFF\","+ _pino_a[3]+");' class='btn btn-sm btn-default " + _pino_a[1] + " '><i class='fa fa-toggle-off fa-rotate-90 vermelho'></i>Desliga</button>"
+						   + "&nbsp;&nbsp;<span class='label " + _pino_a[5] + "' id='a_sts_"  + _l + "'>" + _pino_a[2] + "</span>";
+						   
+            _lin["saidaB"] = "<button id='b_on_" + _l + "' onclick='appm000200(\"B\", \"" + _pino_b[4] +"\"," + _l + ",\"WRITE-ON\","+ _pino_b[3]+");' class='btn btn-sm btn-default " + _pino_b[0] + " '><i class='fa fa-toggle-on fa-rotate-90 verde'></i>Liga</button>"
+				           + "&nbsp;&nbsp;"
+						   + "<button id='b_off_" + _l + "' onclick='appm000200(\"B\", \"" + _pino_b[4] +"\"," + _l + ",\"WRITE-OFF\","+ _pino_b[3]+");' class='btn btn-sm btn-default " + _pino_b[1] + " '><i class='fa fa-toggle-off fa-rotate-90 vermelho'></i>Desliga</button>"
+						   + "&nbsp;&nbsp;<span class='label " + _pino_b[5] + "' id='b_sts_"  + _l + "'>" + _pino_b[2] + "</span>";
+
+		    //alert("SaidaA: " + _lin["saidaA"]);
+			
+			table.append(row.compose(_lin));	
+		}
+		
+		// Ajustando a tabela conforme dados carregados
+		appm000200_datatable("tbl_acionadores");
+		 
+   }
+   
+   function appm000200_gpio_retorno(aDados) {
+	    
+		//Dados da linha q esta monipulando		
+	   var _lin  = aDados.dados.ACIONADOR;
+	   var aAcao = aDados.acao;
+	   var aId   = _lin["SAIDA"];
+	   var aDescr= _lin["SAIDA_DESCRICAO"];
+	   var aRow  = _lin["LINHA"];
+	   var aPino = _lin["PINO"];
+	   var aPinoStatus = _lin["PINO_STATUS"];
+	   // Verificando como veio do LINUX: 1-on e 0-off
+	   if ( aPinoStatus == "0" ) {
+	      aPinoStatus = "off";
+	   } else {
+		  aPinoStatus = "on";
+	   }
+	   	   
+	   // Determinando ID do status
+	   var _btn_on_id  = "#a_on_" + aRow;
+	   var _btn_off_id = "#a_off_" + aRow;
+	   var _sts_id     = "#a_sts_" + aRow;
+	   
+	   var _pinos_comando = "";
+	   var _pinos_gpio_retorno = 0;
+	   
+	   if ( aId != "A" ) {
+	      _btn_on_id  = "#b_on_" + aRow;
+	      _btn_off_id = "#b_off_" + aRow;
+	      _sts_id     = "#b_sts_" + aRow;
+	   }
+	   
+	   //alert("ID: " + aId + " Acao: "+ aAcao + " Row: " + aRow + " Pino: " + aPino + " PinoStatus: " + aPinoStatus + " On: " + _btn_on_id + " Off: " + _btn_off_id + " Sts: "+ _sts_id);
+	   
+	   if ( aPinoStatus == "on" ) {
+		  $(_sts_id).text("Ligado").removeClass( "label-danger" ).addClass( "label-success" );
+          //$(_btn_on_id).attr("disabled", "disabled");
+		  //$(_btn_off_id).removeAttr('disabled');
+		  $(_btn_on_id).addClass("disabled");
+		  $(_btn_off_id).removeClass("disabled");		  
+	   } else {		  
+		  $(_sts_id).text("Desligado").removeClass( "label-success" ).addClass( "label-danger" );
+          //$(_btn_off_id).attr("disabled", "disabled");
+		  //$(_btn_on_id).removeAttr('disabled');	  
+		  $(_btn_off_id).addClass("disabled");
+		  $(_btn_on_id).removeClass("disabled");
+	   }	
+	   
+	   // Verificando se preciso enviar uma mensagem para o usuario	   
+	   if ( aAcao == "WRITE-ON" || aAcao == "WRITE-OFF" ) {
+		   var _msg = false;
+		   if ( aAcao == "WRITE-ON" ) {
+		      // Eu pedi para por para ON e ficou OFF
+			  if ( aPinoStatus == "off" ) {
+				  _msg = "ATENÇÃO<br>Saida " + aDescr + "/[" + aId + "],<br>Continua DESLIGADA.<br>CMD:" + _lin["COMANDO_01"];
+			  }
+		   } else {
+		      // Eu pedi para por para OFF e ficou ON
+			  if ( aPinoStatus == "on" ) {
+				  _msg = "ATENÇÃO<br>Saida " + aDescr + "/[" + aId + "],<br>Continua LIGADA.<br>CMD:" + _lin["COMANDO_01"];
+			  }
+		   }
+		   
+		   // Exibe apenas se tiver um erro 
+		   if ( _msg ) {
+			  // Exibe uma mensagem no canto inferior direito 
+			  Lobibox.notify("error", {
+			    position: 'top right',
+			    msg: _msg
+			  });	   
+		   }
+	   }
+
+   }
+
+   function appm000200_datatable(aTabelaNome) {
+		var _id = "#" + aTabelaNome;
+		
+		var _id_wrapper = _id + "_wrapper .col-sm-6:eq(0)";
+	
+		var _titulo = "Estações Climáticas";
+			
+		var myTable = $(_id).DataTable( { 
+				dom: 'Bfrtip',	
+				buttons: [ 
+							{
+								text: 'Atualizar',
+								className: 'btn btn-warning',
+								action: function ( e, dt, node, config ) {
+									appm000200_table_refresh('tbl_acionadores');
+								}
+							},		
+							{
+								extend: "copy",
+								text: "Copiar",
+								className: "btn btn-primary"
+							},
+                            {
+								extend : "csv",
+								text: "CSV",
+								className: "btn btn-primary"
+							},
+				            {
+								extend: 'colvis',
+                                columns: ':not(:first-child)',
+								text: 'Colunas Visíveis',
+								className: "btn btn-primary"
+							},
+							{
+								extend: 'excelHtml5',
+								title: _titulo,
+								text: 'Planilha',
+								className: "btn btn-primary"
+							},
+							{
+								extend: 'pdfHtml5',
+								title: _titulo,
+								className: "btn btn-primary"
+							},
+							{
+								extend: 'print',
+								text: 'Imprimir',
+								title: _titulo,
+								exportOptions: { 
+								   columns: ':visible'
+								},
+								className: "btn btn-primary"
+							},
+							{
+								extend: 'print',
+								text: 'Imprimir Selecionadas',
+								title: _titulo,
+								exportOptions: { 
+								   columns: ':visible',
+								   modifier: {
+									  selected: true
+									  }
+								},
+								className: "btn btn-primary"
+							},
+							{
+								text: 'Shutdown',
+								className: 'btn btn-danger',
+								action: function ( e, dt, node, config ) {
+									appm000200("", "", "", "SHUTDOWN", "");
+								}
+							},	
+						 ],
+				language: {
+							"lengthMenu": "Exibindo _MENU_ registros por página",
+							"zeroRecords": "Nenhum registro(s) encontrado.",
+							"info": "Exibindo Página _PAGE_ de _PAGES_",
+							"infoEmpty": "Nenhum Registro(s) disponível",
+							"infoFiltered": "(Pesquisado _MAX_ do total registro(s))",
+							"search" : "Pesquisar",
+							"decimal": ",",
+							"thousands": ".",
+							"paginate": {
+                                 "previous": "Anterior",
+                                 "next": "Próximo"
+                            }
+						  },
+				select: false,
+				fixedHeader: true,
+				scrollY:        '300px',
+				scrollCollapse: false,
+				paging:         true,
+				autofill: true,
+				info : true,
+				columnDefs: [ {
+					    width: 30,
+						searchable: false,
+                        orderable: false,
+                        targets: 0
+                        } ],
+                order: [[ 1, 'asc' ] ],
+				lengthChange: false,
+                fixedColumns : true,
+                pageLength: 10,
+
+				rowCallback: function(row, data, index){
+					if(data[6]>= 28){
+						$(row).css('color', 'red');
+					} else {
+					   if(data[6]>= 25 && data[6]< 28){
+					      $(row).css('color', 'green');
+					   } else {
+						  $(row).css('color', 'blue');
+					   }
+					}
+	
+				}					
+			} );
+			
+	    // Botoeds de extracao e impressao
+		myTable.buttons().container().appendTo( _id_wrapper );	       		               
+		
+		// Ordenacao automatica primeira coluna da tabela
+		myTable.on( 'order.dt search.dt', function () {
+            myTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+               cell.innerHTML = i+1;
+			myTable.cell(cell).invalidate('dom'); 
+            } );
+        } ).draw();
+	
+		myTable.columns.adjust().draw();   
+				
+   }
+   
+   function appm000200_table_refresh(aId) {
+	   var _id = "#" + aId;
+	   var _table = $(_id).DataTable();
+	   _table.destroy();
+	   $( _id ).remove();
+	   appm000200("", "", "", "PROCESSAR", "");
+   }
+   
+   $(function () {
+	   // Executando os scripts dessa .phtml uhuuuu
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+	   // Carregando dados via JSON para as Esta oes Climatica de um CPF
+	   appm000200("", "", "", "PROCESSAR", "");
+	   
+	   $("#btn_refresh").click(function(){
+			appm000200_table_refresh("tbl_acionadores");
+	   }); 
+   });
+</script>
+</div>

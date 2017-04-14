@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!--Author     : @arboshiki-->
+<?php
+  if ( !isset($_SESSION) ) { session_start();}
+  
+  // Sempre que vem para K, coloca como NÃO LOGADO.
+  $_SESSION["LOGGED"] = "N";
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_LIB_LINK',$_SESSION["PORTAL_LIB_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+  define ('PORTAL_DOMINIO_AJAX_LINK',$_SESSION["PORTAL_DOMINIO_AJAX_LINK"]);
+  
+  define ('PAGE_ICON',$_SESSION["PORTAL_LOBIADMIN_LINK"].'/img/logo/lobiadmin-logo-16.ico');
+  
+  define ('PAGE_BACKGROUND_IMAGE',$_SESSION["PORTAL_LOBIADMIN_LINK"].'/img/demo/3_1920.jpg');
+  
+?>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Login to Agrotechlink &reg;</title>
+        <link rel="shortcut icon" href="<?php echo PAGE_ICON;?>"/>
+
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/bootstrap.min.css';?>"/>
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/font-awesome.min.css';?>"/>		
+        <!--lobiadmin-with-plugins.css contains all LobiAdmin css plus lobiplugins all css files, plus third party plugins-->
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/lobiadmin-with-plugins.css';?>"/>
+        <!--Put your css here-->
+         <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/login.css';?>"/>
+	
+    </head>
+
+	<body style="background-image: url('<?php echo PAGE_BACKGROUND_IMAGE;?>')">
+	
+        <div class="login-wrapper fadeInDown animated">
+            <form id="frm-login" method='post' action class="lobi-form login-form visible">
+                <div class="login-header">
+                    Login - <?php echo Logged();?> 
+                </div>
+                <div class="login-body no-padding">
+                    <fieldset>
+                        <div class="form-group">
+                            <label>Login</label>
+                            <label class="input">
+                                <span class="input-icon input-icon-prepend fa fa-user"></span>
+                                <input type="text" name="usr_login" placeholder="Usuário">
+                                <span class="tooltip tooltip-top-left"><i class="fa fa-user text-cyan-dark"></i> Informe o seu Login</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Senha</label>
+                            <label class="input">
+                                <span class="input-icon input-icon-prepend fa fa-key"></span>
+                                <input type="password" name="usr_passwd" placeholder="Senha">
+                                <span class="tooltip tooltip-top-left"><i class="fa fa-key text-cyan-dark"></i> Informe sua Senha</span>
+                            </label>
+                            <button type="button" class="btn-link btn-forgot-password">Esqueceu sua Senha ?</button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <label class="checkbox lobicheck lobicheck-info lobicheck-inversed lobicheck-lg">
+                                    <input type="checkbox" name="remember_me" value="0"> 
+                                    <i></i> Lembre-me
+                                </label>
+                            </div>
+                            <div class="col-xs-4">
+                                <button type="submit" class="btn btn-info btn-block"><span class="glyphicon glyphicon-log-in"></span> Entrar</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="login-footer">
+                    Novo Login? <button type="button" class="btn btn-xs btn-info btn-sign-up pull-right">Registrar</button>
+                </div>
+            </form>
+            <!--Sign up form-->
+            <form id="frm-register" method='post' action class="lobi-form signup-form">
+                <div class="login-header">
+                    Novo Login? Registrar.
+                </div>
+                <div class="login-body no-padding">
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-xxs-12 col-xs-6">
+                                <label>Nome</label>
+                                <label class="input">
+                                    <span class="input-icon input-icon-prepend fa fa-user"></span>
+                                    <input type="text" name="usr_nome" placeholder="Nome">
+									<span class="tooltip tooltip-top-left">Informe seu Nome</span>
+                                </label>
+                            </div>
+                            <div class="col-xxs-12 col-xs-6">
+                                <label>Sobrenome</label>
+                                <label class="input">
+                                    <span class="input-icon input-icon-prepend fa fa-user"></span>
+                                    <input type="text" name="usr_sobrenome" placeholder="Sobrenome">
+									<span class="tooltip tooltip-top-left">Informe seu Sobrenome</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Login</label>
+                            <label class="input">
+                                <span class="input-icon input-icon-prepend fa fa-user"></span>
+                                <input type="text" name="usr_login_2" placeholder="Login">
+								<span class="tooltip tooltip-top-left"><i class="fa fa-user text-cyan-dark"></i> Informe um Login</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <label class="input">
+                                <span class="input-icon input-icon-prepend fa fa-envelope"></span>
+                                <input type="text" name="usr_email" placeholder="Endereço de email">
+								<span class="tooltip tooltip-top-left"><i class="fa fa-envelope text-cyan-dark"></i>Informe seu Email</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Senha</label>
+                            <label class="input">
+                                <span class="input-icon input-icon-prepend fa fa-key"></span>
+                                <input type="password" name="usr_passwd_2" placeholder="Senha">
+								<span class="tooltip tooltip-top-left">Informe sua Senha</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirme a Senha</label>
+                            <label class="input">
+                                <span class="input-icon input-icon-prepend fa fa-key"></span>
+                                <input type="password" name="usr_passwd_conf" placeholder="Confirmar Senha">
+								<span class="tooltip tooltip-top-left">Confirme sua Senha já digitada</span>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-offset-8">
+                                <button type="submit" class="btn btn-info btn-block">Registrar</button>								
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="login-footer">
+                    Você já têm um Login? <button type="button" class="btn btn-xs btn-info btn-sign-in pull-right">Entrar</button>
+                </div>
+            </form>
+            <!--Forgot password form-->
+            <form id="frm-forgot" method='post' action class="lobi-form pass-forgot-form">
+                <div class="login-header">
+                    Esqueceu sua Senha?
+                </div>
+                <div class="login-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label>Email ou Login</label>
+                            <label class="input">
+                                <span class="input-icon input-icon-prepend fa fa-envelope"></span>
+                                <span class="input-icon input-icon-append fa fa-user"></span>
+                                <input type="text" name="usr_login_email" placeholder="Email ou Login">
+								<span class="tooltip tooltip-top-left">Informe seu <i class="fa fa-envelope text-cyan-dark"></i> Email ou seu <i class="fa fa-user text-cyan-dark"></i> Login já Registrado.</span>
+                            </label>
+                            <button type="button" class="btn-link btn-sign-in">Lembrou sua Senha?</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 text-right">
+                                <button type="submit" class="btn btn-info btn-block"><i class="fa fa-refresh"></i> Recuperar Senha</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="login-footer">
+                    Novo Login? <button type="button" class="btn btn-xs btn-info btn-sign-up pull-right">Registrar</button>
+                </div>
+            </form>
+        </div>
+        
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/lib/jquery.min.js';?>"/></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/bootstrap/bootstrap.min.js';?>"/></script>
+		<script type="text/javascript" src="<?php echo LOBIADMIN.'js/lobi-plugins/lobibox.min.js';?>"/></script>		
+		<script type="text/javascript" src="<?php echo LOBIADMIN.'js/config.js';?>"/></script>		
+		
+        <script type="text/javascript">
+		
+		   function frm_login_valida() {
+			  var _usr_login = $("input[name=usr_login]").val();
+			  var _usr_passwd = $("input[name=usr_passwd]").val();
+			  var _return = ""; // Retorna o campo com problema, o ultimo
+
+			  if ( _usr_passwd == "" ) { _return = "input[name=usr_passwd]"; }
+			  if ( _usr_login == "" ) { _return = "input[name=usr_login]"; }
+			  
+			  return _return;
+		   }
+		   
+		   function frm_register_valida() {
+			  var _usr_nome        = $("input[name=usr_nome]").val();
+			  var _usr_sobrenome   = $("input[name=usr_sobrenome]").val();
+			  var _usr_login       = $("input[name=usr_login_2]").val();
+			  var _usr_email       = $("input[name=usr_email]").val();
+			  var _usr_passwd      = $("input[name=usr_passwd_2]").val();
+			  var _usr_passwd_conf = $("input[name=usr_passwd_conf]").val();
+			  var _return = ""; // Retorna o campo com problema, o ultimo
+
+			  if ( _usr_passwd_conf == "" ) { _return = "input[name=usr_passwd_conf]"; }
+			  if ( _usr_passwd == "" ) { _return = "input[name=usr_passwd_2]"; }
+			  if ( _usr_email == "" ) { _return = "input[name=usr_email]"; }			  
+			  if ( _usr_login == "" ) { _return = "input[name=usr_login_2]"; }			  
+			  if ( _usr_sobrenome == "" ) { _return = "input[name=usr_sobrenome]"; }
+			  if ( _usr_nome == "" ) { _return = "input[name=usr_nome]"; }
+			  
+			  return _return;
+		   }
+		   
+		   function frm_forgot_valida() {
+			  var _usr_login_email = $("input[name=usr_login_email]").val();
+			  var _return = ""; // Retorna o campo com problema, o ultimo
+
+			  if ( _usr_login_email == "" ) { _return = "input[name=usr_login_email]"; }
+			  
+			  return _return;
+		   }		   
+		
+           $('.login-wrapper').ready(function(){
+                $('.login-form').submit(function(){
+				   var _return = frm_login_valida()
+				   //AFV alert("Ref-> " + window.location.href+ "\nRetorno: "+_return);
+			       if ( _return == "" ) {	
+				      // Dados foram digitados, agora o AJAX/PHP/JSON vai identificar e dizer se estao ok
+
+                      var _dados = $('#frm-login').serialize();
+				   
+					  var _url = "<?php echo $this->_system->montaUrl('ajax','login','validar','');?>";
+					  
+					  //alert("--> Link: " +  _url + "\n-->DAdos: "+_dados);		
+				   
+				      $.ajax({
+					     type: "POST",
+					     url: _url,
+				         data: _dados,
+					     success: function( _data )
+					     {
+						    var _dados = JSON.parse(_data);
+							var mensagem = _dados["MENSAGEM"];
+				 		    if ( _dados['OK'] == true ) {
+					           //ANTES window.location.href = window.location.href+"/../";
+					           //window.location.href = window.location.href+"/../index.phtml";
+							   window.location = "<?php echo $this->_system->montaUrl('index','index','index','');?>";
+						    } else {
+							   Lobibox.alert('error', {
+                                   msg: mensagem + "<br>Tente novamente ou faça seu Registro.<br>Obrigado.<br>Equipe de Suporte.",
+								   callback: function(lobibox, type){
+                                      $('input[name=usr_login]').focus();							   
+                                   }
+                               });											
+						    };
+					     }
+				      });
+				      return false;
+				   } else {
+					 $(_return).focus();
+				   }
+                   return false;
+                });
+				
+                $('.signup-form').submit(function(){
+                   var _return = frm_register_valida()
+			       if ( _return == "" ) {	
+				      // Dados foram digitados, agora o AJAX/PHP/JSON vai identificar e dizer se estao ok
+
+                      var _dados = $('#frm-register').serialize();
+				   
+				      var _url = "<?php echo $this->_system->montaUrl('ajax','login','registrar','');?>";
+					  
+					  alert("--2> Link: " +  _url + "\n-->DAdos: "+_dados);	
+				   
+				      $.ajax({
+					     type: "POST",
+					     url: _url,
+				         data: _dados,
+					     success: function( _data )
+					     {
+						    var _dados = JSON.parse(_data);
+				 		    if ( _dados['OK'] == true ) {
+					           //ANTES window.location.href = window.location.href+"/../";
+					           //window.location.href = window.location.href+"/../index.phtml";
+							   window.location = "<?php echo $this->_system->montaUrl('index','index','index','');?>";
+						    } else {
+							   Lobibox.alert('error', {
+                                   msg: "Algo estranho Aconteceu entre seu Comutador e nosso Servidor.<br>Tente novamente ou aguarde um momento e volte mais tarde.<br>Obrigado pela Compreensão.<br>Equipe de Suporte.",
+								   callback: function(lobibox, type){
+                                      $('input[name=usr_nome]').focus();							   
+                                   }
+                               });											
+						    };
+					     }
+				      });
+				      return false;
+				   } else {
+					 $(_return).focus();
+				   }
+                   return false;
+                });
+				
+                $('.pass-forgot-form').submit(function(){
+                   var _return = frm_forgot_valida()
+			       if ( _return == "" ) {	
+				      // Dados foram digitados, agora o AJAX/PHP/JSON vai identificar e dizer se estao ok
+
+                      var _dados = $('#frm-forgot').serialize();
+				   
+				      var _url = "<?php echo PORTAL_DOMINIO_AJAX_LINK ?>" + "login/redefinir/acao/REDEFINIR";
+					  
+					  var _url = "<?php echo $this->_system->montaUrl('ajax','login','redefinir','');?>";
+					  
+					  alert("--3> Link: " +  _url + "\n-->DAdos: "+_dados);	
+				   
+				      $.ajax({
+					     type: "POST",
+					     url: _url,
+				         data: _dados,
+					     success: function( _data )
+					     {
+						    var _dados = JSON.parse(_data);
+				 		    if ( _dados['OK'] == true ) {
+							   Lobibox.alert('success', {
+                                   msg: "Recebemos sua solicitação para RESET de senha.<br>Aguarde nosso email e tente novamente.<br>Equipe de Suporte.",
+								   callback: function(lobibox, type) {
+					                  //ANTES window.location.href = window.location.href+"/../";
+					                  //window.location.href = window.location.href+"/../index.phtml";
+							          window.location = "<?php echo $this->_system->montaUrl('index','index','index','');?>";
+								   }
+                               });									
+						    } else {
+							   Lobibox.alert('error', {
+                                   msg: "Algo estranho Aconteceu entre seu Comutador e nosso Servidor.<br>Tente novamente ou aguarde um momento e volte mais tarde.<br>Obrigado pela Compreensão.<br>Equipe de Suporte.",
+								   callback: function(lobibox, type){
+                                      $('input[name=usr_nome]').focus();							   
+                                   }
+                               });											
+						    };
+					     }
+				      });
+				      return false;
+				   } else {
+					 $(_return).focus();
+				   }
+                   return false;
+                });
+            });
+            $('.btn-forgot-password').click(function(ev){
+                var $form = $(this).closest('form');
+                $form.removeClass('visible');
+                $form.parent().find('.pass-forgot-form').addClass('visible');
+            });
+            $('.btn-sign-in').click(function(){
+                var $form = $(this).closest('form');
+                $form.removeClass('visible');
+                $form.parent().find('.login-form').addClass('visible');
+            });
+            $('.btn-sign-up').click(function(){
+                var $form = $(this).closest('form');
+                $form.removeClass('visible');
+                $form.parent().find('.signup-form').addClass('visible');
+            });
+			
+			// Coloca o focus no Login
+			$('input[name=usr_login]').focus();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,160 @@
+* {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.col30C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 30px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col30R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 30px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col30L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 30px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.col40C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 40px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col40R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 40px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col40L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 40px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.col60C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 60px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col60R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 60px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col60L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 60px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.col80C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 80px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col80R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 80px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col80L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 80px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.col100C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 100px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col100R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 100px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col100L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 100px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.col120C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 120px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col120R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 120px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col120L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 120px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.col160C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 160px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col160R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 160px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col160L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 160px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.col210C {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 210px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:center;}
+.col210R {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 210px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:right;}
+.col210L {PADDING-BOTTOM: 2px; MARGIN: 2px 2px 8px; PADDING-LEFT: 2px; WIDTH: 210px; PADDING-RIGHT: 2px; FONT: 10pt normal Arial, Helvetica;  BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 2px; text-align:left;}
+
+.cssHand { cursor: hand; cursor:pointer;}
+       
+.antes {
+	background-color: #FFFFFF;
+	color: #000;
+}
+.corrente {
+	background-color: #CAE1FF;
+	color: #000;
+}
+.selecionado {
+	background-color: #4682B4;
+	color: #000;
+}
+
+.antesBLQ {
+	background-color: darkblue;
+	color: white;
+}
+.correnteBLQ {
+	background-color: lightblue;
+	color: #660;
+}
+.selecionadoBLQ {
+	background-color: blue;
+	color: white;
+}
+
+.antesUSA {
+	background-color: darkgreen;
+	color: white;
+}
+.correnteUSA {
+	background-color: lightgreen;
+	color: darkgreen;
+}
+.selecionadoUSA {
+	background-color: green;
+	color: black;
+}
+
+.antesDES {
+	background-color: gray;
+	color: white;
+}
+.correnteDES {
+	background-color: silver;
+	color: #660;
+}
+.selecionadoDES {
+	background-color: black;
+	color: white;
+}
+
+.antesVZI {
+	background-color: darkgreen;
+	color: white;
+}
+.correnteVZI {
+	background-color: lightgreen;
+	color: darkgreen;
+}
+.selecionadoVZI {
+	background-color: green;
+	color: black;
+}
+
+.antesEMU {
+	background-color: #FFD700;
+	color: #660;
+}
+.correnteEMU {
+	background-color: #ffff6c;
+	color: #660;
+}
+.selecionadoEMU {
+	background-color: #FFFF00;
+	color: #660;
+}
+
+.antesCHE {
+	background-color: #8B0000;
+	color: white;
+}
+.correnteCHE {
+	background-color: #CD5C5C;
+	color: #660;
+}
+.selecionadoCHE {
+	background-color: #FF0000;
+	color: white;
+}
+
+.tituloTab {
+	background-color: #0000CD;
+	color: #FFFFFF;
+	FONT: 11pt bold Arial, Helvetica;
+}
+.tituloTabAntes {
+	background-color: #000080;
+	color: #FFFFFF;
+	FONT: 11pt bold Arial, Helvetica;
+}
+.tituloTabSelecionado {
+	background-color: #0000FF;
+	color: #FFFFFF;
+	FONT: 11pt bold Arial, Helvetica;
+}
+
+
+.rodapeTab {
+	background-color: #0000CD;
+	color: #FFFFFF;
+	FONT: 11pt bold Arial, Helvetica;
+}
+.rodapeTabAntes {
+	background-color: #000080;
+	color: #FFFFFF;
+	FONT: 11pt bold Arial, Helvetica;
+}
+.rodapeTabSelecionado {
+	background-color: #0000FF;
+	color: #FFFFFF;
+	FONT: 11pt bold Arial, Helvetica;
+}

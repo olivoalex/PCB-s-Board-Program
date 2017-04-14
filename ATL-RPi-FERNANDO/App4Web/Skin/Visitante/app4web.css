@@ -1,0 +1,244 @@
+@CHARSET "ISO-8859-1";
+.full-width {
+    display:block;
+}
+.azul {
+	color: darkblue;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.amarelo {
+	color: yellow;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.vermelho {
+	color: red;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.verde {
+	color: green;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.laranja {
+	color: orange;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.normalPar {
+	color: black;
+	background: silver;
+	cursor: pointer;
+	cursor: hand;
+}
+.normalImpar {
+	color: black;
+	background: white;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.selecionadoPar {
+	color: black;
+	background: darkcyan;
+	cursor: pointer;
+	cursor: hand;
+}
+.selecionadoImpar {
+	color: black;
+	background: palegreen;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.excluidoPar {
+	color: black;
+	background: red;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.excluidoImpar {
+	color: black;
+	background: darkred;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.titulo {
+	color: white;
+	background: gray;
+}
+
+.semaforo {
+    content:url(semaforo.png);
+}
+
+.body300{
+	 height:300px !important;
+}
+
+.edt200 {
+	  padding: 8px; display: block; border: none; border-bottom: 1px solid #808080; width: 200px; align:right }
+}
+.txt50 {
+	  width: 50px;}
+}
+.lbl50 {
+	  width: 50px;}
+}
+
+.modal40 > .modal-dialog {
+    width:40% !important;
+    height:40% !important;
+}
+
+.modal50 > .modal-dialog {
+    width:50% !important;
+    height:50% !important;
+}
+.modal60 > .modal-dialog {
+    width:60% !important;
+    height:60% !important;
+}
+
+.modal70 > .modal-dialog {
+    width:70% !important;
+    height:70% !important;
+}
+.modal80 > .modal-dialog {
+    width:80% !important;
+    height:80% !important;
+}
+.modal90 > .modal-dialog {
+    width:90% !important;
+    height:90% !important;
+}
+.modal100 > .modal-dialog {
+    width:100% !important;
+    height:100% !important;
+}
+/* Badge */
+.badge-primary {
+  background-color: lightblue;
+}
+.badge-danger {
+background-color: #d9534f;
+}
+.badge-warning {
+background-color: #f0ad4e;
+}
+.badge-success {
+background-color: #5cb85c;
+}
+.badge-info {
+background-color: #5bc0de;
+}
+.badge-inverse {
+background-color: #333333;
+}
+
+/* Center the loader */
+.loader {
+  position: absolute;
+  left: 65%;
+  top: 50%;
+  z-index: 1000;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid darkblue;
+  width: 130px;
+  height: 130px;
+  display: none;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+.loader_texto {
+  position: absolute;
+  left: 65%;
+  top: 50%;
+  z-index: 1001;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  padding-top: 55px;
+  padding-left: 30px;
+  display: none;
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+
+.loader50 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1000;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid darkblue;
+  width: 130px;
+  height: 130px;
+  display: none;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+.loader50_texto {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1001;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  padding-top: 55px;
+  padding-left: 30px;
+  display: none;
+  font-size: 10pt;
+  font-weight: bold;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+.list_selected {
+  color: lightgreen;
+}

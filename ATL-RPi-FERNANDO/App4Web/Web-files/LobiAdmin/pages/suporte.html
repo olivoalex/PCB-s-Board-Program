@@ -1,0 +1,36 @@
+<!--Author      : @arboshiki-->
+<div class="error-page error-500">
+    <h1 class="error-page-code animated pulse"><i class="fa fa-times-circle"></i> Suporte </h1>
+    <h1 class="error-page-text">Suporte</h1>
+    <p class="error-page-subtext">Oi, Estamos aqui para ajuda-lo.</p>
+    <p class="error-page-subtext">Qual a sua necessidade ?</p>
+    <ul class="error-page-actions">
+        <li>
+            <a href="javascript:void(0)" data-func="go-back" class="btn btn-primary btn-outline">
+                <i class="fa fa-arrow-left"></i>
+                Voltar</a>
+        </li>
+        <li>
+            <a href="#dashboard.phtml" class="btn btn-primary btn-outline">
+                <i class="fa fa-home"></i>
+                Dashboard</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="btn btn-primary btn-outline">
+                <i class="fa fa-envelope-o"></i>
+                Contato
+            </a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="btn btn-primary btn-outline">
+                <i class="fa fa-bug"></i>
+                Relatar um Bug
+            </a>
+        </li>
+    </ul>
+</div>
+<script>
+    $('.error-page [data-func="go-back"]').click(function(ev){
+        window.history.back();
+    });
+</script>

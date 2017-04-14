@@ -1,0 +1,383 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+?>
+<script type="text/javascript">
+
+   var empresa = <?php echo $view_emp_id;?>;
+   var filial = <?php echo $view_fil_id;?>;
+   var usuario = <?php echo $view_login_id;?>;
+   var _controller     = '<?php echo $view_controller;?>';
+   var _task           = '<?php echo $view_task;?>';
+   var _action         = '<?php echo $view_action;?>';	
+   var js_link         = "<?php echo $_SESSION['PORTAL_DOMINIO_LINK'];?>";	 
+      
+   // guardando dados anteriores para verificar valores
+   var antDados = null;
+
+   function appm000300(aAcao, aComple) {
+     
+	   // Saindo ...
+	   if ( aAcao.toUpperCase() == "SAIR" ) {	
+		   // Determina o que esse botao tem que fazer
+		   window.location.hash = "#dashboard.phtml";	
+	   } else {
+		   if ( aAcao.toUpperCase() == "PROCESSAR" ) {
+			  appm000300_processarDados(aAcao, aComple);
+		   } else {
+			  if ( aAcao.toUpperCase() == "REFRESH" ) {
+				appm000300_processarDados(aAcao, aComple);
+			  } else {
+				if ( aAcao.toUpperCase() == "DETALHE" ) {
+				   appm000300_processarDados(aAcao, aComple);
+				} else {
+				   var _msg = "Acao Nao Implementada: "+aAcao+" Complemento "+aComple+"\n";
+				   // Exibe uma mensagem no canto inferior direito 
+		           Lobibox.notify("error", {
+			          position: 'top right',
+			          msg: _msg
+		           });          
+				}
+			 }
+		   }
+	   }
+   }       
+
+   function appm000300_processarDados(aAcao, aComple) {
+	  // Aciona o AJAX e indeica como receber o JSON
+	  var cpf    = "01234567890";
+	  var mac    = "NONE";
+
+	  var url = js_link + "appm000300_AJAX/ajax/index/acao/" + aAcao
+						+ "/empresa/" + empresa
+						+ "/filial/" + filial 
+						+ "/usuario/" + usuario
+						+ "/cpf/" + cpf
+						+ "/mac/" + mac;
+						
+	  //alert ("Url: " + url);
+	  
+	  $.getJSON(url, function (dados_retorno){ 
+		   // Aciona funcao para processar o retorno do AJAX em formato JSON
+		   appm000300_processarRetornoAJAX(aAcao, dados_retorno);   			   
+	  } );           
+		 
+   }   
+
+   function appm000300_processarRetornoAJAX(aAcao, aDados) {
+
+      //alert("Refresh Id: "+ refresh_id + "Counter: "+ refresh_counter_id + " Acao: " + aAcao);	  
+   
+	  if (aDados.status == true ){
+		  
+         // Volta para 5 minutos		
+		 appm000300_refresh_inicia_controle();
+		 
+		 // iniciando contadore regressivo
+   	     refresh_counter_id = setInterval(appm000300_refresh_counter, 1000);   		 
+		 
+	     // Disparando atualizacao a cada 5 minutos
+	     // 1 segundo = 1000 milesegundos
+	     // 1 minuto = 60 segundos
+	     // 5 minutos = 5 * 60 * 1000 = 300.000   
+		 refresh_id = setInterval(appm000300_refresh, contador_regressivo);
+	        
+         appm000300_table("tbl_container", "tbl_estacao", "CARREGA", aDados);
+						 
+	  } else {
+		 // Nesse caso mantem a tabela q esta apenas da uma mensagem para o usuario
+		 // Exibe uma mensagem no canto inferior direito 
+		 Lobibox.notify("error", {
+		   position: 'top right',
+		   msg: aDados.mensagem
+		 });
+	  }           
+   }   
+
+</script>
+   
+<div id='appm000300'>	
+	<div id="tbl_container" class="table-responsive">		
+	</div>	   
+</div>
+
+<script>
+
+   function appm000300_table(aContainer, aId, aAcao, aDados) {
+	 
+	    var _container = "#" + aContainer;
+		var _id = "#" + aId
+		
+		// Criando a tabela dinamicamente
+        var _html = "<table id='" + aId +"' class='display'>" +
+			        "<thead>"+
+						"<tr>"+
+							"<th>Nro#</th>"+
+							"<th align='center'>Ações</th>"+
+							"<th>Descrição</th>"+
+							"<th>MAC</th>"+
+							"<th>Dia</th>"+
+							"<th>Hora</th>"+
+							"<th>1&ordf;Temperatura&nbsp;&ordm;C</th>"+
+							"<th>2&ordf;Temperatura&nbsp;&ordm;C</th>"+
+							"<th>Umidade</th>"+
+							"<th>Pressão</th>"+
+						"</tr>"+
+					"</thead>"+
+					"<tbody>"+
+					"</tbody>"+
+				    "</table>";
+        $(_container).append(_html);
+		
+		// Adicionando os dados
+		var tbody = $(_id).children('tbody');
+		var table = tbody.length ? tbody : $(_id);
+		var row = '<tr>'+
+		            '<td></td>'+ // nro
+					'<td align="center" >{{acoes}}</td>'+
+					'<td>{{descricao}}</td>'+
+					'<td>{{mac}}</td>'+
+					'<td>{{dia}}</td>'+
+					'<td>{{hora}}</td>'+
+					'<td>{{temp1}}</td>'+
+					'<td>{{temp2}}</td>'+
+					'<td>{{umidade}}</td>'+
+					'<td>{{pressao}}</td>'+	
+				  '</tr>';
+
+	    // Se tem linhas na base para aDados, preprara para adicionalas na tabela mas antes limpar as que estao pois eh um refresh
+		var _del_rule = _id + " tbody tr";
+		$( _del_rule ).each( function(){		   
+           this.parentNode.removeChild( this ); 
+        });
+		
+		var _tot = aDados.dados.EST_CLIMA.length;
+			 
+		// Percorrendo os dados
+		for ( var _l=0; _l < _tot; _l++) {	
+			//Add row
+			var _lin = aDados.dados.EST_CLIMA[_l];
+		
+			_lin["acoes"] = "&nbsp;<i class='fa fa-smile-o verde'></i>"
+			              + "&nbsp;<i class='fa fa-info-circle azul' data-toggle='tooltip'  data-placement='bottom' title='Informações adicionais, " 
+						  + _lin["descricao"] + ".' onclick='appm000300_refresh_inicia_controle(); executaHash(\"#appm000305/mnu/0/opc/168/prg/16/cpf/" + _lin["cpf"] +"/mac/" + _lin["mac"] + "\");'></i>";
+			
+			
+			 
+		    //_lin["acoes"] = "&nbsp;<i class='fa fa-frown-o vermelho'></i>";
+			
+			table.append(row.compose(_lin));	
+		}
+		// Colocando esses dados como anteriores
+		antDados = aDados;
+		
+		// Ajustando a tabela conforme dados carregados
+		appm000300_datatable("tbl_estacao");
+		 
+   }
+
+   function appm000300_datatable(aTabelaNome) {
+		var _id = "#" + aTabelaNome;
+		
+		var _id_wrapper = _id + "_wrapper .col-sm-6:eq(0)";
+	
+		var _titulo = "Estações Climáticas";
+			
+		var myTable = $(_id).DataTable( { 
+				dom: 'Bfrtip',	
+				buttons: [ 
+							{
+								text: 'Atualizar',
+								className: 'btn btn-warning',
+								action: function ( e, dt, node, config ) {
+									appm000300_table_refresh('tbl_estacao');
+								}
+							},		
+							{
+								extend: "copy",
+								text: "Copiar",
+								className: "btn btn-primary"
+							},
+                            {
+								extend : "csv",
+								text: "CSV",
+								className: "btn btn-primary"
+							},
+				            //{
+							//	extend: 'colvis',
+                            //  columns: ':not(:first-child)',
+							//	text: 'Colunas Visíveis',
+							//	className: "btn btn-primary"
+							//},
+							{
+								extend: 'excelHtml5',
+								title: _titulo,
+								text: 'Planilha',
+								className: "btn btn-primary"
+							},
+							{
+								extend: 'pdfHtml5',
+								title: _titulo,
+								className: "btn btn-primary"
+							},
+							{
+								extend: 'print',
+								text: 'Imprimir',
+								title: _titulo,
+								exportOptions: { 
+								   columns: ':visible'
+								},
+								className: "btn btn-primary"
+							}
+							//,
+							//{
+							//	extend: 'print',
+							//	text: 'Imprimir Selecionadas',
+							//	title: _titulo,
+							//	exportOptions: { 
+							//	   columns: ':visible',
+							//	   modifier: {
+							//		  selected: true
+							//		  }
+							//	},
+							//	className: "btn btn-primary"
+							//}
+						 ],
+				language: {
+							"lengthMenu": "Exibindo _MENU_ registros por página",
+							"zeroRecords": "Nenhum registro(s) encontrado.",
+							"info": "Exibindo Página _PAGE_ de _PAGES_",
+							"infoEmpty": "Nenhum Registro(s) disponível",
+							"infoFiltered": "(Pesquisado _MAX_ do total registro(s))",
+							"search" : "Pesquisar",
+							"decimal": ",",
+							"thousands": ".",
+							"paginate": {
+                                 "previous": "Anterior",
+                                 "next": "Próximo"
+                            }
+						  },
+				select: false,
+				fixedHeader: true,
+				scrollY:        '300px',
+				scrollCollapse: false,
+				paging:         true,
+				autofill: true,
+				info : true,
+				columnDefs: [ {
+					    width: 30,
+						searchable: false,
+                        orderable: false,
+                        targets: 0
+                        } ],
+                order: [[ 1, 'asc' ] ],
+				lengthChange: false,
+                fixedColumns : true,
+                pageLength: 10
+
+				//rowCallback: function(row, data, index){
+				//	if(data[6]>= 28){
+				//		$(row).css('color', 'red');
+				//	} else {
+				//	   if(data[6]>= 25 && data[6]< 28){
+				//	      $(row).css('color', 'green');
+				//	   } else {
+				//		  $(row).css('color', 'blue');
+				//	   }
+				//	}
+				//}					
+			} );
+			
+	    // Botoeds de extracao e impressao
+		myTable.buttons().container().appendTo( _id_wrapper );	       		               
+		
+		// Ordenacao automatica primeira coluna da tabela
+		myTable.on( 'order.dt search.dt', function () {
+            myTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+               cell.innerHTML = i+1;
+			myTable.cell(cell).invalidate('dom'); 
+            } );
+        } ).draw();
+	
+		myTable.columns.adjust().draw();   
+		
+		$('[data-toggle="tooltip"]').tooltip(); 
+				
+   }
+   
+   function appm000300_table_refresh(aId) {
+	   var _id = "#" + aId;
+	   var _table = $(_id).DataTable();
+	   _table.destroy();
+	   $( _id ).remove();
+	   appm000300("REFRESH", "");
+   }
+   
+  
+   function appm000300_refresh() {
+	   appm000300_table_refresh("tbl_estacao");
+   }
+   
+   function appm000300_refresh_inicia_controle() {
+      var _texto = "<?php echo $view_page_header;?>";
+	  contador_regressivo = 300000;
+	  _texto += " - refresh em " + millisecondsToTime(contador_regressivo);
+	  $("#prg_titulo").html(_texto);
+	  
+      // Limpando os contadores para refresh dos dados 
+      if ( refresh_id != 0 ) {
+         clearInterval(refresh_id);
+		 refresh_id = 0;
+      }
+      if ( refresh_counter_id != 0 ) {		  
+         clearInterval(refresh_counter_id);
+		 refresh_counter_id = 0;
+      }	  	  		 
+   }
+   
+   function appm000300_refresh_counter() {
+      var _texto = "<?php echo $view_page_header;?>";
+	  contador_regressivo -= 1000;
+	  var falta = contador_regressivo;
+	  _texto += " - refresh em " + millisecondsToTime(falta);
+	  $("#prg_titulo").html(_texto);
+   }
+   
+   function millisecondsToTime(ms){
+      var secs = Math.floor(ms / 1000);
+      var msleft = ms % 1000;
+      var hours = Math.floor(secs / (60 * 60));
+      var divisor_for_minutes = secs % (60 * 60);
+      var minutes = Math.floor(divisor_for_minutes / 60);
+      var divisor_for_seconds = divisor_for_minutes % 60;
+      var seconds = Math.ceil(divisor_for_seconds);
+      return hours + ":" + minutes + ":" + seconds; //  + ":" + msleft; 
+   }
+
+   $(function () {
+	   // Executando os scripts dessa .phtml uhuuuu
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+	   // Carregando dados via JSON para as Esta oes Climatica de um CPF
+	   appm000300("PROCESSAR", "");
+	   
+	   $("#btn_refresh").click(function(){
+			appm000300_table_refresh("tbl_estacao");
+	   }); 
+	   
+	    $('[data-toggle="tooltip"]').tooltip(); 	   	  
+   });
+   
+</script>
+</div>

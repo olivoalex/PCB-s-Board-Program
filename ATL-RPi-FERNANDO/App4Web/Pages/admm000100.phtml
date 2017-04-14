@@ -1,0 +1,30 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+?>
+<div id='admm000100'>
+   <center><h1>Saindo ....</h1></center>
+</div>
+
+<script>
+   $(function () {
+	   // Executando os scripts dessa .phtml uhuuuu
+
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+	   executaUrl("http://11.12.13.30/App4Web/Portal/admin/login/validar/");
+	   
+   });
+</script>
+</div>

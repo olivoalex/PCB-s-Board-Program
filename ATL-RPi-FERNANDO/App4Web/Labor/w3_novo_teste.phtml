@@ -1,0 +1,169 @@
+<html>
+<link rel="stylesheet" href="web-files/Bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="web-files/W3/css/w3.css">
+
+<script src="web-files/W3/js/w3data.js"></script>
+<script src="web-files/W3/js/w3.js"></script>
+
+<script src="web-files/jQuery/js/jquery.min.js"></script>
+
+<script src="web-files/Bootstrap/js/bootstrap.js"></script>
+
+<style>
+  .green-tooltip + .tooltip > .tooltip-inner {background-color: green;}
+  .green-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:green; }
+  .yellow-tooltip + .tooltip > .tooltip-inner {background-color: yellow; color:black;}
+  .yellow-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:yellow; color:black;}
+  .red-tooltip + .tooltip > .tooltip-inner {background-color: #f00;}
+  .red-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#f00; }
+</style>
+
+<body>
+<div class="container">
+	<select id="id01">
+	   <option w3-repeat="cars" value="{{id}}">{{name}}</option>
+	</select>
+	<div class="checkbox-inline">
+	  <label class='red-tooltip' data-toggle="tooltip"  data-placement="bottom" title="C1"><input type="checkbox" id="c1" name="c1" value="c1" >Agua</label>
+	</div>
+	<div class="checkbox-inline">
+	  <label class='green-tooltip' data-toggle="tooltip"  data-placement="bottom" title="Vinho"><input type="checkbox" id="c2" name="c2" value="c2">Vinho</label>
+	</div>
+	<div class="checkbox-inline">
+	  <label class='yellow-tooltip' data-toggle="tooltip"  data-placement="bottom" title="Cachaca"><input type="checkbox" id="c3" name="c3" value="c3">Cachaca</label>
+	</div>
+	
+	<br>
+	<hr>
+	<button id='t'>Show the Text</button>
+	<button id='h'>Show the HTML</button>
+	<button id='v'>Show the Value</button>
+	<br>
+	<button id='s'>Select value 5</button>
+	<button id='st'>Selected opcion Text</button>
+	<hr>
+	<button id='agua' name='agua'>Agua</button>
+	<button id='all' name='all'>Toogle checked/unchecked</button>
+	<button id='qual' name='qual'>Quais checked ?</button>
+	<br>
+	<hr>
+	
+	<div class="radio-inline">
+	  <label data-toggle="tooltip"  data-placement="bottom" title="R1">
+	  <input type="radio" id="r1" name="r1" value="R1">Option 1</label>
+	</div>
+	<div class="radio-inline">
+	  <label><input type="radio" id="r1" name="r1" value="R2">Option 2</label>
+	</div>
+	<div class="radio-inline">
+	  <label><input type="radio" id="r1" name="r1" value="R3">Option 3</label>
+	</div>
+	<button id='r' name='r'>Radio Selected</button>
+	<br>
+	<hr>
+
+	<div class="form-group">
+	  <label for="id02">Select LOCALHOST list:</label>
+	  <select class="form-control" id="id02">
+	     <option w3-repeat="customers" value="{{id}}">{{nome}}</option>
+	  </select>
+	</div>
+	
+	<div class="form-group">
+	  <label for="id03">Select APP4WEB list:</label>
+	  <select class="form-control" id="id03">
+	     <option w3-repeat="customers" value="{{id}}">{{nome}}</option>
+	  </select>
+	</div>
+</div>
+
+<script>
+w3DisplayData("id01", {"cars" : [
+	                          {"id":0, "name" :"xVolvo"},
+	                          {"id":1, "name" :"Volvo"},
+		                      {"id":2, "name" :"Ford"}, 
+		                      {"id":3, "name" :"BMW"},
+		                      {"id":4, "name" :"Fiat"},
+		                      {"id":5, "name" :"GM"},
+		                      {"id":6, "name" :"Ford"},
+		                      {"id":7, "name" :"Hunday"},
+		                      {"id":8, "name" :"Mercedes"} 
+		                      ]
+		                      });
+
+$(document).ready(function(){ 
+	$("#t").click(function(){
+		alert("Text is " + $("#id01").text());
+	});
+	$("#h").click(function(){
+		alert("HTML is " + $("#id01").html());
+	});
+	$("#v").click(function(){
+		alert("Value is " + $("#id01").val());
+	});
+	$("#s").click(function(){
+		$("#id01").val("5").change();
+	});
+	$("#st").click(function(){
+		alert("Text from Selected Item is: " + $("#id01 option:selected" ).text() );
+	});
+	
+	$("#agua").click(function(){
+		var check = $("#c1").is(":checked");
+		if ( check ) {
+		   alert("Agua was checked Text-> " +  $("#c1").parent().text() );
+		   $("#c1").prop("checked",false);
+		} else {
+		   alert("Agua was NOT checked  Text-> " +  $("#c1").parent().text());
+		   $("#c1").prop("checked",true);
+		}
+	});
+
+	$("#all").click(function(){
+		$("input:checkbox").each(function(){			
+	        if ( this.checked == true ) {
+		        this.checked = false;
+	        } else {
+	        	this.checked = true;
+	        }
+	    });
+	});
+
+	$("#qual").click(function(){		
+		var txt = " ";			
+		$("input:checkbox").each(function(){			
+	        if ( this.checked == true ) {
+		        txt += "ID: " + this.id + " Value:" + this.value +" Texto: " + $(this).parent().text() + "\n";
+	        } 
+	    });
+	    alert("-> "+ txt);
+	});	
+		
+	$("#r").click(function(){
+		alert("Text is radio " + $("input[name=r1]:checked").parent().text() );
+	});
+	
+
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+
+// Pegando dados local
+w3Http("dados.php", function () {
+    if (this.readyState == 4 && this.status == 200) {
+        var myObject = JSON.parse(this.responseText);
+        w3DisplayData("id02", myObject);
+    }
+});
+
+// Pegando dados do servidor
+w3Http("https://www.app4web.com.br/dados_app.php", function () {
+    if (this.readyState == 4 && this.status == 200) {
+        var myObject = JSON.parse(this.responseText);
+        w3DisplayData("id03", myObject);
+    }
+});
+
+</script>
+
+</body>
+</html>

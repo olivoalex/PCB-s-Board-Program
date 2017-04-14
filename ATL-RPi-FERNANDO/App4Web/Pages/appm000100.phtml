@@ -1,0 +1,418 @@
+<!--Author      : @afvndo -->
+<!--Programa    : Configuracao Agrotechlink -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+  
+  define ('PORTAL_SKIN_LINK', $_SESSION["DOM_SKIN_LINK"]);
+  
+  define ('PORTAL_WEBFILES_LINK', $_SESSION["PORTAL_WEBFILES_LINK"]); 	
+  
+  define ('PORTAL_JSON_LINK', $_SESSION["PORTAL_JSON_LINK"]); 	
+
+?>
+<div id='appm000100'>
+	<div id="id-nav-tabs">
+		 <!--Nav tabs--> 
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="active">
+				<a href="#id-nav-tabs .tab_temperatura" role="tab" data-toggle="tab">
+					<i class="fa fa-cloud blue text-blue-dark"></i>
+					Temperatura 
+				</a>
+			</li>
+			<li>
+				<a href="#id-nav-tabs .tab_umidade" role="tab" data-toggle="tab">
+					<i class="fa fa-tint blue text-cyan-dark"></i>
+					Umidade
+				</a>
+			</li>
+			<li>
+				<a href="#id-nav-tabs .tab_pressao" role="tab" data-toggle="tab">
+					<i class="fa fa-tachometer text-danger"></i>
+					Pressão
+				</a>
+			</li>			
+			<li>
+				<a href="#id-nav-tabs .tab_comum" role="tab" data-toggle="tab">
+					<i class="fa fa-list-alt text-cyan-dark"></i>
+					Comum
+				</a>
+			</li>			
+		</ul>
+        
+		<!--Tab panes--> 
+		<div class="tab-content bg-white padding-15">
+
+ 		    <!-- INICIO: Tab Temperatura -->
+			<div class="tab-pane tab_temperatura active ">	
+
+               <!-- row 1 -->
+			   <div class="row">
+		          
+				  <div class="col-sm-12 col-lg-12">
+					  <div class="panel panel-default">
+						  <div class="panel-heading text-right">
+							<h3 class="panel-title  pull-left"><img src="<?php echo PORTAL_SKIN_LINK;?>/semaforo.png"></img>&nbsp;Semaforo</h3>
+							<button id='btn_refresh' type="button" class="btn btn-labeled btn-primary" data-toggle="tooltip"  data-placement="bottom" title="Atualiza faixas com dados armazenados e descarta qualquer ajuste que tenha sido feito.">
+								 <span class="btn-label">
+								 <span class="glyphicon glyphicon-refresh"></span>
+								 </span>Restaurar Dados
+							</button>
+							&nbsp;
+							<button id='btn_adjust' type="button" class="btn btn-labeled btn-warning" data-toggle="tooltip"  data-placement="bottom" title="Acerta as faixas para não permitir 'buracos' entre uma e outra.">
+								 <span class="btn-label">
+								 <span class="glyphicon glyphicon-thumbs-up"></span>
+								 </span>Ajustar	Faixas								
+							</button>										
+							&nbsp;
+							<button id='btn_save' type="button" class="btn btn-labeled btn-success" data-toggle="tooltip"  data-placement="bottom" title="Atualiza faixas conforme definido.">
+								 <span class="btn-label">
+								 <span class="glyphicon glyphicon-ok"></span>
+								 </span>Atualizar Dados								
+							</button>								
+						  </div>
+						  <div class="panel-body">
+						     <form class="lobi-form">
+							     <!-- Distribuindo em colunas e linhas -->
+							     <div class='row'>
+								     <div class="col-sm-6 col-lg-6">
+										 <fieldset>						
+										   <label class="control-label"><i class='fa fa-circle azul'></i>&nbsp;1&ordf;&nbsp;Faixa</label>
+										   <input id="range_01" class='azul' />
+										</fieldset>
+									 </div>
+									 <div class="col-sm-6 col-lg-6">
+										 <fieldset>						
+										   <label class="control-label"><i class='fa fa-circle verde'></i>&nbsp;2&ordf;&nbsp;Faixa</label>
+										   <input id="range_02" />
+										 </fieldset>
+									</div>
+								 </div>
+								 
+								 <div class='row'>									 
+									 <div class="col-sm-6 col-lg-6">
+										 <fieldset>						
+										   <label class="control-label"><i class='fa fa-circle amarelo'></i>&nbsp;3&ordf;&nbsp;Faixa</label>
+										   <input id="range_03" />
+										 </fieldset>
+									 </div>
+				                     <div class="col-sm-6 col-lg-6">								
+										 <fieldset>						
+										   <label class="control-label"><i class='fa fa-circle laranja'></i>&nbsp;4&ordf;&nbsp;Faixa</label>
+										   <input id="range_04" />
+										 </fieldset>
+									 </div>									 
+                                </div>			
+								
+                                <div class='row'>
+									 <div class="col-sm-6 col-lg-6">								
+										 <fieldset>						
+										   <label class="control-label"><i class='fa fa-circle vermelho'></i>&nbsp;5&ordf;&nbsp;Faixa</label>
+										   <input id="range_05" />
+										 </fieldset>
+									 </div>
+									 <div class="col-sm-6 col-lg-6">
+									 </div>
+								</div>
+								<!-- Linhas -->
+							 </form>							 
+						  </div>
+					  </div>						  
+				  </div>
+				  		  
+			   </div> 
+			   <!-- row 1 -->								
+			</div>
+			<!-- FIM: Tab Temperatura -->
+			
+			<div class="tab-pane tab_umidade">
+			</div>	
+			<div class="tab-pane tab_pressao">
+			</div>	
+			<div class="tab-pane tab_comum">
+			</div>				
+		</div>			
+	</div>	
+</div>
+
+
+<script>
+   //-- Variaveis de range para faixas de temperatura 
+   var _temp_01_de = 0, _temp_01_ate = 0, _temp_01_tot = 0; // ate - de
+   var _temp_02_de = 0, _temp_02_ate = 0, _temp_02_tot = 0; // ate - de
+   var _temp_03_de = 0, _temp_03_ate = 0, _temp_03_tot = 0; // ate - de
+   var _temp_04_de = 0, _temp_04_ate = 0, _temp_04_tot = 0; // ate - de
+   var _temp_05_de = 0, _temp_05_ate = 0, _temp_05_tot = 0; // ate - de
+   var _temp_soma_tot = 0;
+	   
+   //Load and initialize ionRangeSlider   
+   LobiAdmin.loadScript([
+       '<?php echo LOBIADMIN;?>js/plugin/ion.rangeslider/ion.rangeSlider.min.js'
+   ], initRangeSlider);	
+
+   LobiAdmin.loadScript([
+       '<?php echo PORTAL_WEBFILES_LINK;?>W3/js/w3data.js'
+   ], null);		
+
+
+   function checkRangeSlider(_qual) {
+	   
+	   // Save slider instance to var
+       var _01 = $("#range_01").data();
+	   var _02 = $("#range_02").data();
+	   var _03 = $("#range_03").data();
+	   var _04 = $("#range_04").data();
+	   var _05 = $("#range_05").data();
+	   
+	   var _msg = "Atenção:";
+	   var _ok = true;
+	   
+	   // Pegando dados dos ranges, posicao atual porem um deve ter sido alterado
+	   _temp_01_de  = _01.from;	  _temp_01_ate = _01.to;  _temp_01_tot = _temp_01_ate - _temp_01_de;
+	   _temp_02_de  = _02.from;	  _temp_02_ate = _02.to;  _temp_02_tot = _temp_02_ate - _temp_02_de;
+	   _temp_03_de  = _03.from;	  _temp_03_ate = _03.to;  _temp_03_tot = _temp_03_ate - _temp_03_de;
+	   _temp_04_de  = _04.from;	  _temp_04_ate = _04.to;  _temp_04_tot = _temp_04_ate - _temp_04_de;
+	   _temp_05_de  = _05.from;	  _temp_05_ate = _05.to;  _temp_05_tot = _temp_05_ate - _temp_05_de;
+	   
+	   // Determinando a soma das diferenças ate 4 pois a 5 faixa nao pode ser menor que isso :)
+	   _temp_soma_tot = _temp_01_tot + _temp_02_tot + _temp_03_tot + _temp_04_tot;
+	   
+	   // Identificando alteracoes
+	   switch (_qual) {
+		   case "TEMPE" :
+		      if ( _temp_01_ate - _temp_02_de != 0 ) {
+				 _msg += "<br>Falha entre o final da 1&ordf&nbspFaixa e inicio da 2&ordf&nbspFaixa";
+				 _ok = false;
+			  }
+			  if ( _temp_02_ate - _temp_03_de != 0 ) {
+				 _msg += "<br>Falha entre o final da 2&ordf&nbspFaixa e inicio da 3&ordf&nbspFaixa";
+				 _ok = false;
+			  }
+			  if ( _temp_03_ate - _temp_04_de != 0 ) {
+				 _msg += "<br>Falha entre o final da 3&ordf&nbspFaixa e inicio da 4&ordf&nbspFaixa";
+				 _ok = false;
+			  }
+			  if ( _temp_04_ate - _temp_05_de != 0 ) {
+				 _msg += "<br>Falha entre o final da 4&ordf&nbspFaixa e inicio da 5&ordf&nbspFaixa";
+				 _ok = false;
+			  }		     
+		      break;
+	   }	  
+	   
+	   // Com lacunas/bracos entre um range e outro para as 5 faixas
+	   if ( _ok != true ) {
+	      // Exibe uma mensagem no canto inferior direito 
+		  Lobibox.notify("warning", {
+			 position: 'top right',
+			 msg: _msg
+		  });
+	   }
+
+	   // retorna flag de analise dos ranges TRUE, sem BURACOS entre uma fixa e outra ou FALSE com problemas 
+       return _ok;	   
+   }
+   
+   function adjustRangeSlider(_qual) {
+	   
+	   switch (_qual) {
+		   case "TEMPE" :
+			   // Save slider instance to var
+			   var _01 = $("#range_01").data();
+			   var _02 = $("#range_02").data();
+			   var _03 = $("#range_03").data();
+			   var _04 = $("#range_04").data();
+			   var _05 = $("#range_05").data();
+			   
+			   // Pegando dados dos ranges, posicao atual porem um deve ter sido alterado
+			   _temp_01_de  = _01.from;	  _temp_01_ate = _01.to;  _temp_01_tot = _temp_01_ate - _temp_01_de;
+			   _temp_02_de  = _02.from;	  _temp_02_ate = _02.to;  _temp_02_tot = _temp_02_ate - _temp_02_de;
+			   _temp_03_de  = _03.from;	  _temp_03_ate = _03.to;  _temp_03_tot = _temp_03_ate - _temp_03_de;
+			   _temp_04_de  = _04.from;	  _temp_04_ate = _04.to;  _temp_04_tot = _temp_04_ate - _temp_04_de;
+			   _temp_05_de  = _05.from;	  _temp_05_ate = _05.to;  _temp_05_tot = _temp_05_ate - _temp_05_de;
+			   
+			   // Determinando a soma das diferenças ate 4 pois a 5 faixa nao pode ser menor que isso :)
+			   _temp_soma_tot = _temp_01_tot + _temp_02_tot + _temp_03_tot + _temp_04_tot;
+			   
+			   _temp_01_de = 0;
+			   _temp_01_ate = _temp_01_ate; // Nao mudou mantem
+			   
+			   _temp_02_de = _temp_01_ate;
+			   _temp_02_ate = _temp_02_de + _temp_02_tot;
+			   
+			   _temp_03_de = _temp_02_ate;
+			   _temp_03_ate = _temp_03_de + _temp_03_tot;
+			   
+			   _temp_04_de = _temp_03_ate;
+			   _temp_04_ate = _temp_04_de + _temp_04_tot;
+			   
+			   _temp_05_de = _temp_04_ate;
+			   _temp_05_ate = 100;
+			   
+			   // Mudando na mao os sliders proporcionalmente as alteracoes de range
+			   var _01_upd = { from: _temp_01_de, to: _temp_01_ate};
+			   var _02_upd = { from: _temp_02_de, to: _temp_02_ate};
+			   var _03_upd = { from: _temp_03_de, to: _temp_03_ate};
+			   var _04_upd = { from: _temp_04_de, to: _temp_04_ate};
+			   var _05_upd = { from: _temp_05_de, to: _temp_05_ate};
+			   
+			   // Alterando os Sliders de range conforme calculos acima
+			   _01.ionRangeSlider.update(_01_upd);
+			   _02.ionRangeSlider.update(_02_upd);
+			   _03.ionRangeSlider.update(_03_upd);
+			   _04.ionRangeSlider.update(_04_upd);
+			   _05.ionRangeSlider.update(_05_upd);
+			   
+			   break;
+	   }
+   }
+   
+   function refreshRangeSliber(_qual, _dados) {
+	   
+	   switch (_qual) {
+		   case "TEMPE" :	   
+		   	   // Pega dados de cada slider instance 
+			   var _01 = $("#range_01").data();
+			   var _02 = $("#range_02").data();
+			   var _03 = $("#range_03").data();
+			   var _04 = $("#range_04").data();
+			   var _05 = $("#range_05").data();
+			   
+			   // Mudando na mao os sliders proporcionalmente as alteracoes de range
+			   var _01_upd = { "from": _dados["DADOS"]["TEMP-FX-01-DE"], "to": _dados["DADOS"]["TEMP-FX-01-ATE"]};
+			   var _02_upd = { "from": _dados["DADOS"]["TEMP-FX-02-DE"], "to": _dados["DADOS"]["TEMP-FX-02-ATE"]};
+			   var _03_upd = { "from": _dados["DADOS"]["TEMP-FX-03-DE"], "to": _dados["DADOS"]["TEMP-FX-03-ATE"]};
+			   var _04_upd = { "from": _dados["DADOS"]["TEMP-FX-04-DE"], "to": _dados["DADOS"]["TEMP-FX-04-ATE"]};
+			   var _05_upd = { "from": _dados["DADOS"]["TEMP-FX-05-DE"], "to": _dados["DADOS"]["TEMP-FX-05-ATE"]};
+			   
+			   //var str = JSON.stringify(_01_upd);			   
+			   //alert("Dados: "+ str + " Mais teste: " + _dados["DADOS"]["TEMP-FX-01-DE"]);
+			   
+			   // Alterando os Sliders de range conforme calculos acima
+			   _01.ionRangeSlider.update(_01_upd);
+			   _02.ionRangeSlider.update(_02_upd);
+			   _03.ionRangeSlider.update(_03_upd);
+			   _04.ionRangeSlider.update(_04_upd);
+			   _05.ionRangeSlider.update(_05_upd);	
+
+	           // Exibe uma mensagem no canto inferior direito 
+			   Lobibox.notify("info", {
+				  position: 'top right',
+				  msg: "Dados foram RESTAURADOS com sucesso."
+			   });			   
+			   break;
+	   }
+   }
+   
+   function initRangeSlider	() {
+	   //INOCIO: Range
+	   $("#range_01").ionRangeSlider({
+                type: "double",
+                grid: true,
+                min: -30,
+                max: 100,
+                from: 0,
+                to: 5,
+                prefix: "&ordmC&nbsp;",
+				step: .01,              
+				keyboard: true,
+				keyboard_step: 0.01				
+      });
+	  $("#range_02").ionRangeSlider({
+                type: "double",
+                grid: true,
+                min: -30,
+                max: 100,
+                from: 5,
+                to: 15,
+                prefix: "&ordmC&nbsp;",
+				step: .01,
+				keyboard: true,
+				keyboard_step: 0.01
+      });
+	  $("#range_03").ionRangeSlider({
+                type: "double",
+                grid: true,
+                min: -30,
+                max: 100,
+                from: 15,
+                to: 25,
+                prefix: "&ordmC&nbsp;",
+				step: .01,
+				keyboard: true,
+				keyboard_step: 0.01
+      });
+	  $("#range_04").ionRangeSlider({
+                type: "double",
+                grid: true,
+                min: -30,
+                max: 100,
+                from: 25,
+                to: 30,
+                prefix: "&ordmC&nbsp;",
+				step: .01,
+				keyboard: true,
+				keyboard_step: 0.01
+      });
+	  $("#range_05").ionRangeSlider({
+                type: "double",
+                grid: true,
+                min: -30,
+                max: 100,
+                from: 30,
+                to: 100,
+                prefix: "&ordmC&nbsp;",
+				step: .01,
+				keyboard: true,
+				keyboard_step: 0.01
+      });
+	  //FIM: Range
+   }
+
+   // Tratando os clicks de cada botao :)   
+   $("#btn_refresh").click( function() {
+      // Pegando dados local
+	  $("#btn_refresh").prop("disabled", true);
+	  
+      w3Http("<?php echo PORTAL_JSON_LINK;?>semaforo_JSON.php?acao=TEMPE", function () {
+         if (this.readyState == 4 && this.status == 200) {
+            var myObject = JSON.parse(this.responseText);
+            refreshRangeSliber("TEMPE", myObject);
+			$("#btn_refresh").prop("disabled", false);
+         }
+      });		   
+   });
+   
+   $("#btn_adjust").click( function() {
+      adjustRangeSlider("TEMPE");
+   });
+   
+   $("#btn_save").click( function() {
+	  if ( checkRangeSlider("TEMPE") ) {
+	     // Exibe uma mensagem no canto inferior direito 
+	     Lobibox.notify("success", {
+		    position: 'top right',
+		    msg: "Dados foram SALVOS com sucesso."
+	     });	
+	  }
+   });
+	   
+   $(function () {
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+	   $('[data-toggle="tooltip"]').tooltip(); 	   	   
+   });   
+   
+   
+   
+</script>
+</div>

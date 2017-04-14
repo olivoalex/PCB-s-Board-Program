@@ -1,0 +1,218 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+?>
+<div id='ntfm000100'>
+
+	<div id="id-nav-tabs">
+		 <!--Nav tabs--> 
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="active">
+				<a href="#id-nav-tabs .tab_sessao" role="tab" data-toggle="tab">
+					<i class="fa fa-list text-cyan-dark"></i>
+					Sessão 
+					<span class="badge badge-xs bg-red-light"><?php echo count($_SESSION);?></span>
+				</a>
+			</li>
+			<li>
+				<a href="#id-nav-tabs .tab_dados" role="tab" data-toggle="tab">
+					<i class="fa fa-list-alt text-cyan-dark"></i>
+					Dados Controller/View
+					<span class="badge badge-xs bg-orange-dark"><?php echo count($this->_system->_dados);?></span>
+				</a>
+			</li>
+		</ul>
+
+		 <!--Tab panes--> 
+		<div class="tab-content bg-white padding-15">
+			<div class="tab-pane tab_sessao active">
+			   <div class="table-responsive">
+					<table id="tbl_sessao" class="display">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Chave Acesso</th>
+								<th>Conteúdo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							   $_ctd = 0;
+							   foreach ( $_SESSION as $_key => $_val ) {
+								   $_val_text = $_val;
+								   if ( is_object($_val) ) {
+									   $_val_text = "Objeto " + get_class($_val);
+								   } else {
+									   if ( is_array($_val) ) {
+										   $_val_text = "É um ARRAY";
+									   }
+								   }
+  							       echo "<tr>".
+								        "  <td></td>" .
+								        "  <td>{$_key}</td>".
+								        "  <td>{$_val_text}</td>".
+										"</tr>";
+							   }
+						    ?>
+						</tbody>
+					</table>
+				</div>				
+			</div>
+			<div class="tab-pane tab_dados">
+			   <div class="table-responsive">
+					<table id="tbl_dados" class="display hover">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Chave Acesso</th>
+								<th>Conteúdo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							   $_ctd = 0;
+							   foreach ( $this->_system->_dados as $_key => $_val ) {
+								   $_val_text = $_val;
+								   if ( is_object($_val) ) {
+									   $_val_text = "Objeto " + get_class($_val);
+								   }
+  							       echo "<tr>".
+								        "  <td></td>" .
+								        "  <td>{$_key}</td>".
+								        "  <td>{$_val_text}</td>".
+										"</tr>";
+							   }
+						    ?>
+						</tbody>
+					</table>
+				</div>							
+			</div>
+		</div>
+	</div>
+
+
+<script>
+
+   function sesm000100(aTabelaNome) {
+		var _id = "#" + aTabelaNome;
+		
+		var _id_wrapper = _id + "_wrapper .col-sm-6:eq(0)";
+	
+		var _titulo = "Lista de Variáveis de Sessão.";
+		
+		if ( aTabelaNome == "tbl_dados" ) {
+		   _titulo = "Lista de Dados do Controller/View.";
+		}
+		
+		var myTable = $(_id).DataTable( { 
+				dom: 'Bfrtip',	
+				buttons: ['copy', 'csv',  
+				
+				            {
+								extend: 'colvis',
+                                columns: ':not(:first-child)'
+							},
+							{
+								extend: 'excelHtml5',
+								title: _titulo,
+								text: 'Planilha'
+							},
+							{
+								extend: 'pdfHtml5',
+								title: _titulo
+							},
+							{
+								extend: 'print',
+								text: 'Print all',
+								title: _titulo,
+								exportOptions: { 
+								   columns: ':visible'
+								}
+							},
+							{
+								extend: 'print',
+								text: 'Print selected',
+								title: _titulo,
+								exportOptions: { 
+								   columns: ':visible',
+								   modifier: {
+									  selected: true
+									  }
+								}
+							}
+						 ],
+				language: {
+							"lengthMenu": "Exibindo _MENU_ registros por página",
+							"zeroRecords": "Nenhum registro(s) encontrado.",
+							"info": "Exibindo Página _PAGE_ de _PAGES_",
+							"infoEmpty": "Nenhum Registro(s) disponível",
+							"infoFiltered": "(Pesquisado _MAX_ do total registro(s))",
+							"search" : "Pesquisar",
+							"decimal": ",",
+							"thousands": ".",
+							"paginate": {
+                                 "previous": "Anterior",
+                                 "next": "Próximo"
+                            }
+						  },
+				select: true,
+				fixedHeader: true,
+				scrollY:        '300px',
+				scrollCollapse: false,
+				paging:         true,
+				autofill: true,
+				info : true,
+				columnDefs: [ {
+					    width: 30,
+						searchable: false,
+                        orderable: false,
+                        targets: 0
+                        } ],
+                order: [[ 1, 'asc' ] ],
+				lengthChange: false,
+                fixedColumns : true,
+                pageLength: 8				
+			} );
+			
+	    // Botoeds de extracao e impressao
+		myTable.buttons().container().appendTo( _id_wrapper );	       		               
+		
+		// Ordenacao automatica primeira coluna da tabela
+		myTable.on( 'order.dt search.dt', function () {
+            myTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+               cell.innerHTML = i+1;
+			myTable.cell(cell).invalidate('dom'); 
+            } );
+        } ).draw();
+	
+		myTable.columns.adjust().draw();   
+   }
+   
+   $(function () {
+	   // Executando os scripts dessa .phtml uhuuuu
+
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");	   
+	   
+	   $(document).ready( function() {
+	     sesm000100("tbl_sessao");
+	     sesm000100("tbl_dados");		  
+      });
+	  
+	   // Forcando atualizacao do Breadcrumb
+	   var lobiAdmin = $('body').data('lobiAdmin');
+	   lobiAdmin.setBreadcrumbs([{texto : "<?php echo $view_page_header;?>", href: "NONE", cssicon: "<?php echo $view_page_icone;?>"}]);
+   });
+     
+</script>
+</div>

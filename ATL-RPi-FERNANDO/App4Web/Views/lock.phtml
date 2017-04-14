@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--Author      : @arboshiki-->
+<?php
+  if ( !isset($_SESSION) ) { session_start();}
+   
+  $_SESSION["LOGGED"] = "B";
+  
+  //echo "--------->Logged: {$_SESSION['LOGGED']}";
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_LIB_LINK',$_SESSION["PORTAL_LIB_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+  define ('PORTAL_DOMINIO_AJAX_LINK',$_SESSION["PORTAL_DOMINIO_AJAX_LINK"]);
+  
+  define ('PAGE_ICON',$_SESSION["PORTAL_LOBIADMIN_LINK"].'/img/logo/lobiadmin-logo-16.ico');
+  
+  define ('PAGE_BACKGROUND_IMAGE',$_SESSION["PORTAL_LOBIADMIN_LINK"].'/img/demo/3_1920.jpg');
+  
+  $_usr_login = $_SESSION["LOGGED_USER"];
+  $_usr_nome  = $_SESSION["LOGGED_NAME"];
+  $_usr_email = $_SESSION["LOGGED_EMAIL"];
+  $_usr_photo = $_SESSION["LOGGED_PHOTO"];
+  
+?>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Bloqueio de Tela</title>
+        <link rel="shortcut icon" href="<?php echo LOBIADMIN.'img/logo/lobiadmin-logo-16.ico';?>" />
+
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/bootstrap.min.css';?>">
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/font-awesome.min.css';?>"/>
+        <!--lobiadmin-with-plugins.css contains all LobiAdmin css plus lobiplugins all css files, plus third party plugins-->
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/lobiadmin-with-plugins.css';?>"/>
+        <!--Put your css here-->        
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/lock-screen.css';?>"/>
+    </head>
+    <body>
+        <div class="lock-screen slideInDown animated">
+            <div class="lock-form-wrapper">
+                <div>
+                    <form id="frm-lock" action class="lock-screen-form lobi-form">
+                        <div class="row lock-screen-body">
+                            <div class="col-xxs-12 col-xs-4">
+                                <img src="<?php echo LOBIADMIN.'img/users/'.$_usr_photo;?>" class="horizontal-center img-responsive" alt />
+                            </div>
+                            <div class="col-xxs-12 col-xs-8">
+                                <h4 class="fullname"><?php echo $_usr_nome;?> <small class="text-gray pull-right"><i class="fa fa-lock"></i> <?php echo Logged();?></small></h4>
+                                <h6 class="lock-screen-email"><?php echo $_usr_email;?></h6>
+                                <div class="form-group margin-bottom-5">
+                                    <div class="input-group">                                    
+										   <input type="password" name="usr_passwd" class="form-control" placeholder="Senha para Desbloquear">									
+										   <input type="hidden" name="usr_login" class="form-control" value="<?php echo $_usr_login;?>">
+                                           <span class="input-group-btn">
+                                            <button class="btn btn-info"><i class="fa fa-key"></i></button>
+                                           </span>									
+                                    </div>
+                                </div>
+                                <span class="text-gray-lighter">Login com outra conta ? <a href="<?php echo $this->_system->montaUrl('admin','login','validar','');?>"> Click aqui </a></span>
+								<p><span class="text-danger-dark" id="msg_validacao"></span></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="carousel-wrapper slideInDown animated">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item">
+                            <div class="fill" style="background-image:url('<?php echo LOBIADMIN."img/demo/1_1920.jpg";?>');">
+                                <div class="container">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item active">
+                            <div class="fill" style="background-image:url('<?php echo LOBIADMIN."img/demo/2_1920.jpg";?>');">
+                                <div class="container">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="fill" style="background-image:url('<?php echo LOBIADMIN."img/demo/3_1920.jpg";?>');">
+                                <div class="container">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="fill" style="background-image:url('<?php echo LOBIADMIN."img/demo/5_1920.jpg";?>');">
+                                <div class="container">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="fill" style="background-image:url('<?php echo LOBIADMIN."img/demo/6_1920.jpg";?>');">
+                                <div class="container">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lock-screen-clock">
+                        <div class="lock-screen-time"></div>
+                        <div class="lock-screen-date"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/lib/jquery.min.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/bootstrap/bootstrap.min.js';?>"></script>
+		<script type="text/javascript" src="<?php echo LOBIADMIN.'js/lobi-plugins/lobibox.min.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/config.js';?>"></script>		
+		
+        <script type="text/javascript">
+			function frm_lock_valida() {
+			  var _usr_passwd = $("input[name=usr_passwd]").val();
+			  var _return = ""; // Retorna o campo com problema, o ultimo
+
+			  $("#msg_validacao").text("");
+			  
+			  if ( _usr_passwd == "" ) { _return = "input[name=usr_passwd]"; }
+			  
+			  return _return;
+		    }
+		
+            $(function(){
+                var CONFIG = window.LobiAdminConfig;
+                $('.lock-screen-form').submit(function(ev){
+
+                   var _return = frm_lock_valida()
+			       if ( _return == "" ) {	
+				      // Dados foram digitados, agora o AJAX/PHP/JSON vai identificar e dizer se estao ok
+
+                      var _dados = $('#frm-lock').serialize();
+					 				   
+					  var _url = "<?php echo $this->_system->montaUrl('ajax','login','validar','');?>";
+					  
+					  //alert("--> Link: " +  _url + "\n-->DAdos: "+_dados);		
+				   
+				      $.ajax({
+					     type: "POST",
+					     url: _url,
+				         data: _dados,
+					     success: function( _data )
+					     {
+						    var _dados = JSON.parse(_data);
+							var mensagem = _dados["MENSAGEM"];
+							var txt = mensagem;
+				 		    if ( _dados['OK'] == true ) {
+					           //ANTES window.location.href = window.location.href+"/../";
+					           window.location = "<?php echo $this->_system->montaUrl('index','index','index','');?>";
+						    } else {
+							   if ( mensagem == "" ) {
+								  mensagem = "Algo estranho Aconteceu entre seu Comutador e nosso Servidor.<br>Tente novamente ou aguarde um momento e volte mais tarde.<br>Obrigado pela Compreensão.<br>Equipe de Suporte.";
+							   } else {
+								 mensagem += "<br>Tente Novamente !!!";  
+							   }
+							   $("#msg_validacao").text(txt);
+							   Lobibox.alert('error', {
+                                   msg: mensagem ,
+								   callback: function(lobibox, type){
+                                      $('input[name=usr_passwd]').focus();							   
+                                   }
+                               });											
+						    };
+					     }
+				      });
+				      return false;
+				   } else {
+					 $(_return).focus();
+				   }
+                   return false;
+                });
+				
+                //Initialize time on lock screen and timeout for show slideshow
+                (function () {
+                    var monthNames = CONFIG.monthNames;
+                    var weekNames = CONFIG.weekNames;
+                    setInterval(function () {
+                        var d = new Date();
+                        var h = d.getHours();
+                        var m = d.getMinutes();
+                        $('.lock-screen-time').html((Math.floor(h / 10) === 0 ? "0" : "") + h + ":" + (Math.floor(m / 10) === 0 ? "0" : "") + m);
+                        $('.lock-screen-date').html(weekNames[d.getDay()] + ", " + monthNames[d.getMonth()] + " " + d.getDate());
+                    }, CONFIG.updateTimeForLockScreen);
+
+                })();
+                //Initialize carousel and catch form submit
+                (function () {
+                    var $lock = $('.lock-screen');
+                    var $car = $lock.find('.carousel');
+                    $car.click(function () {
+                        $car.parent().addClass('slideOutUp').removeClass('slideInDown');
+                        setTimeout(function () {
+                            $('.lock-screen .carousel-wrapper').removeClass('slideOutUp').addClass('slideInDown');
+                        }, CONFIG.showLockScreenTimeout);
+                    });
+                    $car.carousel({
+                        pause: false,
+                        interval: 8000
+                    });
+                })();
+            });
+        </script>
+    </body>
+</html>

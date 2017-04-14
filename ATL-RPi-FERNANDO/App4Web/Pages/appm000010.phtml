@@ -1,0 +1,1013 @@
+<script type="text/javascript" src="<?php echo $_SESSION["PORTAL_AJAX_LINK"];?>appm000000_AJAX.js"></script>
+<script type="text/javascript" src="<?php echo $_SESSION["PORTAL_AJAX_LINK"];?>comboBoxPacoteAJAX.js"></script>
+<script type="text/javascript">
+       
+    var empresa = <?php echo $view_emp_id;?>;
+    var filial = <?php echo $view_fil_id;?>;
+    var usuario = <?php echo $view_login_id;?>;
+	
+    // Embora consiga identificar a uia ativa eu nao consigo passa-la como parametro pois estou usando tudo estatico no href
+	// teria que mudar TUDO, eu dio TUDO para redirecionar por uma funcao atraves de LOCATION. fica para depois
+	var guia            = "<?php echo $view_guia;?>";
+	var guia_lock       = "<?php echo $view_guia_lock;?>";
+	guia = "gui_criterio"; // forca para aplicacao 
+
+	var pagina          = <?php echo $view_pagina_corrente;?>;
+	var pagina_corrente = <?php echo $view_pagina_corrente;?>;
+	var pagina_total    = <?php echo $view_pagina_total;?>;
+		
+	// Para Aplicacao o Modo eh fixo APP
+	nav_modo            = "APP";
+		  
+	var _controller     = '<?php echo $view_controller;?>';
+	var _task           = '<?php echo $view_task;?>';
+	var _action         = '<?php echo $view_action;?>';	
+    var js_link         = "<?php echo $_SESSION['PORTAL_DOMINIO_LINK'];?>";	 
+	
+	var intervalDateTime = 0;
+	
+	var loader_origem = "Pagina Iniciada";
+	
+	var $appm000010_treeview = null;
+	var findCheckableNodess = null;
+
+	function sleep(milliseconds) {
+		var start = new Date().getTime();
+		for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime() - start) > milliseconds){
+		  break;
+		}
+		}
+	}
+	
+    function showLoader(aAcao) {		
+	    
+	   //Lobibox.notify("warning", {position: 'top left', msg: aAcao + " -> " + loader_origem });
+	   
+		// Exibe os indicadores...
+		switch (aAcao) {
+		   case "PAGINA" :
+	          document.getElementById("app_loader").style.display = "block";
+	          document.getElementById("app_loader_texto").style.display = "block";
+			  break;
+		   case "BOTAO" :
+		   default :
+		      $("#btn_spinning").show();
+	    } // switch
+				
+    }
+   
+    function hideLoader(aAcao) {
+		// espera ao menos 1 segundo :)
+		// Esconde os indicadores...
+		sleep(200);
+		
+		switch (aAcao) {
+			case "PAGINA" :
+			   document.getElementById("app_loader").style.display = "none";
+    	       document.getElementById("app_loader_texto").style.display = "none";
+			   break;
+			case "BOTAO" :
+			default:
+			   $("#btn_spinning").hide();
+		} // switch
+		
+		//Lobibox.notify("info", {position: 'top right', msg: aAcao + " -> " + loader_origem });
+		
+		loader_origem = "Inicializado:";
+    }  
+   
+	function appm000010(aAcao,aComple) {
+	   // Para esse caso o aComple eh o PACOTE selcionado no comboBOX
+	   
+	   // Identificando quem chama o Loader
+	   loader_origem += "<br>appm000010: " + aAcao;
+	   
+	   // Saindo ...
+	   if ( aAcao.toUpperCase() == "SAIR" ) {	
+		  // Determina o que esse botao tem que fazer
+		  window.location.hash = "#dashboard.phtml";			  
+	   } else {     
+		  if ( aAcao.toUpperCase() == "LIMPAR" ) {					  
+		     appm000010_limpar();
+		  } else {
+			 if ( ( aAcao.toUpperCase() == "CARREGAR" ) || ( aAcao.toUpperCase() == "CARREGAR_BOTAO" ) ) {			
+
+			    showLoader("BOTAO");
+			 
+		        // Carregar TREEVIEW com Funcionalidades
+                // para texto (Ensino fundamental incompleto)
+			    var txt = $('#fld_pct_id option:selected').text() 
+			    // Valor para o Texto
+			    var valores = [];
+				valores[0] = $('#fld_pct_id').val(); 
+				valores[1] = $('#fld_apl_id').val(); 
+				valores[2] = $('#fld_mdl_id').val(); 
+				valores[3] = $('#fld_prg_id').val(); 
+				valores[4] = $('#fld_tar_id').val(); 
+				valores[5] = $('#fld_aca_id').val(); 
+				var valor_selecionado = 0;
+				// Verificando se foi selecionado algo no comboboxes
+				for ( var x=0; x<valores.length; x++) {
+					if ( valores[x] == null || valores[x] == 0 ) {
+						valores[x] = 0;
+				    }
+					// Pacote eh obrigatorio
+					if ( x > 0 ) {
+					   valor_selecionado += valores[x];
+					}
+				}
+								
+			    //Pacote eh obrigatorio
+			    if ( valores[0] != 0 ) {
+				   // Acionando ajax para selecionar funcionalidades do Pacote selecionado
+                   aAcao = aAcao.toUpperCase();
+			       appm000010_processarDados(aAcao, valores);
+			    } else {
+				   // Limpa a DIV do treeview
+				   appm000010_ElementoDropConteudo("appm000010_treeview");
+				   // Exibe a mensagem para vazio
+				   $("#appm000010_treeview").html("<i>Vazio, selecione um pacote</i>");
+				   // Solicita q selecione um pacote antes
+				   if ( aAcao == "CARREGAR_BOTAO" ) {					  
+  				      _mensagem = "Selecionar um Pacote é obrigatório.";
+				      Lobibox.notify("error", {
+		                position: 'top right',
+		                msg: _mensagem
+		              });
+				   }
+			    }							    
+               
+			    hideLoader("BOTAO");
+
+		     } else {
+			 	
+				// Check
+				if ( aAcao == "CHECK" ) {
+				   // Muda o cursor antes e depois
+                   showLoader("BOTAO");
+				   var _ret = appm000010_percorre_nodes("CHECK", aComple);	   
+                   hideLoader("BOTAO");
+				} else {
+					// Un-Check
+					if ( aAcao == "UN-CHECK" ) {
+					   // Muda o cursor antes e depois	
+                       showLoader("BOTAO");
+					   var _ret = appm000010_percorre_nodes("UN-CHECK", aComple);	   
+                       hideLoader("BOTAO");
+					} else {									
+						// Check/uncheck all
+						if ( aAcao == "CHECK-ALL" ) {
+			               showLoader("BOTAO");
+						   $appm000010_treeview.treeview('checkAll', { silent: true });
+						   hideLoader("BOTAO");
+						} else {
+						   if ( aAcao == "UN-CHECK-ALL" ) {
+							  showLoader("BOTAO");
+						      $appm000010_treeview.treeview('uncheckAll', { silent: true });
+							  hideLoader("BOTAO");
+						   } else {
+							    if ( aAcao == "ALTERAR" ) {
+			
+								   // Pegando sempre o primeiro node
+								   var nodeId=0;	
+								   node =  $('#appm000010_treeview').treeview('getNode', nodeId);   
+                                   
+								   // Percorre treeview e retorna array com href´s selecionadas
+								   // var _selecionados = appm000010_percorre_nodes("RETURN-SELECTED", node); // retorna todos niveis selecionados pai/filho
+								   var _selecionados = appm000010_percorre_nodes("RETURN-LAST-LEVEL", node); // retorna apenas o ultimo nivel, com os recursos selecionados
+								   
+								   // Retornou um array e com dados selecionados ?
+								   if ( Array.isArray(_selecionados) ) {
+									   if ( _selecionados.length > 0 ) {
+										   appm000010_processarDados(aAcao, _selecionados);
+									   } else {
+										  var _mensagem = "Selecione algum Recurso antes de Alterar o Pacote indicado.";
+									      Lobibox.notify("warning", {position: 'top right', msg: _mensagem});			
+									   }
+								   } else {
+                                       var _mensagem = "Selecione algum Recurso antes de Alterar o Pacote indicado.";
+									   Lobibox.notify("danger", {position: 'top right', msg: _mensagem});										   
+								   }	
+								} else {
+                                    // Tratando opcoes para Expandir o treeview
+									switch (aAcao) {
+								       case "EXPANDE-ALL" :
+									      // Indica a opcao do dropdown que ativou essea acao
+										  appm000010_dropdown_selecionaById('dpd_expande', aComple);
+									      $appm000010_treeview.treeview('expandAll', { levels: 4, silent: true });
+									      break;
+									   case "EXPANDE-NVL-1" :
+									      appm000010_dropdown_selecionaById('dpd_expande', aComple);
+									      $appm000010_treeview.treeview('expandAll', { levels: 1, silent: true });
+									      break;
+									   case "EXPANDE-NVL-2" :
+									      appm000010_dropdown_selecionaById('dpd_expande', aComple);
+									      $appm000010_treeview.treeview('expandAll', { levels: 2, silent: true });
+									      break;
+									   case "EXPANDE-NVL-3" :
+									      appm000010_dropdown_selecionaById('dpd_expande', aComple);
+									      $appm000010_treeview.treeview('expandAll', { levels: 3, silent: true });
+									      break;
+									   default :
+									      _mensagem = "Acao: " + aAcao + "<br>Complmento: " + aComple;
+									      // Exibe uma mensagem no canto inferior direito 
+									      Lobibox.notify("warning", {
+										     position: 'top right',
+										     msg: _mensagem
+									     });	
+									} // switch													
+								} <!-- Alterar -->
+						   } <!-- Un-Check-All -->
+						} <!-- Check-All -->
+					} <!-- Un-Check -->
+                } <!-- Check -->
+			 }
+  	      }
+	   }
+	}      
+	
+	function appm000010_percorre_nodes(aAcao, aNode) {
+	   // Identificando quem chama o Loader
+	   loader_origem += "<br>appm000010_percorre_nodes: " + aAcao;
+	   
+	   // Rececursiva para percorrer os nodes a partir de um node
+	   var _dados = false;
+	   
+	   //var _mensagem = "Noh: " + aNode.href;
+	   //Lobibox.notify("warning", { position: 'top center', delay: false, msg: _mensagem });
+	   
+	   // Verificar se tem filhos	 
+	   var _node_count = 0;
+       if ( aNode.hasOwnProperty('nodes') ) {
+	      _node_count = aNode.nodes.length;
+	   }	   
+	   
+	   if ( _node_count > 0 ) {
+		   
+		   _tem_node = true;
+		   // Percorre um por um e aplicar a acao solicitada
+		   switch (aAcao) {
+			   case "CHECK" :
+			       // Se ja esta checked nao faz nada
+			   	   if ( aNode.state.checked != true ) {
+                      // Caso contrario check
+					  $appm000010_treeview.treeview('checkNode', [ aNode.nodeId , { silent: true }]);
+				   }
+				   // Percorrendo os nodes desse noh
+				   for ( var i=0; i < _node_count; i++ ) {					   
+					  // Pegando um node filho do node onde estamos
+					  var _esse_node = aNode.nodes[i];
+					  // acionando recursivamente esa mesma funcao :|
+					  appm000010_percorre_nodes(aAcao, _esse_node);								 
+				   }			   
+			       break;			   
+			   case "UN-CHECK" :
+			       // Se ja esta checked nao faz nada
+			   	   if ( aNode.state.checked != false ) {
+                      // Caso contrario check
+					  //$appm000010_treeview.treeview('uncheckNode', aNode.nodeId);
+					  $appm000010_treeview.treeview('uncheckNode', [ aNode.nodeId , { silent: true }]);
+				   }
+				   // Percorrendo os nodes desse noh
+				   for ( var i=0; i < _node_count; i++ ) {					   
+					  // Pegando um node filho do node onde estamos
+					  var _esse_node = aNode.nodes[i];
+					  // acionando recursivamente esa mesma funcao :|
+					  appm000010_percorre_nodes(aAcao, _esse_node);								 
+				   }			   
+			       break;
+			   case "RETURN-LAST-LEVEL" :
+			       // Para o ultimo nivel, nao precisa empilhar nohs intermediarios
+				   // Percorrendo os nodes desse noh
+				   for ( var i=0; i < _node_count; i++ ) {
+					   
+					  // Pegando um node filho do node onde estamos
+					  var _esse_node = aNode.nodes[i];
+
+					  // acionando recursivamente esa mesma funcao :|
+					  var _ret = appm000010_percorre_nodes(aAcao, _esse_node);
+								  
+					  // Tenho que adicionar esses dados retornados na versao que tenho aqui :|
+					  // Tipo Acumulando apenas quando nao for FALSE
+					  if ( _ret ) {
+						 if ( Array.isArray(_dados) ) {
+							_retorna = _ret.concat(_dados);					 
+						 } else {
+							_retorna = _ret;
+						 }
+						 _dados = _retorna;				 
+						 _dados.concat(_ret);
+					  }
+				   }			   			   
+				   break;
+			   case "RETURN-SELECTED" :
+			   default:
+			       // retorna array com os selecionados
+				   if ( aNode.state.checked == true ) {
+					   // Adiciona no final do array
+					   _dados = new Array(aNode.href);
+				   }				  
+				   // Percorrendo od nodes desse noh
+				   for ( var i=0; i < _node_count; i++ ) {
+					   
+					  // Pegando um node filho do node onde estamos
+					  var _esse_node = aNode.nodes[i];
+
+					  // acionando recursivamente esa mesma funcao :|
+					  var _ret = appm000010_percorre_nodes(aAcao, _esse_node);
+								  
+					  // Tenho que adicionar esses dados retornados na versao que tenho aqui :|
+					  // Tipo Acumulando apenas quando nao for FALSE
+					  if ( _ret ) {
+						 if ( Array.isArray(_dados) ) {
+							_retorna = _ret.concat(_dados);					 
+						 } else {
+							_retorna = _ret;
+						 }
+						 _dados = _retorna;				 
+						 _dados.concat(_ret);
+					  }
+				   }			   			   
+		   } // switch
+		   	   		   
+	   } else {
+		   // Esse node nao tem filhos nodes		
+           switch (aAcao) {
+			   case "CHECK" :
+			      // Se ja esta selecionado nao faz nada :)
+			      if ( aNode.state.checked != true ) {
+					  // Caso contrario check
+					  //$appm000010_treeview.treeview('checkNode',aNode.nodeId);
+					  $appm000010_treeview.treeview('checkNode', [ aNode.nodeId , { silent: true }]);
+				  }
+				  break;			   
+			   case "UN-CHECK" :
+			      // Se ja esta selecionado nao faz nada :)
+			      if ( aNode.state.checked != false ) {
+					  // Caso contrario check
+					  //$appm000010_treeview.treeview('uncheckNode',aNode.nodeId);
+					  $appm000010_treeview.treeview('uncheckNode', [ aNode.nodeId , { silent: true }]);
+				  }
+				  break;
+			   case "RETURN-LAST-LEVEL" :
+			     // Para o ultimo nivel, apenas aqui vai empilhar no array de retorno _dados
+			   case "RETURN-SELECTED":
+			   default:		   
+				   if ( aNode.state.checked == true ) {
+					   // Adiciona no final do array
+					   _dados = new Array(aNode.href);
+				   }
+		   } // switch	   
+	   }
+	   
+	   //False ou um array com os selecionados
+	   return _dados;
+	}
+	
+	function appm000010_ativaBotoes() {
+	   // Mostra todos
+	   $("#btn-expand-all").removeAttr('disabled');
+	   $("#btn-collapse-all").removeAttr('disabled');
+	   $("#btn-check-all").removeAttr('disabled');
+	   $("#btn-uncheck-all").removeAttr('disabled');
+	   $("#btn_atualiza").removeAttr('disabled');
+	   $("#btn_cancela").removeAttr('disabled');
+	}	
+	
+	function appm000010_desativaBotoes() {
+	   $("#btn-expand-all").removeAttr('disabled');
+	   $("#btn-collapse-all").removeAttr('disabled');
+	   $("#btn-check-all").removeAttr('disabled');
+	   $("#btn-uncheck-all").removeAttr('disabled');
+	   $("#btn_atualiza").removeAttr('disabled');
+	   $("#btn_cancela").removeAttr('disabled');
+
+	   $("#btn-expand-all").attr('disabled','disabled');
+	   $("#btn-collapse-all").attr('disabled','disabled');
+	   $("#btn-check-all").attr('disabled','disabled');
+	   $("#btn-uncheck-all").attr('disabled','disabled');		   	   
+	   $("#btn_atualiza").attr('disabled','disabled');		   	   
+	   $("#btn_cancela").attr('disabled','disabled');		   	   
+	}	
+	
+	function appm000010_ElementoDropConteudo(aElementoID) {
+		var aElemento = document.getElementById(aElementoID);
+
+		if ( aElemento != null ) {
+		   while(aElemento.hasChildNodes()) {
+		      aElemento.removeChild(aElemento.firstChild);
+		   }
+		}
+	}
+	
+	function appm000010_limpar() {
+	    // Identificando quem chama o Loader
+	    loader_origem += "<br>appm000010_limpar";
+	   
+		// Volta para guia de Pacote/Criterio
+	    mudaGuia("gui_pacote");			
+		
+		//Desativa botoes
+		appm000010_desativaBotoes();
+	   
+	    // Inicializa o Combo de Pacote
+	    limpaCriterioComboBoxPacote("pacote");
+		limpaCriterioComboBoxPacote("aplicacao");
+		limpaCriterioComboBoxPacote("modulo");
+		limpaCriterioComboBoxPacote("programa");
+		limpaCriterioComboBoxPacote("tarefa");
+		limpaCriterioComboBoxPacote("acao");
+		
+		// Limpa a DIV do treeview
+		appm000010_ElementoDropConteudo("appm000010_treeview");
+		
+		$("#appm000010_treeview").html("<i>Vazio, selecione um pacote</i>");
+		
+        // Muda Titulo
+		modo_titulo("fa fa-filter", "Critério", "<?php echo $view_controle_de_versao;?>");		
+	}
+	
+   function appm000010_processarDados(aAcao, aComple) {
+	  // Identificando quem chama o Loader
+	  loader_origem += "<br>appm000010_processarDados: " + aAcao;
+	  
+	  var url = "";
+	  // Aciona o AJAX e indica como receber o JSON	  
+	  
+	  if ( aAcao != "ALTERAR") {
+		  url = js_link + "appm000010_AJAX/ajax/" + aAcao
+						+ "/empresa/" + empresa
+						+ "/filial/" + filial 
+						+ "/usuario/" + usuario
+						+ "/param/" + aComple[0]
+						+ "/id/" + aComple[0]
+						+ "/pacote/" + aComple[0]
+						+ "/aplicacao/" + aComple[1]
+						+ "/modulo/" + aComple[2]
+						+ "/programa/" + aComple[3]
+						+ "/tarefa/" + aComple[4]
+						+ "/t_acao/" + aComple[5]; // devido ao uso como operacao em outras situacoes
+	  } else {
+		  // Pega o pacote Indicado
+		  $("#spn_aguarde").html("Aguarde, Atualizando Informações...");		 
+          showLoader("BOTAO");	
+          appm000010_desativaBotoes();										  
+
+          var pacote = $('#fld_pct_id').val();   
+		  var _ctd = aComple.length;
+		  var _param = "/";
+		  for ( var x=0; x < _ctd; x++) {
+			  _txt = aComple[x];			  
+			  _param += "param/"+_txt.replace("#","") + "/";
+		  }
+		  url = js_link + "appm000010_AJAX/ajax/" + aAcao
+						+ "/empresa/" + empresa
+						+ "/filial/" + filial 
+						+ "/usuario/" + usuario
+						+ "/pacote/" + pacote
+						+ _param;
+	  }
+	  
+	  $.getJSON(url, function ( dados_retorno ){ 
+		 // Aciona funcao para processar o retorno do AJAX em formato JSON
+		 appm000010_processarRetornoAJAX( dados_retorno);            
+	  } ); 
+			  
+   }   
+
+   function appm000010_processarRetornoAJAX( aDados ) {
+		var aAcao          = aDados.ACAO;
+        
+		// Identificando quem chama o Loader
+	    loader_origem += "<br>appm000010_processarRetornoAJAX: " + aAcao;
+
+		// Achou algo para esse pacote ?
+		if ( aAcao != "ALTERAR" ) {
+		   // Limpa a DIV do treeview
+		   appm000010_ElementoDropConteudo("appm000010_treeview");	
+		   
+		   if ( aDados.STATUS == true ) {	   
+		
+		      // Volta para guia de Funcionalidade
+	          mudaGuia("gui_funcionalidade");
+		   
+		      appm000010_ativaBotoes();
+		
+		      var treeData = aDados.DADOS;
+		   
+		      var treeDataSelecionados = aDados.SELECIONADOS;
+		   	 
+		      appm000010_carrega_treeview(treeData, treeDataSelecionados);		   
+		   } else {	
+		      // Nao achou nada para esse pacote
+		      // Exibe uma mensagem no canto inferior direito 
+		      Lobibox.notify("error", {
+  			      position: 'top right',
+			      msg: aDados.MENSAGEM
+		      });	
+		   }
+		} else {	
+		  // Terminou
+		  hideLoader("BOTAO");								   		 	
+		  $("#spn_aguarde").html("Aguarde, Carregando Informações...");
+		  
+		  if ( aDados.STATUS == true ) {	   
+		     appm000010_limpar();
+		  	 Lobibox.notify("success", { position: 'top right', msg: aDados.MENSAGEM });	
+			 
+		  } else {
+		     Lobibox.notify("error", { position: 'top right', msg: aDados.ERROR });	
+			 appm000010_ativaBotoes();
+		  }
+		}			
+   }	
+   
+   function appm000010_dropdown_selecionaById(aDropDown, aSelecionar) {
+		// Varrendo a lista
+		var _lista = document.getElementById(aDropDown);
+		
+		var _items = _lista.getElementsByTagName('LI');
+
+		for(i=0; i<_items.length; i++) {
+		   _items[i].className = "";
+		   var _id = _items[i].id;
+		   if ( _items[i].id == aSelecionar ) {
+			  _items[i].className = "active";   
+		   }          
+		}
+   }
+</script>
+<!-- Main content -->
+<!-- INICIO: appm000010 -->
+<div id='appm000010'>
+
+   <!-- INICIO: Panel com titulo e botoes -->
+   <div class="panel panel-primary">
+		<!-- Default panel contents -->
+		<div class="panel-heading">
+		   <div class="panel-title">
+		   <div class='div_esquerda'>
+			  <!--Vai ser atualizado no java script -->
+			  <h3 name="modo_titulo" id="modo_titulo"></h3>			 
+		   </div>
+		   <div class='div_direita'>
+			  <center>
+				<h4><span id="page_data"><?php echo $view_page_data;?></span></h4>					
+				<h6><span id="page_hora"><?php echo $view_page_hora;?></span></h6>
+			  </center>
+		   </div>
+		   </div>
+		</div>
+		<div class="panel-body">
+			<!-- Botoes de nevegacao para os dados e acoes -->
+			<div class='div_esquerda'>
+	   
+	           <button class="btn btn-sm btn-info" data-toggle='tooltip' data-placement='bottom' title='Carregar' id="btn_carregar">
+					   <i class='fa fa-check'></i>&nbsp;
+					   Carregar
+			   </button>
+			   &nbsp;
+			   <button class="btn btn-sm btn-warning" data-toggle='tooltip' data-placement='bottom' title='Limpar Parametros' id="btn_limpar">
+					   <i class='fa fa-close'></i>&nbsp;
+					   Limpar            
+			   </button>
+			   
+			   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			   
+               <!-- INICIO: DrowpDowm para selecionar a quia e fixa-la -->
+			   <div class="btn-group btn-group-sm">                            
+					<button id="btn-expand-all" type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle='dropdown'> 						        			
+				            <i class='fa fa-plus-square-o'></i>&nbsp;
+							<span id='spn_expande' data-toggle='tooltip' data-placement='bottom' title='Expande por Niveis'>Expande</span>
+					</button>						
+					<ul id='dpd_expande' class="dropdown-menu" role="menu">
+					
+					    <li id='lst_todos' onclick="appm000010('EXPANDE-ALL','lst_todos');" class='active'>
+						    <a href='#'>Todos Níveis</a>
+					    </li>
+						<li id='lst_nvl_1' onclick="appm000010('EXPANDE-NVL-1','lst_nvl_1');">
+						    <a href='#'>Primeiro Nível</a>
+						</li>										
+						<li id='lst_nvl_2' onclick="appm000010('EXPANDE-NVL-2','lst_nvl_2');">
+						    <a href='#'>Segundo Nível</a>
+						</li>
+						<li id='lst_nvl_3' onclick="appm000010('EXPANDE-NVL-3','lst_nvl_3');">
+						    <a href='#'>Terceiro Nível</a>
+						</li>
+					</ul>
+			   </div>
+			   <!-- DropDown btn_expande-all -->			   		   			   
+			   
+			   <button class="btn btn-sm btn-success" data-toggle='tooltip' data-placement='bottom' title='Recolher Todas as Funcionalidades' id="btn-collapse-all">
+				   <i class='fa fa-minus-square-o'></i>&nbsp;
+					   Recollher
+			   </button>
+			   
+               &nbsp;&nbsp;&nbsp;
+			   
+			   <button class="btn btn-sm btn-success" data-toggle='tooltip' data-placement='bottom' title='Marcar Todas as Funcionalidades' id="btn-check-all">
+				   <i class='fa fa-check-square-o'></i>&nbsp;
+					   Marcar
+			   </button>
+			   <button class="btn btn-sm btn-success" data-toggle='tooltip' data-placement='bottom' title='Desmarcar Todas as Funcionalidades' id="btn-uncheck-all">
+				   <i class='fa fa-square-o'></i>&nbsp;
+					   Desmarcar
+			   </button>
+			   
+			</div>
+			
+			<div class='div_direita'>				
+			   <button id="btn_sair" class='btn btn-danger btn-sm' data-toggle='tooltip' data-placement='bottom' title='Sair e Voltar para Area Princial.'> 
+				 <i class='fa fa-sign-out'></i>&nbsp;
+				 Sair
+			   </button>	
+				
+		   </div>								
+		</div>        
+   </div>
+   <!-- FIM: Panel com titulo e botoes -->
+		   
+   <!-- INICIO: Navegar -->
+   <div id='div_navegar'> 
+	  
+	  <!-- INICIO: Navigation Tabs --> 
+	  <div>		 
+		 <!-- INICIO: Nav tabs -->
+		 <ul id='tab_guias' class="nav nav-tabs">
+		    <li id="tab_pacote" onclick="setGuia('gui_pacote');" role="presentation" class="active"><a href="#gui_pacote" aria-controls="gui_pacote" role="tab" data-toggle="tab">Pacote(s)</a></li>			    			    
+			<li id="tab_funcionalidade" onclick="setGuia('gui_funcionalidade');" role="presentation" >
+			    <a href="#gui_funcionalidade" aria-controls="gui_funcionalidade" role="tab" data-toggle="tab">Funcionalidade(s)</a>
+			</li>			    			    
+		 </ul>
+		 <!-- FIM: Nav tabs -->		
+		 <div class="tab-content padding-15 bg-white">
+			<!-- INICIO: tab pacote -->
+			<div role="tabpanel" class="tab-pane fade in active" id="gui_pacote">	
+			   <!-- INICIO: row#1 -->
+               <div class="row">				  
+				  <div class="col-xs-3">			              			              
+					  <?php echo $view_database->bsComboInformacao('pacote', 'fld_pct_id', 'Pacote(s)', "Aguarde");?>
+				  </div>									  
+				  <div class="col-xs-3">			              			              
+					  <?php echo $view_database->bsComboInformacao('aplicacao', 'fld_apl_id', 'Aplicação', "Aguarde");?>
+				  </div>		
+				  <div class="col-xs-3">			              			              
+					  <?php echo $view_database->bsComboInformacao('modulo', 'fld_mdl_id', 'Modulo', "Aguarde");?>
+				  </div>		
+			   </div>
+			   <!-- FIM: row#1 -->
+			   <!-- INICIO: row#2 -->
+               <div class="row">				  
+				  <div class="col-xs-3">			              			              
+					  <?php echo $view_database->bsComboInformacao('programa', 'fld_prg_id', 'Programa', "Aguarde");?>
+				  </div>									  
+				  <div class="col-xs-3">			              			              
+					  <?php echo $view_database->bsComboInformacao('tarefa', 'fld_tar_id', 'Tarefa', "Aguarde");?>
+				  </div>		
+				  <div class="col-xs-3">			              			              
+					  <?php echo $view_database->bsComboInformacao('acao', 'fld_aca_id', 'Acao', "Aguarde");?>
+				  </div>		
+			   </div>			   
+			   <!-- FIM: row#2 -->
+			</div>	
+			<!-- FIM: tab pacote -->			
+			<!-- INICIO: tab funcionalidade -->
+			<div role="tabpanel" class="tab-pane fade" id="gui_funcionalidade">	
+			   <div class="row">
+			      <div class='col-xs-12'>
+			         <div id="appm000010_treeview" class="treeview fixar_tamanho"><i>Vazio, selecione um pacote</i></div>			     
+				  </div>
+               </div>		
+			</div>	
+			<!-- FIM: tab funcionalidade -->			
+		 </div> <!--  tab content -->						 
+	  </div>
+	  <!-- FIM: Navigation Tabs --> 
+	  
+   </div>
+   <!-- FIM: Navegar -->
+   
+   <br>
+			 
+	<!-- INICIO: Botoes de navegacao -->
+	<div id='div_rodape' class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">
+		  <div class="panel-title ">
+			<div class="div_esquerda">
+               <button class="btn btn-sm btn-success" data-toggle='tooltip' data-placement='bottom' title='Atualiza Pacote' id="btn_atualiza">
+				   <i class='fa fa-check'></i>&nbsp;
+					   Atualizar
+			   </button>
+			   <button class="btn btn-sm btn-danger" data-toggle='tooltip' data-placement='bottom' title='Cancela Alterações' id="btn_cancela">
+				   <i class='fa fa-close'></i>&nbsp;
+					   Cancelar
+			   </button>
+			   &nbsp;&nbsp;&nbsp;&nbsp;
+			   <button class="btn btn-sm btn-inverse" data-toggle='tooltip' data-placement='bottom' title='Cancela Alterações' id="btn_spinning">
+				   <i id='loa_spinning' class="fa fa-refresh fa-spin" style="font-size:14px"></i>&nbsp;&nbsp;	   
+					   <span id='spn_aguarde'>Aguarde, Carregando Informações...</span>
+			   </button>
+			   
+			   
+			</div>
+			<div class="div_direita">			
+				<button id="btn_voltar" class='btn btn-default btn-sm' data-toggle='tooltip' data-placement='bottom' title='Sair e Voltar para Area Principal.'> 
+				  <i class='fa fa-reply'></i>
+				  Voltar
+				</button>	
+			</div>
+		  </div>
+		</div>	
+		<div class="panel-body">
+			<div class='div_esquerda esquerda'>
+			   <?php echo $view_copyright_esquerda;?>
+			</div>
+			<div class='div_direita direita'>			  
+			</div>
+		</div>
+	</div>
+	<!-- FIM: Botoes de navegacao -->   			 
+    <div id='app_loader' name='app_loader' class='loader50'></div>
+    <div id='app_loader_texto' name='app_loader_texto' class='loader50_texto'>Carregando...</div>	
+	<!-- Montando uma DIALOG WINDOW Modal - Part#1 -->
+
+</div> 
+<!-- FIM: appm000010 -->
+<script type="text/javascript">
+
+		    
+function appm000010_carrega_treeview(aDados, aSelecionados) {
+   
+   $appm000010_treeview = $('#appm000010_treeview').treeview({
+	  data: aDados,
+	  showIcon: false,
+	  showCheckbox: true,
+	  multiSelect: false,
+	  showBorder: true,
+	  showTags: true,	
+	  onNodeChecked: function(event, node) {	    
+		appm000010("CHECK", node);
+	  },
+	  onNodeUnchecked: function (event, node) {
+		 appm000010("UN-CHECK", node);
+	  }	  
+	});   
+
+	findCheckableNodess = function(aValor) {
+	  return $appm000010_treeview.treeview('search', [ aValor, { ignoreCase: false, exactMatch: false } ]);
+	};
+
+	// Identifica os selecionados q estao na base gravados como funcionalidade do pacote
+	// Como veio da base, vou colocar os que ja fazem parte do pacote como checked.
+	if ( aSelecionados ) {
+		   
+	   for ( var i=0; i < aSelecionados.length; i++ ) {
+		  var _valor = aSelecionados[i];
+		  // Verifica se existe no treeview	  
+		  var checkableNodes = findCheckableNodess(_valor);
+		  // Check se achou
+		  $appm000010_treeview.treeview('checkNode', [ checkableNodes, { silent: true }]);
+	   }
+	   // O Ultimo pesquisado fica marcado de VEMELHO no texto
+	   // Nao deixar indicado como encontrado (vermelho) :(
+	   checkableNodes = findCheckableNodess("NONE");
+	   
+	   // Colapse todo o treeview e expande ao 1o. n
+	   var levels = 1;
+	   $appm000010_treeview.treeview('collapseAll', { silent: true });
+	   $appm000010_treeview.treeview('expandAll', { levels: levels, silent: true });
+	   
+	} else {
+	   _mensagem = "Nenhuma Funcionalidade Selecionada para esse Pacote.";
+	   // Exibe uma mensagem no canto inferior direito 
+	   Lobibox.notify("info", {
+		  position: 'top right',
+		  msg: _mensagem
+	   });			 		   
+	}
+}
+	
+$(function () {
+	
+   // Carregando comboBOX de Pacotes
+   var pacote    = $('#fld_pct_id').val();   
+   var aplicacao = $('#fld_apl_id').val();   
+   var modulo   = $('#fld_mdl_id').val();   
+   var programa  = $('#fld_prg_id').val();   
+   var tarefa    = $('#fld_tar_id').val();   
+   var acao      = $('#fld_aca_id').val();   
+   
+   // Mostra Carregando...
+   showLoader("BOTAO");
+   
+   var url = js_link + "comboBoxPacoteAJAX/ajax/pacote/id/"+pacote+"/parametro/"+pacote+"/empresa/" + empresa + "/filial/" + filial + "/"
+                     + "pacote/" + pacote + "/aplicacao/" + aplicacao + "/modulo/" + modulo + "/programa/" + programa + "/tarefa/" + tarefa + "/t_acao/" + acao + "/";
+   $.getJSON(url, function (dados){		
+	  if (dados.length > 0){ 	
+		 var option = '<option value="0">Selecione Pacote</option>';
+		 $.each(dados, function(i, obj){
+			 option += '<option value="'+obj.sigla+'">'+obj.nome+'</option>';
+		 })
+		 $('#fld_pct_id').html(option).show();
+	  }else{
+		  resetComboBoxPacote("pacote");
+	  }
+   });
+   
+   var url = js_link + "comboBoxPacoteAJAX/ajax/aplicacao/id/"+aplicacao+"/parametro/"+aplicacao+"/empresa/" + empresa + "/filial/" + filial + "/"
+                     + "pacote/" + pacote + "/aplicacao/" + aplicacao + "/modulo/" + modulo + "/programa/" + programa + "/tarefa/" + tarefa + "/t_acao/" + acao + "/";
+   $.getJSON(url, function (dados){		
+	  if (dados.length > 0){ 	
+		 var option = '<option value="0">Selecione Aplicacao</option>';
+		 $.each(dados, function(i, obj){
+			 option += '<option value="'+obj.sigla+'">'+obj.nome+'</option>';
+		 })
+		 $('#fld_apl_id').html(option).show();
+	  }else{
+		  resetComboBoxPacote("aplicacao");
+	  }
+   });
+   
+   var url = js_link + "comboBoxPacoteAJAX/ajax/modulo/id/"+modulo+"/parametro/"+modulo+"/empresa/" + empresa + "/filial/" + filial + "/"
+                     + "pacote/" + pacote + "/aplicacao/" + aplicacao + "/modulo/" + modulo + "/programa/" + programa + "/tarefa/" + tarefa + "/t_acao/" + acao + "/";
+   $.getJSON(url, function (dados){		
+	  if (dados.length > 0){ 	
+		 var option = '<option value="0">Selecione Modulo</option>';
+		 $.each(dados, function(i, obj){
+			 option += '<option value="'+obj.sigla+'">'+obj.nome+'</option>';
+		 })
+		 $('#fld_mdl_id').html(option).show();
+	  }else{
+		  resetComboBoxPacote("modulo");
+	  }
+   });
+   
+   $('#fld_apl_id').change(function(e){
+
+      showLoader("BOTAO");
+	  
+      resetComboBoxPacote("programa");
+ 	  aplicacao = $('#fld_apl_id').val();   
+      modulo   = $('#fld_mdl_id').val();   
+	  
+      var url = js_link + "comboBoxPacoteAJAX/ajax/programa/id/"+programa+"/parametro/"+programa+"/empresa/" + empresa + "/filial/" + filial + "/"
+                        + "pacote/" + pacote + "/aplicacao/" + aplicacao + "/modulo/" + modulo + "/programa/" + programa + "/tarefa/" + tarefa + "/t_acao/" + acao + "/";
+      $.getJSON(url, function (dados){		
+	     if (dados.length > 0){ 	
+		    var option = '<option value="0">Selecione Programa</option>';
+		    $.each(dados, function(i, obj){
+	   		    option += '<option value="'+obj.sigla+'">'+obj.nome+'</option>';
+		    })
+		    $('#fld_prg_id').html(option).show();
+	     }else{
+		     resetComboBoxPacote("programa");
+	     }
+		 hideLoader("BOTAO");
+      });
+   });
+   
+   $('#fld_mdl_id').change(function(e){
+
+      showLoader("BOTAO");
+	  
+      resetComboBoxPacote("programa");
+	  aplicacao = $('#fld_apl_id').val();   
+      modulo   = $('#fld_mdl_id').val();   
+  
+      var url = js_link + "comboBoxPacoteAJAX/ajax/programa/id/"+programa+"/parametro/"+programa+"/empresa/" + empresa + "/filial/" + filial + "/"
+                        + "pacote/" + pacote + "/aplicacao/" + aplicacao + "/modulo/" + modulo + "/programa/" + programa + "/tarefa/" + tarefa + "/t_acao/" + acao + "/";
+      $.getJSON(url, function (dados){		
+	     if (dados.length > 0){ 	
+		    var option = '<option value="0">Selecione Programa</option>';
+		    $.each(dados, function(i, obj){
+	   		    option += '<option value="'+obj.sigla+'">'+obj.nome+'</option>';
+		    })
+		    $('#fld_prg_id').html(option).show();
+	     }else{
+		     resetComboBoxPacote("programa");
+	     }
+		 hideLoader("BOTAO");
+      });
+   });
+      
+   var url = js_link + "comboBoxPacoteAJAX/ajax/tarefa/id/"+tarefa+"/parametro/"+tarefa+"/empresa/" + empresa + "/filial/" + filial + "/"
+                     + "pacote/" + pacote + "/aplicacao/" + aplicacao + "/modulo/" + modulo + "/programa/" + programa + "/tarefa/" + tarefa + "/t_acao/" + acao + "/";
+   $.getJSON(url, function (dados){		
+	  if (dados.length > 0){ 	
+		 var option = '<option value="0">Selecione Tarefa</option>';
+		 $.each(dados, function(i, obj){
+			 option += '<option value="'+obj.sigla+'">'+obj.nome+'</option>';
+		 })
+		 $('#fld_tar_id').html(option).show();
+	  }else{
+		  resetComboBoxPacote("taefa");
+	  }
+   });
+
+   var url = js_link + "comboBoxPacoteAJAX/ajax/acao/id/"+acao+"/parametro/"+acao+"/empresa/" + empresa + "/filial/" + filial + "/"
+                     + "pacote/" + pacote + "/aplicacao/" + aplicacao + "/modulo/" + modulo + "/programa/" + programa + "/tarefa/" + tarefa + "/t_acao/" + acao + "/";
+   $.getJSON(url, function (dados){		
+	  if (dados.length > 0){ 	
+		 var option = '<option value="0">Selecione Acao</option>';
+		 $.each(dados, function(i, obj){
+			 option += '<option value="'+obj.sigla+'">'+obj.nome+'</option>';
+		 })
+		 $('#fld_aca_id').html(option).show();
+	  }else{
+		  resetComboBoxPacote("acao");
+	  }
+	  
+	  // Esconde Carregando...
+      hideLoader("BOTAO");
+   });
+   
+   // Quando mudar o pacote, tenho que ajustar o titulo dos botoes // Ajustando o nav_modo da tela
+   $('#fld_pct_id').change(function(e){
+	  var pacote    = $('#fld_pct_id').val();  
+	  var titulo = "Critério";
+      if ( pacote != 0 ) {
+	     var pacote_texto = $('select[id=fld_pct_id]  option:selected').text();
+	     _titulo = " Critério - Pacote #" + pacote + " - " + pacote_texto;         
+	  }
+	  modo_titulo("fa fa-filter", _titulo, "<?php echo $view_controle_de_versao;?>");
+   });
+
+   
+   // Executando os scripts dessa .phtml uhuuuu
+   // Atualizando dados para o programa
+   modo_programa_titulo("<?php echo $view_page_icone;?>", "<?php echo $view_page_header;?>","<?php echo $view_controle_de_versao;?>");
+
+   // Ajustando o nav_modo da tela
+   modo_titulo("fa fa-filter", "Critério", "<?php echo $view_controle_de_versao;?>");
+  
+   modo_seleciona(nav_modo);
+	
+   // Forca mudar Hora e data
+   intervalDateTime = setInterval(function(){ pageDateTime()}, 1000);
+   
+   // Definindo acao para os botoes	 
+   $("#btn_carregar").click(function(e) {         
+	 appm000010("CARREGAR_BOTAO", <?php echo $view_login_id;?>);
+   });	 
+
+   $("#btn_limpar").click(function(e) {
+	 appm000010('LIMPAR',<?php echo $view_login_id;?>);
+   });	 
+
+   $("#btn_cancela").click(function(e) {
+	  appm000010('LIMPAR',<?php echo $view_login_id;?>);
+	  _mensagem = "Operação Cancelada.";
+	  Lobibox.notify("error", {
+	    position: 'top right',
+		msg: _mensagem
+      });	
+   });	    
+   
+   $("#btn_atualiza").click(function(e) {
+	 appm000010('ALTERAR',<?php echo $view_login_id;?>);
+   });	       
+  
+   $("#btn_sair").click(function(e) {
+	   // Parando o intervalDefaults 
+	   clearInterval(intervalDateTime);		  
+	   // Determina o que esse botao tem que fazer
+	   window.location.hash = "#dashboard.phtml";
+   });		
+  
+   $("#btn_voltar").click(function(e) {
+	   // Parando o intervalDefaults 
+	   clearInterval(intervalDateTime);		  
+	   // Determina o que esse botao tem que fazer
+	   window.location.hash = "#dashboard.phtml";
+   });		
+  
+   // Check/uncheck all
+   $('#btn-check-all').click(function (e) {
+	  appm000010("CHECK-ALL", <?php echo $view_login_id;?>);
+	  var checkableNodes = findCheckableNodess("NONE");
+   });
+
+   $('#btn-uncheck-all').click(function (e) {
+	  appm000010("UN-CHECK-ALL", <?php echo $view_login_id;?>)
+	  var checkableNodes = findCheckableNodess("NONE");
+   });    
+
+   // Expand/collapse all
+   $('#btn-collapse-all').click(function (e) {       
+	   $appm000010_treeview.treeview('collapseAll', { silent: true });
+   });
+
+   $(document).ready(function(){	
+   
+	   $('[data-toggle="tooltip"]').tooltip();  
+
+	   // Desativas botoes de acao no treeview
+       appm000010_desativaBotoes();	   
+ 
+   });	
+      
+});		   
+</script>

@@ -1,0 +1,7 @@
+<?php  
+  
+  // LOBI Admin Tools/Template
+  $_SESSION["PORTAL_LOBIADMIN_PATH"]  = $_SESSION["PORTAL_WEBFILES_PATH"].'LobiAdmin/';
+  $_SESSION["PORTAL_LOBIADMIN_LINK"]  = $_SESSION["PORTAL_WEBFILES_LINK"].'LobiAdmin/';
+    
+?>

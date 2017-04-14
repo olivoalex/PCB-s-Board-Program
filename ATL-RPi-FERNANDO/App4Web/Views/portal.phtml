@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<!--Author      : @arboshiki-->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_JS_SCRIPTS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+  define ('PORTAL_DOMINIO_AJAX_LINK',$_SESSION["PORTAL_DOMINIO_AJAX_LINK"]);
+  
+  define ('PORTAL_WEBFILES_LINK',$_SESSION["PORTAL_WEBFILES_LINK"]);
+  
+  define ('PORTAL_AJAX_LINK',$_SESSION["PORTAL_AJAX_LINK"]);
+  
+  define ('PORTAL_SKIN_LINK',$_SESSION["DOM_SKIN_LINK"]);
+  
+  define ('PAGE_ICON',$_SESSION["PORTAL_LOBIADMIN_LINK"].'/img/logo/lobiadmin-logo-16.ico');
+  
+  define ('PAGE_BACKGROUND_IMAGE',$_SESSION["PORTAL_LOBIADMIN_LINK"].'/img/demo/3_1920.jpg');
+  
+  $_usr_login = $_SESSION["LOGGED_USER"];
+  $_usr_nome  = $_SESSION["LOGGED_NAME"];
+  $_usr_email = $_SESSION["LOGGED_EMAIL"];
+  $_usr_photo = $_SESSION["LOGGED_PHOTO"];  
+   
+?>
+<html> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Portal de Aplicaçoes WEB</title>
+        <link rel="shortcut icon" href="<?php echo LOBIADMIN.'img/logo/lobiadmin-logo-16.ico';?>" />
+
+				<!-- data Tables -->
+  
+	    <link rel="stylesheet" href="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/css/buttons.bootstrap.min.css">
+	    <link rel="stylesheet" href="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/css/buttons.dataTables.min.css">
+	    <link rel="stylesheet" href="<?php echo PORTAL_WEBFILES_LINK;?>/Select/css/select.dataTables.min.css">   
+	    
+		<link rel="stylesheet" href="<?php echo PORTAL_WEBFILES_LINK;?>/DataTables/css/jquery.dataTables.min.css">   
+
+        
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/bootstrap.min.css';?>">
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/font-awesome.min.css';?>"/>
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/weather-icons.min.css';?>"/>
+
+        <!--lobiadmin-with-plugins.css contains all LobiAdmin css plus lobiplugins all css files, plus third party plugins-->
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/lobiadmin-with-plugins.css';?>"/>
+        <!--Put your css here-->
+        
+        <!--This css file is for only demo usage-->
+        <link rel="stylesheet" href="<?php echo LOBIADMIN.'css/demo.css';?>"/>
+
+        <!-- App4Web Scripts -->
+		<link rel="stylesheet" href="<?php echo PORTAL_SKIN_LINK;?>app4web.css">
+        <link rel="stylesheet" href="<?php echo PORTAL_SKIN_LINK;?>tabela_cruz.css">
+		<link rel="stylesheet" href="<?php echo PORTAL_SKIN_LINK;?>bootstrap-treeview.css">
+
+		<script type="text/javascript" src="<?php echo PORTAL_JS_SCRIPTS_LINK;?>menuJSONtoLOBI.js"></script>		        
+        <script type="text/javascript" src="<?php echo PORTAL_JS_SCRIPTS_LINK;?>Data.js"></script>        
+        <script type="text/javascript" src="<?php echo PORTAL_AJAX_LINK;?>comboBoxAJAX.js"></script>
+        <script type="text/javascript" src="<?php echo PORTAL_JS_SCRIPTS_LINK;?>navegacaoControles.js"></script>
+        <script type="text/javascript" src="<?php echo PORTAL_JS_SCRIPTS_LINK;?>tabControl.js"></script>	
+		
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>js/html5shiv.min.js"></script>
+        <script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>js/respond.min.js"></script>
+        <script type="text/javascript" src="<?php echo PORTAL_JS_SCRIPTS_LINK;?>Browser.js"></script>
+        <script type="text/javascript" src="<?php echo PORTAL_JS_SCRIPTS_LINK;?>tabela_cruz_hash.js"></script>
+        
+		<!--Make sure that config.js file is loaded before LobiAdmin.js-->
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/lib/jquery.min.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/lib/jquery-ui.min.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/bootstrap/bootstrap.min.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/lobi-plugins/lobibox.min.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/lobi-plugins/lobipanel.min.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js';?>"></script>
+
+		<script src="<?php echo PORTAL_WEBFILES_LINK;?>js/bootbox.min.js"></script>
+				
+        <!--Make sure that config.js file is loaded before LobiAdmin.js-->
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/config.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/LobiAdmin.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/app.js';?>"></script>
+        <script type="text/javascript" src="<?php echo LOBIADMIN.'js/demo.js';?>"></script>
+		
+		<!-- Treeview -->
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>js/bootstrap-treeview.js"></script>
+		
+		<!-- Data Tables -->
+        <script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/DataTables/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/DataTables/js/dataTables.bootstrap.min.js"></script>		        
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/buttons.bootstrap.min.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/jszip.min.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/pdfmake.min.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/vfs_fonts.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/buttons.html5.min.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Buttons/js/buttons.colVis.min.js"></script>	
+		<script type="text/javascript" src="<?php echo PORTAL_WEBFILES_LINK;?>/Select/js/dataTables.select.min.js"></script>
+		
+		
+		<style>
+		   .dataTables_scroll {
+               overflow:auto;
+            }
+	        a.dt-button.red {
+				color: red;
+			}	 
+			a.dt-button.orange {
+				color: orange;
+			}		 
+			a.dt-button.green {
+				color: green;
+			}
+			
+		   .escondido {
+			   visibility: hidden;
+		   }
+		   .tit {
+			   color:whitesmoke;
+			   font-family: Verdana;
+			   font-size: 14px;
+		   }
+		   .fixar_tamanho {
+               max-height: 420px;
+               overflow-y: scroll;
+           }
+		   
+		   .esquerda {
+			   text-align: left;
+		   }
+
+		   .direita {
+			   text-align: right;
+		   }		   
+		   
+		   .centro {
+			   text-align: center;
+		   }	
+		   
+           .bg-verde {
+			   background-color: lightgreen;
+		   }		   
+		   .bg-vermelho {
+			   background-color: salmon;
+		   }		   
+		   .bg-amarelo {
+			   background-color: lightyellow;
+		   }		   
+		   .bg-azul {
+			   background-color: lightblue;
+		   }		   
+
+		   .app-container {position:relative;
+						 padding:10px;
+						 margin-bottom: 5px;
+						 border-style: none;
+						 border-width: 0;
+						 }
+						 
+		   .meu-content {background-color:#FFF;
+		                 position:relative;
+						 padding:10px;
+						 margin-bottom:10px;
+						 border-color:#e5e5e5 #eee #eee;
+						 border-style:solid;
+						 border-width:1px 0;
+						 -webkit-box-shadow:inset 0 3px 6px rgba(0,0,0,.05);
+						 box-shadow:inset 0 3px 6px rgba(0,0,0,.05)
+						 }
+           .cursor_hand { cursor:pointer; }
+		</style>
+		
+		<script type="text/javascript">
+		   var _full_usr_photo = '<?php echo LOBIADMIN."img/users/".$_usr_photo;?>';
+		   var _usr_login_status = '<?php echo Logged();?>';
+		   
+		   var _portal_link         = "http://11.12.13.30/";
+		   var _portal_link_dominio = "http://11.12.13.30/Portal";
+		   var _portal_ambiente   = "App4Web/";
+		   var _portal_dominio    = "Portal/";
+		   var _portal_controller = "";
+		   var _portal_task = "";
+		   var _portal_action = "";
+		   var _portal_page = ""; // hash
+		   var _browser = "<?php echo BROWSER;?>";
+		   
+		   // apenas para fazer o REFRESH a cada 5 minutos
+           var contador_regressivo = 300000;
+           var refresh_id = 0;
+           var refresh_counter_id = 0;
+		   
+		   	//Compose template string
+			String.prototype.compose = (function (){
+			var re = /\{{(.+?)\}}/g;
+			return function (o){
+					return this.replace(re, function (_, k){
+						return typeof o[k] != 'undefined' ? o[k] : '';
+					});
+				}
+			}());
+			
+		   function jsMontaUrl(_controller, _task, _action, _params) {
+		  
+		      var _ret = _portal_link + _portal_ambiente + _portal_dominio + _controller + "/" + _task + "/" + _action;
+
+			  // Se tiver parametro, empilha :)
+			  if ( _params ) {
+				  _ret += _params;
+			  }
+			  
+			  //alert("jsMontaUrl: " + _ret);
+		  
+		      return _ret;
+		   }
+		   
+		   function jsMontaUrlDireta(_arquivo) {
+		  
+		      var _ret = _portal_link + _portal_ambiente + _arquivo;
+			  
+			  //alert("jsMontaUrl: " + _ret);
+		  
+		      return _ret;
+		   }
+		   
+		   function executaHash(_hash) {
+			   //alert("Novo Hash : " + _hash);
+			   window.location.hash = _hash;
+		   }
+		   
+		   function executaUrl(_url) {
+			   //alert("Novo Url : " + _url);
+			   window.location = _url;
+		   }	
+
+		   function refresh_inicializa() {
+		      // apenas para fazer o REFRESH a cada 5 minutos
+              contador_regressivo = 300000;
+              // Limpando os contadores para refresh dos dados 
+              if ( refresh_id != 0 ) {
+                 clearInterval(refresh_id);
+              }
+              if ( refresh_counter_id != 0 ) {		  
+                 clearInterval(refresh_counter_id);
+              }				  
+			  // Iniciando controles com ZERO
+              refresh_id = 0;
+              refresh_counter_id = 0;		   
+		   }
+		   
+        
+		</script>
+		
+	    <style>
+		  .portal_titulo {
+			 margin-top: 5px;
+			 margin-bottom: 5px;
+			 margin-left: 15px;
+		     font-size: 22pt;
+			 font-weight: bold;
+			 color: white;
+		  }
+          .titulo {
+			 margin-left: 15px;
+		     font-size: 18pt;
+			 font-weight: bold;
+			 color: gray;
+		  }		  
+		  .direita {
+			 text-align: right;
+		  }
+		  .esquerda {
+			 text-align: left;			  
+		  }		  
+		  .div_esquerda {
+			  float: left;
+			  width:50%;			  
+		  }
+		  .div_direita {
+			  float: right;
+			  witdh: 50%;
+		  }
+		  
+		  .metade {
+			  height: 50%;
+		  }		
+		  
+         .fixoH300 { 
+		      height: 400px;
+	     }
+		</style>
+		
+    </head>
+	
+    <body>
+        <nav class="navbar navbar-default navbar-header header">
+		
+            <a class="navbar-brand" href="#agrotechlink.phtml">
+                <div class="navbar-brand-img"></div>
+                <!--<img src="img/logo/lobiadmin-logo-text-white-32.png" class="hidden-xs" alt="" />-->
+            </a>
+			
+            <!--Menu show/hide toggle button-->
+            <ul class="nav navbar-nav pull-left show-hide-menu">
+                <li>
+                    <a href="#" class="border-radius-0 btn font-size-lg" data-action="show-hide-sidebar">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </li>
+            </ul>
+			
+            <div class="navbar navbar-items navbar-left title">
+			   <h1 class='portal_titulo' id='prg_titulo'>Painel | Agrotechlink &reg;</h1>
+			</div>
+			
+            <div class="navbar-items">
+                <!--User avatar dropdown-->
+                <ul class="nav navbar-nav navbar-right user-actions">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img class="user-avatar" src="<?php echo LOBIADMIN.'img/users/'.$_usr_photo;?>" alt="..."/>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#prfm000100/mnu/0/opc/168/prg/8"><span class="fa fa-user"></span> &nbsp;Perfil</a></li>
+                            <li><a href="#tmlm000100/mnu/0/opc/168/prg/9"><i class="fa fa-code-fork"></i> &nbsp;Linha do Tempo</a></li>
+                            <li><a href="#msgm000100/mnu/0/opc/168/prg/5"><span class="fa fa-envelope-o"></span> &nbsp;Mensagens</a></li>
+                            <li class="divider"></li>
+                            <li><a href="<?php echo $this->_system->montaUrl('index','lock','validar','');?>"><span class="glyphicon glyphicon-lock"></span> &nbsp;Bloquear</a></li>
+                            <li><a href="<?php echo $this->_system->montaUrl('admin','login','validar','');?>"><span class="glyphicon glyphicon-off"></span> &nbsp;Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix-xxs"></div>
+            <div class="navbar-items-2">
+                <!--Choose languages dropdown-->
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="<?php echo LOBIADMIN.'img/flags/brz.png';?>" alt="en" />
+                            <span class="visible-lg-inline-block visible-md-inline-block visible-sm-inline-block">português</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="active">
+                                <a href="#">
+                                    <img src="<?php echo LOBIADMIN.'img/flags/brz.png';?>" alt="en" />
+                                    português
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="<?php echo LOBIADMIN.'img/flags/us.png';?>" alt="en" />
+                                    english(US)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="<?php echo LOBIADMIN.'img/flags/fr.png';?>" alt="en" />
+                                    français
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="<?php echo LOBIADMIN.'img/flags/es.png';?>" alt="en" />
+                                    español
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-actions">
+                    <li class="visible-lg">
+                        <a href="#" data-action="fullscreen">
+                            <span class="glyphicon glyphicon-fullscreen"></span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <span class="badge badge-danger badge-xs">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-notifications notification-messages border-1 animated-fast flipInX">
+                            <div class="notifications-heading border-bottom-1 bg-white">
+                                Messages
+                                <div class="header-actions pull-right">
+                                    <a href="#lobimail" data-action="compose-email"><small><i class="fa fa-edit"></i> Create new</small></a>
+                                </div>
+                            </div>
+                            <ul class="notifications-body max-h-300">
+                                <li class="unread">
+                                    <a href="#maim000100/mnu/0/opc/168/prg/6/EMAILID/9876544453244516" data-action="open-email" data-key="1" class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/1.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h4 class="notification-heading">George Darso</h4>
+                                            <h5 class="notification-sub-heading">Happy birthday!!</h5>
+                                            <p class="body-text">Happy birthday. Lorem ipsum dolor sit amor.</p>
+                                        </div>
+                                        <span class="notification-time">5 min. ago</span>
+                                    </a>
+                                </li>
+                                <li class="unread">
+                                    <a href="#maim000100/mnu/0/opc/168/prg/6/EMAILID/655778921344516" data-action="open-email" data-key="2" class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/2.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h4 class="notification-heading">George Dava</h4>
+                                            <h5 class="notification-sub-heading">Lorem ipsum dolor sit amor.</h5>
+                                            <p class="body-text">Whirling indicating staunch pglaf, leafy siroc clerks paying eager promoting storm aliquet treasures.</p>
+                                        </div>
+                                        <span class="notification-time">15 min. ago</span>
+                                    </a>
+                                </li>
+                                <li class="unread">
+                                    <a href="#maim000100/mnu/0/opc/168/prg/6/EMAILID/6755553321344516" data-action="open-email" data-key="3" class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/3.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h4 class="notification-heading">George Darso</h4>
+                                            <h5 class="notification-sub-heading">Lorem ipsum dolor sit amore</h5>
+                                            <p class="body-text">Region doth chaucer, smiled erhung, recording frail cove design train thy holiday committed. Told how fixed parcae tented whistle doom recording deceivers tribe.</p>
+                                        </div>
+                                        <span class="notification-time">1 hr. ago</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#maim000100/mnu/0/opc/168/prg/6/EMAILID/1231231234542334" data-action="open-email" data-key="4" class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/4.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h4 class="notification-heading">Zura Sekhno</h4>
+                                            <h5 class="notification-sub-heading">This is message subject text</h5>
+                                            <p class="body-text">Garden check we, dearer you sharply, martin cable, square bonfires, freely, delphian scorning copying courage. </p>
+                                        </div>
+                                        <span class="notification-time">17 hr. ago</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#maim000100/mnu/0/opc/168/prg/6/EMAILID/46435354321344516" data-action="open-email" data-key="5" class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/5.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h4 class="notification-heading">Jane Smth</h4>
+                                            <h5 class="notification-sub-heading">Need support about product</h5>
+                                            <p class="body-text">Essaying unappointed pull disdain, downfall square liberal.</p>
+                                        </div>
+                                        <span class="notification-time">2 days ago.</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#maim000100/mnu/0/opc/168/prg/6/EMAILID/8897654321344516" data-action="open-email" data-key="6" class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/1.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h4 class="notification-heading">Sam Solly</h4>
+                                            <h5 class="notification-sub-heading">Today's meeting</h5>
+                                            <p class="body-text">Paltering kingfisher patience woven his, aeneas self each square surer semper. Self reaped bonfires, gift rounds dearer garden.</p>
+                                        </div>
+                                        <span class="notification-time">January 15, 2014</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="notifications-footer text-center border-top-1 bg-white">
+                                <a href="#maim000100/mnu/0/opc/168/prg/6/EMAILID/ALL">View all</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="fa fa-globe"></span>
+                            <span class="badge badge-danger badge-xs">9</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-notifications notification-news border-1 animated-fast flipInX">
+                            <div class="notifications-heading border-bottom-1 bg-white">
+                                Notifications
+                            </div>
+                            <ul class="notifications-body max-h-300">
+                                <li class="unread" >
+                                    <div class="notification" style="cursor:pointer;" onclick="executaHash('#ntfm000100/mnu/0/opc/168/prg/4/NTFID/77877');">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/3.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h5 class="notification-sub-heading text-gray-darker"><a href="#">Sam Solly</a> posted a comment about <a href="#">Programming in HTML5</a></h5>
+                                            <p class="body-text"><i class="fa fa-comment"></i> 6 hr. ago</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification friend-request">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/4.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h4 class="notification-heading"><a href="#">John Doe</a></h4>
+                                            <h5 class="notification-sub-heading text-nowrap">Friend request 
+                                                <a href="#" class="btn btn-info btn-xs btn-response">Accept</a>
+                                                <a href="#" class="btn btn-danger btn-xs btn-response">Decline</a>
+                                            </h5>
+                                            <p class="body-text"><i class="fa fa-user"></i> 12 hr. ago</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="unread">
+                                    <div class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/2.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h5 class="notification-sub-heading"><a href="#">George Darso</a> invited you to join the conference</h5>
+                                            <p class="body-text"><i class="fa fa-clock-o"></i> yesterday</p>
+                                        </div>
+                                        <a href="#" class="link-action">View invitation</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <img class="notification-image" src="<?php echo LOBIADMIN.'img/users/1.jpg';?>" alt="">
+                                        <div class="notification-msg">
+                                            <h5 class="notification-sub-heading">
+                                                <a href="#">Guga Grigo</a> likes your photo 
+                                            </h5>
+                                            <p class="body-text"><i class="fa fa-thumbs-up"></i> Tuesday</p>
+                                        </div>
+                                        <a href="#"><img src="<?php echo LOBIADMIN.'img/users/me-160.jpg';?>" alt="" class="liked-photo"/></a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <div class="notification-icon"><i class="glyphicon glyphicon-user"></i></div>
+                                        <div class="notification-msg">
+                                            <h5 class="notification-sub-heading"><a href="#">Poll Hunely</a> has accepted your invitation.</h5>
+                                            <p class="body-text"><i class="fa fa-check"></i> yesterday</p>
+                                        </div>
+                                        <a href="#" class="link-action"><i class="fa fa-calendar"></i> Add to calendar</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <div class="notification-icon"><i class="fa fa-users"></i></div>
+                                        <div class="notification-msg">
+                                            <h5 class="notification-sub-heading"><a href="#" data-toggle="tooltip" data-html="true" data-title="Mari Abdu<br>Guga Grigo<br>David Sula">3 new users</a> has just signed up</h5>
+                                            <p class="body-text"><i class="fa fa-user"></i> Sunday</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notifications-footer border-top-1 bg-white text-center">
+                                <a href="#ntfm000100/mnu/0/opc/168/prg/4/NTFID/ALL">View all</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="fa fa-tasks"></span>
+                            <span class="badge badge-danger badge-xs">8</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-notifications notification-tasks border-1 animated-fast flipInX">
+                            <div class="notifications-heading border-bottom-1 bg-white">
+                                Active tasks
+                            </div>
+                            <ul class="notifications-body max-h-300">
+                                <li>
+                                    <div class="notification">
+                                        <p class="body-text"><span class="label label-danger">Critical</span> Create SASS files <span class="pull-right">90%</span></p>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%"><span class="sr-only">90% Complete</span></div>
+                                        </div>
+                                        <a href="#" data-container="body" data-toggle="tooltip" data-html="true" data-title="Zura Sekhno<br>George darso<br>Guga Grigo">Working on</a>
+                                        <a href="#actm000100/mnu/0/opc/168/prg/7/TSKID/4567" class="link-action">Details</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <p class="body-text"><span class="label label-warning">Important</span> Create new login form <span class="pull-right">30%</span></p>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%"><span class="sr-only">30% Complete</span></div>
+                                        </div>
+                                        <a href="#" data-container="body" data-toggle="tooltip" data-html="true" data-title="Zura Sekhno<br>George darso<br>Guga Grigo">Working on</a>
+                                        <a href="#actm000100/mnu/0/opc/168/prg/7/TSKID/1665" class="link-action">Details</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <p class="body-text"><span class="label label-primary">Normal</span> Create angularjs version <span class="pull-right">10%</span></p>
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%"><span class="sr-only">10% Complete</span></div>
+                                        </div>
+                                        <a href="#" data-container="body" data-toggle="tooltip" data-html="true" data-title="John Doe<br>Jane Smth">Working on</a>
+                                        <a href="#actm000100/mnu/0/opc/168/prg/7/TSKID/124465" class="link-action">Details</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <p class="body-text"><span class="label label-warning">Important</span> Password reset <span class="pull-right">50%</span></p>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"><span class="sr-only">50% Complete</span></div>
+                                        </div>
+                                        <a href="#" data-container="body" data-toggle="tooltip" data-html="true" data-title="Zura Sekhno<br>George darso<br>Guga Grigo">Working on</a>
+                                        <a href="#actm000100/mnu/0/opc/168/prg/7/TSKID/4456" class="link-action">Details</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <p class="body-text"><span class="label label-danger">Critical</span> Hardware repair <span class="pull-right fa fa-check text-success"></span></p>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="sr-only">100% Complete</span></div>
+                                        </div>
+                                        <a href="#" data-container="body" data-toggle="tooltip" data-html="true" data-title="John Doe<br>Jane Smth">Working on</a>
+                                        <a href="#actm000100/mnu/0/opc/168/prg/7/TSKID/67615" class="link-action">Details</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="notification">
+                                        <p class="body-text"><span class="label label-success">Important</span> Set up new server <span class="pull-right fa fa-check text-success"></span></p>
+                                        <div class="progress progress-lg">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="sr-only">100% Complete</span></div>
+                                        </div>
+                                        <a href="#" data-container="body" data-toggle="tooltip" data-html="true" data-title="Poll Husaly<br>Akaki Liqo">Working on</a>
+                                        <a href="#actm000100/mnu/0/opc/168/prg/7/TSKID/778615" class="link-action">Details</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notifications-footer border-top-1 bg-white text-center">
+                                <a href="#actm000100/mnu/0/opc/168/prg/7/TSKID/ALL">View all</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </nav>
+        <div class="menu">
+            <div class="menu-heading">
+                <div class="menu-header-buttons-wrapper clearfix">
+                    <button type="button" class="btn btn-info btn-menu-header-collapse">
+                        <i class="fa fa-cogs"></i>
+                    </button>
+                    <!--Put your favourite pages here-->
+                    <div class="menu-header-buttons">
+                        <a href="#prfm000100/mnu/0/opc/168/prg/8" class="btn btn-info btn-outline" data-title="Perfil">
+                            <i class="fa fa-user"></i>
+                        </a>
+                        <a href="#cfgm000100/mnu/0/opc/168/prg/2" class="btn btn-info btn-outline" data-title="Configuração">
+                            <i class="fa fa-cogs"></i>
+                        </a>
+                        <a href="#maim000100/mnu/0/opc/168/prg/6" class="btn btn-info btn-outline" data-title="Correio Eletrônico">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                        <a href="#calm000100/mnu/0/opc/168/prg/3" class="btn btn-info btn-outline" data-title="Calendario">
+                            <i class="fa fa-calendar"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+			<nav>
+                <ul id='mnu'>				
+                </ul>
+            </nav>
+			
+            <div class="menu-collapse-line">
+                <!--Menu collapse/expand icon is put and control from LobiAdmin.js file-->
+                <div class="menu-toggle-btn" data-action="collapse-expand-sidebar"></div>
+            </div>
+        </div>
+        <div id="main">
+            <div id="ribbon" class="hidden-print">
+                <a href="#dashboard.phtml" class="btn-ribbon" data-container="#main" data-toggle="tooltip" data-title="Exibe Dashboard"><i class="fa fa-home"></i></a>
+				
+                <span class="vertical-devider">&nbsp;</span>
+                
+				<button class="btn-ribbon" data-container="#main" data-action="reload" data-toggle="tooltip" data-title="Recarrega conteúdo"><i class="fa fa-refresh"></i></button>
+				
+				<button id='btn_atumnu' class="btn-ribbon" data-container="#main" data-action="menu" data-toggle="tooltip" data-title="Atualiza Menu"><i class="fa fa-bars"></i></button>
+							
+				<a href="#sesm000100/mnu/0/opc/168/prg/1" class="btn-ribbon" data-container='#main' data-toggle='tooltip' data-title="Exibe Sessão do Usuário Logado."><i class="fa fa-wrench"></i></a>
+				
+                <ol class="breadcrumb">
+                </ol>
+            </div>
+            <div id="content">
+                
+            </div>
+        </div>
+		
+        <!--Setting box-->
+        <div class="setting-box hidden-print">
+            <div class="btn-toggle">
+                <span class="glyphicon glyphicon-cog"></span>
+            </div>
+            <form action class="lobi-form">
+                <fieldset>
+                    <header>LobiAdmin Settings</header>
+                    <div class="form-group">
+                        <label class="checkbox-inline lobicheck lobicheck-rounded">
+                            Header fixed
+                            <input type="checkbox" class="fix-header" value="1"> 
+                            <i></i> 
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-inline lobicheck lobicheck-rounded">
+                            Menu fixed
+                            <input type="checkbox" class="fix-menu"> 
+                            <i></i> 
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-inline lobicheck lobicheck-rounded">
+                            Ribbon fixed
+                            <input type="checkbox" class="fix-ribbon"> 
+                            <i></i> 
+                        </label>
+                    </div>
+                    <div class="row row-skin-options">
+                        <h4>Skins</h4>
+                        <div class="col-xs-3">
+                            <label class="radio">
+                                <input type="radio" name="header-skin" value="0" checked>
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="radio">
+                                <input type="radio" name="header-skin" value="header-cyan">
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="radio">
+                                <input type="radio" name="header-skin" value="header-green">
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="radio">
+                                <input type="radio" name="header-skin" value="header-brown">
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                    </div>
+<!--                    <div class="row row-skin-options">
+                        <h4>Skins</h4>
+                        <div class="btn-group display-block" data-toggle="buttons">
+                            <label class="radio-inline">
+                                <input type="radio" name="header-skin" value="0">
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="header-skin" value="header-cyan">
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="header-skin" value="header-green">
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="header-skin" value="header-brown">
+                                <div>
+                                    <div class="setting-header"></div>
+                                    <div class="setting-menu"></div>
+                                </div>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                    </div>-->
+                    <div class="row row-bg-options">
+                        <h4>Background</h4>
+                        <div class="col-xs-3">
+                            <label class="radio" style="background-color: #f2f2f2">
+                                <input type="radio" name="body-bg" data-is-color="true" value="#f2f2f2" checked>
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="radio" style="background-color: #edf1f4">
+                                <input type="radio" name="body-bg" data-is-color="true" value="#edf1f4">
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="radio" style="background-image: url('<?php echo LOBIADMIN."img/bg/bg1.png";?>')">
+                                <input type="radio" name="body-bg" value="<?php echo LOBIADMIN.'img/bg/bg1.png';?>">
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="radio" style="background-image: url('<?php echo LOBIADMIN."img/bg/bg4.png";?>')">
+                                <input type="radio" name="body-bg" value="<?php echo LOBIADMIN.'img/bg/bg4.png';?>">
+                                <i class="fa fa-check-square"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block btn-pretty" data-action="clear-storage"><i class="fa fa-refresh"></i> Clear local storage</button>
+                </fieldset>
+            </form>
+        </div>
+
+        <!--Loading indicator for ajax page loading-->
+        <div class="spinner spinner-horizontal hide">
+            <span class="spinner-text">Carregando...</span>
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+       		
+		<script type="text/javascript">
+		   $(document).ready(function(){
+			   
+			   		   
+			   // Buscando meu menu, se nao achar na faz nada
+			   var empresa = 0;
+			   var filial = 0;
+			   var url = "<?php echo PORTAL_DOMINIO_LINK?>ajax/load/menu/id/0/parametro/0/empresa/" + empresa + "/filial/" + filial + "/";
+			   $.getJSON(url, function (_dados){		
+				  if (_dados['OK'] == true){ 					  
+					menuMonta("mnu", _dados);
+					var lobiAdmin = $('body').data('lobiAdmin');
+					var menu = lobiAdmin.$navPanel;
+					menu.refreshMenu();
+				 }
+			   });
+
+           });		   
+		   
+		   //Prevent empty links click and the links which href="" attribute is current url hash value
+           $('#btn_atumnu').click(function () {    
+               var empresa = 0;
+			   var filial = 0;
+			   var url = "<?php echo PORTAL_DOMINIO_LINK?>ajax/load/menu/id/0/parametro/0/empresa/" + empresa + "/filial/" + filial + "/";
+			   $.getJSON(url, function (_dados){		
+				  if (_dados['OK'] == true){ 	
+				    menuDesmonta("mnu");
+					menuMonta("mnu", _dados);
+					var lobiAdmin = $('body').data('lobiAdmin');
+					var menu = lobiAdmin.$navPanel;
+					menu.refreshMenu();
+				 }
+			   });  	
+           });
+		</script>		
+		
+    </body>
+</html>

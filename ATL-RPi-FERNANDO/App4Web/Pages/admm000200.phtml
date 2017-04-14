@@ -1,0 +1,146 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+  
+  define ('PORTAL_SKIN_LINK', $_SESSION["DOM_SKIN_LINK"]);
+  
+  define ('PORTAL_WEBFILES_LINK', $_SESSION["PORTAL_WEBFILES_LINK"]); 	
+  
+  define ('PORTAL_JSON_LINK', $_SESSION["PORTAL_JSON_LINK"]); 
+
+?>
+<div id='admm000200' class='clock'>  
+   <div class="cContainer">
+	  <div id="myclock"></div>
+      <br>	  
+	  <div id="alarmS" class="alarmS">
+			<input type="text" size='6' id="altime" placeholder="hh:mm"/>&nbsp;
+			<a href="javascript:void(0)" id="set">set Alarm</a>	  
+	  </div>
+	  <div id="alarm1" class="alarm"><a href="javascript:void(0)" id="turnOffAlarm">ALARM OFF</a></div>
+   </div>  
+</div>
+
+<script>
+   
+   //Load and initialize Analogic Clock
+   LobiAdmin.loadCSS([
+       '<?php echo PORTAL_WEBFILES_LINK;?>AnalogAlarmThooClock/css/main.css'
+   ], null);	
+      
+   LobiAdmin.loadScript([
+       '<?php echo PORTAL_WEBFILES_LINK;?>AnalogAlarmThooClock/js/jquery.thooClock.js'
+   ], preparaRelogio);	
+   
+   	var intVal, myclock;
+
+	$(window).resize(function(){
+		window.location.reload()
+	});
+
+	function preparaRelogio() {
+
+		var audioElement = new Audio("");
+        
+		// Escondendo o botao para parar o alarme
+		$('#turnOffAlarm').hide();
+
+		//clock plugin constructor
+		$('#myclock').thooClock({
+			size:$(document).height()/1.4,
+			onAlarm:function(){
+				//all that happens onAlarm
+				$('#alarm1').show();
+				// Exibe o botao para parar o alarme
+		        $('#turnOffAlarm').show();
+				alarmBackground(0);
+				//audio element just for alarm sound
+				document.body.appendChild(audioElement);
+				var canPlayType = audioElement.canPlayType("audio/ogg");
+				if(canPlayType.match(/maybe|probably/i)) {
+					audioElement.src = '<?php echo PORTAL_WEBFILES_LINK;?>AnalogAlarmThooClock/alarm.ogg';
+				} else {
+					audioElement.src = '<?php echo PORTAL_WEBFILES_LINK;?>AnalogAlarmThooClock/alarm.mp3';
+				}
+				// erst abspielen wenn genug vom mp3 geladen wurde
+				audioElement.addEventListener('canplay', function() {
+					audioElement.loop = true;
+					audioElement.play();
+				}, false);
+			},
+			showNumerals:true,
+			brandText:'AgroTehLink',
+			brandText2:'Brasil',
+			onEverySecond:function(){
+				//callback that should be fired every second
+				$.fn.thooClock.brandText2 = myFunction();
+			},
+			//alarmTime:'15:10',
+			offAlarm:function(){
+				$('#alarm1').hide();
+				audioElement.pause();
+				clearTimeout(intVal);
+				$('body').css('background-color','#FCFCFC');
+			}
+		});
+
+
+		$('#turnOffAlarm').click(function(){
+			$.fn.thooClock.clearAlarm();
+		});
+
+
+		$('#set').click(function(){
+			var inp = $('#altime').val();
+			$.fn.thooClock.setAlarm(inp);
+		});
+	}
+
+
+	function alarmBackground(y){
+			var color;
+			if(y===1){
+				color = '#CC0000';
+				y=0;
+			}
+			else{
+				color = '#FCFCFC';
+				y+=1;
+			}
+			$('body').css('background-color',color);
+			intVal = setTimeout(function(){alarmBackground(y);},100);
+	}
+
+	function addZero(i) {
+		if (i < 10) {
+			i = "0" + i;
+		}
+		return i;
+	} 
+
+	function myFunction() {
+		var d = new Date();
+		var h = addZero(d.getHours());
+		var m = addZero(d.getMinutes());
+		var s = addZero(d.getSeconds());
+		return h + ":" + m + ":" + s;
+	}
+    
+   $(function () {
+	   // Executando os scripts dessa .phtml uhuuuu
+
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+   });
+</script>
+</div>
