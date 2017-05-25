@@ -1,5 +1,5 @@
-/*                    VERSÃO FINAL DO CODIGO
-               VERSÃO 1.0.1      DATA: 06/02/2017
+/*                    VERSÃO RPi TESTE DO CODIGO
+               VERSÃO 2.0      DATA: 25/05/2017
                COMPILADO NA VERSAO ARDUINO: 1.8.1
                __________________________________
 
@@ -32,7 +32,7 @@
 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - JANUARY
-//                    TODOS OS DIREITOS RESERVADOS
+//                    TODOS OS DIREITOS SAO RESERVADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*   CADA GPIO POSSUI UMA IDENTIFICACAO ESPECIFICA
      PORTAS UTILIZADAS NAS PLACAS DA MINI ESTACAO CLIMATICA
@@ -84,8 +84,10 @@
 #define      DHTTYPE       DHT22            // ESPECIFICACAO DO SENSOR UTILIZADO
 //#define      WIFI_SSID     "Agrotechlink"   // NOME DA INTERNET DO RASPBERRY-PI
 //#define      WIFI_PASSWORD "agricultura"    // SENHA DA INTERNET
-#define      WIFI_SSID     "CEV_UNIFIQUE_2GHz"   // NOME DA INTERNET DO RASPBERRY-PI
-#define      WIFI_PASSWORD "UnfqAngelica2015"    // SENHA DA INTERNET
+//#define      WIFI_SSID     "CEV_UNIFIQUE_2GHz"   // NOME DA INTERNET DO RASPBERRY-PI
+//#define      WIFI_PASSWORD "UnfqAngelica2015"    // SENHA DA INTERNET
+#define      WIFI_SSID     "ATLRPi"   // NOME DA INTERNET DO RASPBERRY-PI
+#define      WIFI_PASSWORD "agrotechlinkPI2017"    // SENHA DA INTERNET
 
 DHT          dht (DHTPIN, DHTTYPE);         // ENDERECAMENTO DO SENSOR DHT22
 SFE_BMP180   pressao;                       // DEFINICAO DO SENSOR BMP-180
@@ -102,11 +104,12 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s'
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-//IPAddress   server_addr (10, 3, 141, 1);    // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
-IPAddress   server_addr (11, 12, 13, 30);    // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
+//IPAddress   server_addr (10, 3, 141, 1);    // IP DO MySQL SERVER - LOCALHOST
+IPAddress   server_addr (11, 12, 13, 30);    // IP DO MySQL SERVER - LOCALHOST
+//IPAddress   server_addr (127, 0, 0, 1);    // IP DO MySQL SERVER - LOCALHOST
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
-
+// para conectar precisa configurar "/etc/mysql/my.cnf" --> bind address = 11.12.13.30
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -190,26 +193,35 @@ void setup() {
   // PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  Serial.println("\nConectando A internet...");
+  Serial.println("\nConectando 123 A internet...");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     yield();
   }
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println();
-  Serial.print("Conectado a: ");
+  Serial.print("Conectado 456 a: ");
   Serial.println(WiFi.localIP());
   Serial.println("MAC: " + WiFi.macAddress());
   mac = WiFi.macAddress();
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println("Endereco do servidor MySQL: ");
   Serial.println(server_addr);
-  Serial.println("Conectando ao banco de dados...");
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
   pressao.begin();           // INICIANDO SENSOR DE PRESSAO BMP-180
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 unsigned num = 1;
+unsigned mysqlResposta;
+mysqlResposta = conn.connect(server_addr, 3306, user, password);
+Serial.print("\nResposta: ");
+Serial.print(mysqlResposta);
+Serial.print("\nResposta SERVER ADDR: ");
+Serial.print(server_addr);
+Serial.print("\nResposta USER: ");
+Serial.print(user);
+Serial.print("\nResposta PW: ");
+Serial.println(password);
 while (conn.connect(server_addr, 3306, user, password) != true) {
 yield();
 Serial.print(" + "); Serial.println(num++); }
@@ -227,9 +239,9 @@ void loop() {
   if (currentMillis - tempoPrevio >= intervalo) {     // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
     digitalWrite(ATL3, HIGH);                         // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
     tempoPrevio = currentMillis;
-    //    intervalo = 300000;                         // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
-//    intervalo = 60000;                                // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
-    intervalo = 120000;                                // APOS - SOBE OS DADOS A CADA  2 MINUTOS >--> testes com RPi
+//    intervalo = 300000;                  // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
+//    intervalo = 60000;                   // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
+    intervalo = 120000;                    // APOS - SOBE OS DADOS A CADA  2 MINUTOS >--> testes com RPi
     GetATLdhtTU();                                    // DHT22
     GetATLbmpPT();                                    // BMP-180
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/

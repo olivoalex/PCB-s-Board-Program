@@ -3,8 +3,7 @@
 /* executar na linha de comando: php tempControl.php
 /usr/bin/php  /home/pi/tempControl.php
 VERIFICA TEMPERATURA E LIGA VENTILADOR SE MAIOR QUE 45*C OU DESLIGA SE MAIOR 75*C.
-CONFIGURADO PARA EXECUTAR O SCRIPT A CADA 5 MINUTOS!
-*/ 
+CONFIGURADO PARA EXECUTAR O SCRIPT A CADA 5 MINUTOS! */ 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 // VARIAVEIS DE AJUSTES E CONTROLES
 $Tfan_controle = 45000;		// VALOR LIMITE PARA LIGAR OU DESLIGAR A VENTILACAO
