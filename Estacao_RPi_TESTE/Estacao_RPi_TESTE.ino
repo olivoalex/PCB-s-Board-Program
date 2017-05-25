@@ -1,5 +1,5 @@
-/*                    VERSÃO FINAL DO CODIGO
-               VERSÃO 1.0.1      DATA: 06/02/2017
+/*                    VERSÃO TESTE RPi3 DO CODIGO
+               VERSÃO 1.0.1      DATA: 25/05/2017
                COMPILADO NA VERSAO ARDUINO: 1.8.1
                __________________________________
 
@@ -31,8 +31,8 @@
 
 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - JANUARY
-//                    TODOS OS DIREITOS RESERVADOS
+// AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - MAY
+//                    TODOS OS DIREITOS SAO RESERVADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*   CADA GPIO POSSUI UMA IDENTIFICACAO ESPECIFICA
      PORTAS UTILIZADAS NAS PLACAS DA MINI ESTACAO CLIMATICA
@@ -86,7 +86,7 @@
 //#define      WIFI_SSID "GVT-FBCB"        // NOME DA INTERNET DO RASPBERRY-PI
 //#define      WIFI_PASSWORD "S1E9059562"  // SENHA DA INTERNET
 #define      WIFI_SSID "ATLRPi"        // NOME DA INTERNET DO RASPBERRY-PI
-#define      WIFI_PASSWORD "agrotechlink"  // SENHA DA INTERNET
+#define      WIFI_PASSWORD "agrotechlinkPI2017"  // SENHA DA INTERNET
 DHT          dht (DHTPIN, DHTTYPE);  // ENDERECAMENTO DO SENSOR DHT22
 SFE_BMP180   pressao;                // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -107,7 +107,7 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s',d_T='%s',
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //IPAddress   server_addr (186, 202, 127, 122);   // IP DO MySQL SERVER - SITE AGROTECHLINK.COM
-<<<<<<< HEAD
+//<<<<<<< HEAD
 static char hostname[] = "www.agrotechlink.com"; // LOCALHOST PARA BANCOS LOCAIS
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
@@ -119,9 +119,9 @@ dns.begin(Ethernet.dnsServerIP());
 dns.getHostByName(hostname, server_addr);
 
 WiFiClient  client;
-=======
+//=======
 //IPAddress   server_addr (127, 0, 0, 1);   // IP DO MySQL SERVER - LOCAL - RPi
-IPAddress   server_addr (1, 2, 3, 4);   // IP DO MySQL SERVER - LOCAL - RPi
+IPAddress   server_addr (11, 12, 13, 30);   // IP DO MySQL SERVER - LOCAL - RPi
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
