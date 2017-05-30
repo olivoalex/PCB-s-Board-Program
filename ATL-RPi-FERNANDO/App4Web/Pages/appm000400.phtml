@@ -1,0 +1,409 @@
+<!--Author      : @afvndo -->
+<?php
+
+  define ('BROWSER', $this->_system->_browser);  
+  
+  define ('LOBIADMIN',$_SESSION["PORTAL_LOBIADMIN_LINK"]);
+  
+  define ('PORTAL_LINK',$_SESSION["PORTAL_LINK"]);
+  
+  define ('PORTAL_JS_LINK',$_SESSION["PORTAL_JS_SCRIPTS_LINK"]);
+  
+  define ('PORTAL_DOMINIO_LINK',$_SESSION["PORTAL_DOMINIO_LINK"]);
+
+?>
+<script type="text/javascript">
+
+   var empresa = <?php echo $view_emp_id;?>;
+   var filial = <?php echo $view_fil_id;?>;
+   var usuario = <?php echo $view_login_id;?>;
+   var _controller     = '<?php echo $view_controller;?>';
+   var _task           = '<?php echo $view_task;?>';
+   var _action         = '<?php echo $view_action;?>';	
+   var js_link         = "<?php echo $_SESSION['PORTAL_DOMINIO_LINK'];?>";	 
+   
+   // Dados Do grafico conforme refreshs
+   // Vem com a 1a leitura ZERADA para conseguir montar o graficoprecisa repetir a primeira leitura, fique atento
+   var _faixas  = []; // Faixas conforme leituras feitas
+   var _limite  = []; // 45
+   var _maximo  = []; // 75
+   var _cpu     = []; // Temperatura da CPU aferida no refresh
+   var _leituras_ind = -1; // Inicia do ZERO  
+   var _leituras_tot = 0;  // Inicia do UM
+
+   function appm000400(aAcao, aComple) {
+     
+	   // Saindo ...
+	   if ( aAcao.toUpperCase() == "SAIR" ) {	
+		   // Determina o que esse botao tem que fazer
+		   window.location.hash = "#dashboard.phtml";	
+	   } else {
+		   if ( aAcao.toUpperCase() == "PROCESSAR" ) {
+			  appm000400_processarDados(aAcao, aComple);
+		   } else {
+			  if ( aAcao.toUpperCase() == "REFRESH" ) {
+				appm000400_processarDados(aAcao, aComple);
+			  } else {
+				if ( aAcao.toUpperCase() == "DETALHE" ) {
+				   appm000400_processarDados(aAcao, aComple);
+				} else {
+				   var _msg = "Acao Nao Implementada: "+aAcao+" Complemento "+aComple+"\n";
+				   // Exibe uma mensagem no canto inferior direito 
+		           Lobibox.notify("error", {
+			          position: 'top right',
+			          msg: _msg
+		           });          
+				}
+			 }
+		   }
+	   }
+   }       
+
+   function appm000400_processarDados(aAcao, aComple) {
+	  // Aciona o AJAX e indeica como receber o JSON
+	  var url = js_link + "appm000400_AJAX/ajax/index/acao/" + aAcao
+						+ "/empresa/" + empresa
+						+ "/filial/" + filial 
+						+ "/usuario/" + usuario;
+						
+	  //alert ("Url: " + url);
+	  
+	  $.getJSON(url, function (dados_retorno){ 
+		   // Aciona funcao para processar o retorno do AJAX em formato JSON
+		   appm000400_processarRetornoAJAX(aAcao, dados_retorno);   			   
+	  } );           
+		 
+   }   
+
+   function appm000400_processarRetornoAJAX(aAcao, aDados) {
+
+      //alert("Refresh Id: "+ refresh_id + "Counter: "+ refresh_counter_id + " Acao: " + aAcao);	  
+   
+	  if (aDados.status == true ){
+		  
+         // Volta para 5 minutos		
+		 appm000400_refresh_inicia_controle();
+		 
+		 // iniciando contadore regressivo
+   	     refresh_counter_id = setInterval(appm000400_refresh_counter, 1000);   		 
+		 
+	     // Disparando atualizacao a cada 5 minutos
+	     // 1 segundo = 1000 milesegundos
+	     // 1 minuto = 60 segundos
+	     // 5 minutos = 5 * 60 * 1000 = 300.000   
+		 refresh_id = setInterval(appm000400_refresh, contador_regressivo);
+	        
+         appm000400_dados("dat_container", aDados);
+						 
+	  } else {
+		 // Nesse caso mantem a tabela q esta apenas da uma mensagem para o usuario
+		 // Exibe uma mensagem no canto inferior direito 
+		 Lobibox.notify("error", {
+		   position: 'top right',
+		   msg: aDados.mensagem
+		 });
+	  }           
+   }   
+
+</script>
+   
+<div id='appm000400'>	
+	<div id="dat_container">		
+	   <!-- Primeira Linha-->
+	   <div class="row">
+	      <div class="col-xs-2">		     			 
+			 <?php echo $view_database->bsReadOnlyField('fld_eth0_interface', 'Ethernet Interface', "None");?>
+		  </div>
+		  <div class="col-xs-2">		     			 
+			 <?php echo $view_database->bsReadOnlyField('fld_eth0_ip', 'Ethernet IP', "0.0.0.0");?>
+		  </div>
+		  <div class="col-xs-2">		     			 
+			 <?php echo $view_database->bsReadOnlyField('fld_eth0_mac', 'Ethernet MAC', "0:0:0:0:0:0");?>
+		  </div>
+		  <div class="col-xs-2">		     			 
+			 <?php echo $view_database->bsReadOnlyField('fld_eth0_status', 'Ethernet Status', "None");?>
+		  </div>
+		  <div class="col-xs-2">		     			 
+			 
+		  </div>
+		  <div class="col-xs-2">	
+             <?php echo $view_database->bsReadOnlyField('fld_rpi_bateria', 'Energia', "None");?>		  
+		  </div>
+	   </div>	   
+	   <!-- FIM:Primeira Linha-->
+	   <!-- Segunda Linha-->
+	   <div class="row">
+	      <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_wlan0_interface', 'Wireless Interface', "None");?>
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_wlan0_ip', 'Wireless IP', "0.0.0.0");?>
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_wlan0_mac', 'Wireless MAC', "0:0:0:0:0:0");?>
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_wlan0_status', 'Wireless Status', "None");?>
+		  </div>
+		  <div class="col-xs-2">
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_rpi_rede', 'Rede', "lo");?>
+		  </div>		  
+	   </div>
+	   <!-- FIM:Segunda Linha-->
+	   <!-- Terceira Linha-->
+	   <div class="row">
+	      <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_lo_interfaca', 'Localhost Interface', "lo");?>
+		  </div>
+		  <div class="col-xs-2">
+             <?php echo $view_database->bsReadOnlyField('fld_lo_ip', 'Localhost IP', "127.0.0.1");?>		  
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_lo_mac', 'Localhost MAC', "N/A");?>
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_lo_status', 'Localhost Status', "None");?>
+		  </div>
+		  <div class="col-xs-2">
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_rpi_internet', 'Internet', "None");?>
+		  </div>		  
+	   </div>
+	   <!-- FIM:Terceira Linha-->
+	   <!-- Quarta Linha-->
+	   <div class="row">
+	      <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_rpi_limite', 'Limite Vetilador &#8451;', "0");?>
+		  </div>
+		  <div class="col-xs-2">
+             <?php echo $view_database->bsReadOnlyField('fld_rpi_maximo', 'Temperatura Máxima &#8451;', "0");?>		  
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_rpi_cpu', 'Temperatura CPU &#8451;', "0.000");?>
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsReadOnlyField('fld_rpi_ventilador', 'Ventilador', "NOne");?>
+		  </div>
+		  <div class="col-xs-2">
+		  </div>
+		  <div class="col-xs-2">
+		     <?php echo $view_database->bsStaticText('fld_txt_ultlei', 'Ultima Leitiura', "hh:mm:ss dd/mm/yyyy","");?>
+		  </div>		  
+	   </div>
+	   <!-- FIM:Quarta Linha-->
+	   <!-- Grafico -->
+	   <div>
+		   <div id="dashboard-statisticts-panel" class="panel panel-light">
+			  <div class="panel-heading">
+				 <div class="panel-title">
+					<i class="fa fa-thermometer-full "></i> Temperatura		
+					<span class='pull-right'>&nbsp;</span>					
+                    <span id="tot_leituras" class='pull-right'>0</span>					
+					<span class='pull-right'>Leituras :&nbsp;</span>					
+				 </div>
+			  </div>
+			  <div class="panel-body">
+				 <div class="row">
+					<div class="col-lg-12">
+						<div>
+							<canvas id="grf_temperatura" height="165" width="900"></canvas>
+						</div>
+					</div>
+				</div>
+			  </div>
+		   </div>
+		</div>	
+	   <!-- FIM: Grafico-->
+	   
+	</div>	   
+</div>
+
+<script>
+
+   function appm000400_dados(aContainer, aDados) {
+	 
+	    var _container = "#" + aContainer;
+		
+		// Exibe dados pegos do JSON
+	    $("#fld_eth0_interface").val(aDados.dados.eth_interface);
+	    $("#fld_eth0_ip").val(aDados.dados.eth_ip);
+	    $("#fld_eth0_mac").val(aDados.dados.eth_mac);
+	    $("#fld_eth0_status").val(aDados.dados.eth_status);
+		
+	    $("#fld_rpi_bateria").val(aDados.dados.rpi_energia);
+		
+	    $("#fld_wlan0_interface").val(aDados.dados.wlan_interface);
+	    $("#fld_wlan0_ip").val(aDados.dados.wlan_ip);
+	    $("#fld_wlan0_mac").val(aDados.dados.wlan_mac);
+	    $("#fld_wlan0_status").val(aDados.dados.wlan_status);
+		
+	    $("#fld_rpi_rede").val(aDados.dados.interface_ativa);
+		
+	    $("#fld_lo_interface").val(aDados.dados.local_interface);
+	    $("#fld_lo_ip").val(aDados.dados.local_ip);
+	    $("#fld_lo_mac").val(aDados.dados.local_mac);
+	    $("#fld_lo_status").val(aDados.dados.local_status);
+		
+	    $("#fld_rpi_internet").val(aDados.dados.rpi_internet);
+		
+	    $("#fld_rpi_limite").val( aDados.dados.rpi_limite);
+	    $("#fld_rpi_maximo").val(aDados.dados.rpi_maximo);
+	    $("#fld_rpi_cpu").val(aDados.dados.rpi_cpu);
+	    $("#fld_rpi_ventilador").val(aDados.dados.rpi_ventilador);
+	    $("#fld_txt_ultlei").html(aDados.dados.rpi_hora + " " + aDados.dados.rpi_data);
+		
+		// Atualizado grafico caso precise
+		appm000400_grafico_atualiza(aDados);
+		 
+   }
+   
+   function appm000400_refresh() {
+	   appm000400("REFRESH", "");
+   }
+   
+   function appm000400_refresh_inicia_controle() {
+      var _texto = "<?php echo $view_page_header;?>";
+	  contador_regressivo = 30000;
+	  _texto += " - refresh em " + millisecondsToTime(contador_regressivo);
+	  $("#prg_titulo").html(_texto);
+	  
+      // Limpando os contadores para refresh dos dados 
+      if ( refresh_id != 0 ) {
+         clearInterval(refresh_id);
+		 refresh_id = 0;
+      }
+      if ( refresh_counter_id != 0 ) {		  
+         clearInterval(refresh_counter_id);
+		 refresh_counter_id = 0;
+      }	  	  		 
+   }
+   
+   function appm000400_refresh_counter() {
+      var _texto = "<?php echo $view_page_header;?>";
+	  contador_regressivo -= 1000;
+	  var falta = contador_regressivo;
+	  _texto += " - refresh em " + millisecondsToTime(falta);
+	  $("#prg_titulo").html(_texto);
+   }
+   
+   function millisecondsToTime(ms){
+      var secs = Math.floor(ms / 1000);
+      var msleft = ms % 1000;
+      var hours = Math.floor(secs / (60 * 60));
+      var divisor_for_minutes = secs % (60 * 60);
+      var minutes = Math.floor(divisor_for_minutes / 60);
+      var divisor_for_seconds = divisor_for_minutes % 60;
+      var seconds = Math.ceil(divisor_for_seconds);
+      return addZero(hours) + ":" + addZero(minutes) + ":" + addZero(seconds); //  + ":" + msleft; 
+   }
+   
+   	function addZero(i) {
+		if (i < 10) {
+			i = "0" + i;
+		}
+		return i;
+	}
+   
+	function appm000400_grafico_atualiza(aDados) {
+
+	    // Colocando LEITURA no grafico
+        _leituras_ind++; // Inicia do ZERO  
+        _leituras_tot++; // Inicia do UM
+        // Adicionando dados para o grafico
+		_faixas[_leituras_ind] = aDados.dados.rpi_hora;
+		_limite[_leituras_ind] = aDados.dados.rpi_limite;
+		_maximo[_leituras_ind] = aDados.dados.rpi_maximo;
+		_cpu[_leituras_ind]    = aDados.dados.rpi_cpu;
+		
+		// Repete primeira leitura para conseguir montar o grafico senao se perde todinho :)
+		if ( _leituras_tot == 1 ) {
+			_leituras_ind++; // Inicia do ZERO  
+			_leituras_tot++; // Inicia do UM
+
+			// Adicionando dados para o grafico
+			_faixas[_leituras_ind] = aDados.dados.rpi_hora;
+			_limite[_leituras_ind] = aDados.dados.rpi_limite;
+			_maximo[_leituras_ind] = aDados.dados.rpi_maximo;
+			_cpu[_leituras_ind]    = aDados.dados.rpi_cpu;
+			
+			_leituras_ind--; // Volta para a Anterior
+			_leituras_tot--; // Volta para a Anterior
+			
+		}
+		
+		$("#tot_leituras").html(_leituras_tot);
+			
+	   //Load and initialize chartjs
+	   LobiAdmin.loadScript([
+				'<?php echo LOBIADMIN;?>js/plugin/chartjs/Chart.min.js'
+	   ], iniciaGrafico);	
+		   
+	   function iniciaGrafico() {
+		   //
+		   // Montando o grafico
+		   //
+		   var options = {
+				responsive: true
+		   };
+		   var COLOR1 = LobiAdmin.lightenColor(LobiAdmin.DEFAULT_COLOR, -15);
+		   var COLOR2 = LobiAdmin.lightenColor(LobiAdmin.DEFAULT_COLOR_1, 0);
+		   var COLOR3 = LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR_2, 20);
+		   var COLOR4 = LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR_3, 40);
+
+		   var FADEOUT_COLOR_FACTOR = 20;
+
+		   //Initialize line chart
+		   (function(){
+				// Get the context of the canvas element we want to select
+				// TEMPERARURA : 1 e 2
+				var temperaturaData = {
+					labels: _faixas,
+					datasets: fillChartJsColors('line', [
+						{
+							label: "Limite",
+							strokeColor: LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR, 20),
+							data: _limite
+						},
+						{
+							label: "Maximo",
+							strokeColor: LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR_1, 60),
+							data:  _maximo
+						},
+						{
+							label: "CPU",
+							strokeColor: LobiAdmin.fadeOutColor(LobiAdmin.DEFAULT_COLOR_2, 60),
+							data:  _cpu
+						}
+					])
+				};
+				var canvas = $('#grf_temperatura');
+				var ctx = canvas[0].getContext("2d");
+				var statistictsChart = new Chart(ctx).Line(temperaturaData, options);
+				var legend = $(statistictsChart.generateLegend());
+				canvas.parent().append(legend);
+				
+				//Update charts on panel size change
+				$('#dashboard-statisticts-panel').on('onFullScreen.lobiPanel onSmallSize.lobiPanel resizeStop.lobiPanel onPin.lobiPanel onUnpin.lobiPanel dragged.lobiPanel', function(ev){
+					statistictsChart.destroy();
+					statistictsChart = new Chart(statistictsChart.chart.ctx).Line(temperaturaData, options);
+				});				
+		   })();
+		}  
+	}   
+
+   $(function () {
+	   // Executando os scripts dessa .phtml uhuuuu
+	   // Atualizando dados para o programa
+       $("#prg_titulo").html("<?php echo $view_page_header;?>");
+	   
+	   // Carregando dados via JSON para as Esta oes Climatica de um CPF
+	   appm000400("PROCESSAR", "");
+	   
+	   $('[data-toggle="tooltip"]').tooltip(); 	   	  
+   });
+   
+</script>
+</div>

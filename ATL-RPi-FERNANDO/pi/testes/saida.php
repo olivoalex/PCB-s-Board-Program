@@ -16,22 +16,23 @@
    include "/var/www/html/App4Web/Include/conectarBanco.php";
    include "/var/www/html/App4Web/Include/debianRaspBerryPi3.php";
 
-   $_ip = debianIP();
+   $_ip = debianInterfaceAtiva();
 
-   $_mac = debianMAC();
+   $_mac = debianMAC($GLOBALS['interface_tipo']);
 
    $_now = debianDateTime();
    $_hoje = $_now[0];
    $_as = $_now[1];
 
-   $_pino_status = debianReadEnergia(24);
+   // STATUS para o SHUTDOWN sempre sera 1 com REDE ou 0 SEM REDE
+   $_status = debianStatusRede();
 
    // Conectando com o Banco do RPI3
-   $_pdo = ConectarBanco();
+   $_pdo = ConectarBancoIp($_ip);
 
    // Atualizando os demais para -1
-   $_sql = "insert into adm_raspberry (id, ip, mac, evento, data, hora) "
-         . " values (?, ?, ?, ?, ?, ?)";
+   $_sql = "insert into adm_raspberry (id, interface, ip, mac, evento, evento_status, data, hora) "
+         . " values (?, ?, ?, ?, ?, ?, ?, ?)";
 
    $_stm = $_pdo->prepare($_sql);
 
@@ -39,11 +40,13 @@
 
    // Determinando os valores para o input
    $_stm->bindValue(1, 0);
-   $_stm->bindValue(2, $_ip);
-   $_stm->bindValue(3, $_mac);
-   $_stm->bindValue(4, $_evento);
-   $_stm->bindValue(5, $_hoje);
-   $_stm->bindValue(6, $_as);
+   $_stm->bindValue(2, $GLOBALS['interface']);
+   $_stm->bindValue(3, $_ip);
+   $_stm->bindValue(4, $_mac);
+   $_stm->bindValue(5, $_evento);
+   $_stm->bindValue(6, $_status);
+   $_stm->bindValue(7, $_hoje);
+   $_stm->bindValue(8, $_as);
 
    $_stm->execute();
 

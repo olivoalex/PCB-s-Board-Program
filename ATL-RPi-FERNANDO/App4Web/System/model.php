@@ -2043,7 +2043,7 @@ class Model{
 	  
 	  	$html  = "<div class='form-group'>";
 	  
-	  	$html .= "<label class='control-label' for='{$aId}'>" . $aTitle. "</label>";
+	  	$html .= "<label class='control-label negrito' for='{$aId}'>" . $aTitle. "</label>";
 	  
 	  	$html .= "<input class='form-control' readonly id='{$aId}' name='{$aId}' type='text' value='{$aValor}' >";
 	  
@@ -2073,7 +2073,7 @@ class Model{
 	  
 	  	$html  = "<div class='form-group'>";
 	  
-	  	$html .= "<label class='control-label ' for='{$aId}'>" . $aTitle. "</label>";
+	  	$html .= "<label class='control-label negrito' for='{$aId}'>" . $aTitle. "</label>";
 	  
 	  	$html .= "<div class='{$aClass}'> <p class='form-control-static' id='{$aId}' name='{$aId}'>{$aDescr}</p></div>";
 	  

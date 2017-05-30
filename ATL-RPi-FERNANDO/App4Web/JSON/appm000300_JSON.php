@@ -123,7 +123,8 @@
 			$_sql = "SELECT dia, date_format(dia,'%d-%m') mes_dia, count(*) leituras, truncate(AVG(d_T),2) temp_1, "
 			      .       " truncate(AVG(d_U),2) umidade, truncate(AVG(b_T),2) temp_2, truncate(AVG(b_P),2) pressao "
 				  .  " FROM dia_clima "
-				  .  " WHERE dia >= date(current_date - 10) "
+				  //.  " WHERE dia >= date(current_date - 10) "
+				  .  " WHERE dia >= date(current_date - 10000) "
 				  .  " AND mac = ? "
 				  .  " GROUP BY 1,2 "
 				  .  " ORDER BY 1 ASC";					 

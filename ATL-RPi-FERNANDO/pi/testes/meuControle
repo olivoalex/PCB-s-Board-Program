@@ -1,0 +1,69 @@
+#!/bin/bash
+#
+## BEGIN INIT INFO
+# Provides:          meuControle
+# Required-Start:    $all 
+# Required-Stop:     $remote_fs $syslog
+# Should-Start:      $all
+# Should-Stop:       $network $time
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Inicia e Finaliza nossos logs de controle de boot/shutdown
+# Description:       Log date and time for Start and Stop process
+### END INIT INFO
+
+set -e
+
+set -u
+
+. /lib/lsb/init-functions
+
+#
+# main()
+#
+ONDE="/var/log/ultimo_startup";
+OQUE="${1:-''}";
+
+case "${1:-''}" in
+  'start')
+        ONDE="/var/log/ultimo_startup";
+        echo "$OQUE `date +%d/%m/%Y\ %H:%M:%S`" >>$ONDE;
+        exit 0; 
+	;;
+
+  'stop')
+        ONDE="/var/log/ultimo_shutdown"; 
+        echo "$OQUE `date +%d/%m/%Y\ %H:%M:%S`" >>$ONDE;
+        exit 0; 
+	;;
+
+  'restart')
+        ONDE="/var/log/ultimo_restart"; 
+        echo "$OQUE `date +%d/%m/%Y\ %H:%M:%S`" >>$ONDE;
+        exit 0; 
+	;;
+
+  'reload'|'force-reload')
+        ONDE="/var/log/ultimo_reload"; 
+        echo "$OQUE `date +%d/%m/%Y\ %H:%M:%S`" >>$ONDE;
+        exit 0; 
+	;;
+
+  'status')
+        ONDE="/var/log/ultimo_status"; 
+        echo "$OQUE `date +%d/%m/%Y\ %H:%M:%S`" >>$ONDE;
+        exit 0; 
+  	;;
+
+  *)
+        ONDE="/var/log/ultimo_sintaxe"; 
+	OQUE="Usage: meuControle start|stop|restart|reload|force-reload|status";
+        echo "$OQUE `date +%d/%m/%Y\ %H:%M:%S`" >>$ONDE;
+        exit 1; 
+	;;
+esac
+
+# echo $OQUE;
+# echo $ONDE;
+# date +%d/%m/%Y\ %H:%M:%S > /var/log/ultimo_startup
+# echo "${1:-''} `date +%d/%m/%Y\ %H:%M:%S`"

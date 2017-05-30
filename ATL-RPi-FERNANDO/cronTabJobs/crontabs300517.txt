@@ -1,0 +1,19 @@
+#root 
+#SCRIPT PARA LIGAR RELE NO GPIO-17 QUE ALIMENTA O RPiu ATRAVES DA BATERIA TODA VEZ QUE ELE FOR REINICIADO OU LIGADO! 
+@reboot /usr/bin/php /home/pi/gpioOnRelayOnStartup.php 
+
+#root
+#VERIFICA TEMPERATURA E LIGA VENTILADOR SE MAIOR QUE 45*C OU DESLIGA SE MAIOR 75*C.
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /usr/bin/php  /home/pi/tempControl.php
+
+#root 
+#Verifica se tem ou no INTERNET
+0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58 * * * * /usr/bin/php ~pi/testes/internet.php 
+
+#root 
+#Verifica se tem ou no INTERNET - BOOT
+@reboot /usr/bin/php ~pi/testes/internet.php
+
+#pi  -->  root 
+#Verifica se tem ou nao ENERGIA e faz SHUTDOWN caso no tenha :)
+@reboot ~pi/testes/energia.sh 

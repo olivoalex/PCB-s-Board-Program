@@ -1,0 +1,1666 @@
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: lo
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: lo
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: lo
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: , Type: lo, Parameter: eth0
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: , Type: lo, Parameter: eth0
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: , Type: lo, Parameter: eth0
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: , Type: lo, Parameter: eth0
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: , Type: lo, Parameter: eth0
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+MAC: , Type: lo, Parameter: 
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+Valor PIN 2 = 0
+
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+IP: , Type: wlan0, Parameter: wifi
+MAC: , Type: lo, Parameter: 
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+Valor PIN 2 = 0
+
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+IP: , Type: wlan0, Parameter: wifi
+MAC: , Type: lo, Parameter: 
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+Valor PIN 2 = 0
+
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+MAC: , Type: lo, Parameter: 
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+Valor PIN 2 = 0
+
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+IP: , Type: eth0, Parameter: rede
+MAC: , Type: lo, Parameter: 
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+Valor PIN 2 = 0
+
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+IP: , Type: wlan0, Parameter: wifi
+MAC: , Type: lo, Parameter: 
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+Valor PIN 2 = 0
+
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 1
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+MAC: , Type: lo, Parameter: 
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: 
+MAC: , Type: lo, Parameter: 
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+Valor PIN 18 = 0
+
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: localhost
+MAC: , Type: lo, Parameter: LOCALHOST
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP: , Type: eth0, Parameter: rede
+IP:           inet addr:10.3.141.1  Bcast:10.3.141.255  Mask:255.255.255.0
+, Type: wlan0, Parameter: wifi
+MAC: wlan0     Link encap:Ethernet  HWaddr b8:27:eb:22:97:4c  
+, Type: wlan0, Parameter: WIFI
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE
+IP: , Type: eth0, Parameter: rede
+IP: , Type: wlan0, Parameter: wifi
+IP:           inet addr:127.0.0.1  Mask:255.0.0.0
+, Type: lo, Parameter: lo
+MAC: , Type: lo, Parameter: LO
+IP:           inet addr:11.12.13.30  Bcast:11.12.13.255  Mask:255.255.255.0
+, Type: eth0, Parameter: rede
+MAC: eth0      Link encap:Ethernet  HWaddr b8:27:eb:77:c2:19  
+, Type: eth0, Parameter: REDE

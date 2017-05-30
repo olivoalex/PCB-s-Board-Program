@@ -1,0 +1,359 @@
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 17:25:21
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:03:51
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:17:37
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:34:02
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:37:25
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:40:15
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:45:46
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:51:35
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 18:59:24
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:03:40
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:08:09
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:21:34
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:40:37
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:43:10
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:47:26
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:52:04
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:53:31
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 19:58:32
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 20:02:13
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 20:05:03
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 20:11:45
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 20:20:25
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 20:24:45
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 20:37:03
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 20:56:45
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 27
+IP: 
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 49
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 21:03:43
+PHP Warning:  file_put_contents(/tmp/teste.log): failed to open stream: Permission denied in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 94
+Status do Pino 24 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Warning:  file_put_contents(~pi/testes/energia.log): failed to open stream: No such file or directory in /home/pi/testes/energia.php on line 42
+PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 44
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 21:14:04
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-25
+Hora: 22:50:37
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+IP: 
+MAC: B8:27:EB:77:C2:19 
+Data: 2017-05-26
+Hora: 13:22:48
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-26
+Hora: 18:00:01
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-26
+Hora: 18:03:01
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-26
+Hora: 18:08:28
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-26
+Hora: 18:14:46
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-26
+Hora: 18:19:56
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-26
+Hora: 18:35:56
+Status do Pino 2 esta como 0
+ConectarBanco.php: Erro: SQLSTATE[HY000] [2003] Can't connect to MySQL server on '11.12.13.30' (101)PHP Fatal error:  Call to a member function prepare() on null in /home/pi/testes/energia.php on line 66
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-26
+Hora: 19:56:08
+PHP Fatal error:  Call to undefined function debianReadEnergia() in /home/pi/testes/energia.php on line 30
+PHP Warning:  Missing argument 1 for debianIP(), called in /home/pi/testes/energia.php on line 22 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 87
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 90
+Comando IP: sudo ifconfig lo | grep "inet addr"
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 100
+IP: 127.0.0.1
+PHP Warning:  Missing argument 1 for debianMAC(), called in /home/pi/testes/energia.php on line 24 and defined in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 123
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 125
+PHP Notice:  Undefined variable: _tipo in /var/www/html/App4Web/Include/debianRaspBerryPi3.php on line 133
+MAC: NONE
+Data: 2017-05-28
+Hora: 11:35:29
+PHP Fatal error:  Call to undefined function debianReadEnergia() in /home/pi/testes/energia.php on line 30
