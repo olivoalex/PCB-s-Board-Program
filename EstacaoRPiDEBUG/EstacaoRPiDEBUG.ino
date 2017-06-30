@@ -106,11 +106,14 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s'
 /* - - - - - - - - - - - - - - - - - - - - - - - - -' - - - - - - - - - -*/
 //IPAddress   server_addr (10, 3, 141, 1);    // IP DO MySQL SERVER - LOCALHOST
 //IPAddress   server_addr (11, 12, 13, 30);    // IP DO MySQL SERVER - LOCALHOST
-IPAddress   server_addr (11, 12, 13, 20);    // IP DO MySQL SERVER - LOCALHOST - FERNANDO
-//IPAddress   server_addr (127, 0, 0, 1);    // IP DO MySQL SERVER - LOCALHOST
+//IPAddress   server_addr (11, 12, 13, 20);    // IP DO MySQL SERVER - LOCALHOST - FERNANDO
+IPAddress   server_addr (11, 11, 11, 15);    // IP DA REDE WIFI GATEWAY - 28062017
+//IPAddress   server_addr (0, 0, 0, 0);    // IP DA REDE WIFI GATEWAY - 28062017
+//IPAddress   server_addr (127, 0, 0, 1);    // IP DA REDE WIFI GATEWAY - 28062017
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 // para conectar precisa configurar "/etc/mysql/my.cnf" --> bind address = 11.12.13.30
+// para conectar precisa configurar: sudo nano /etc/mysql/my.cnf --> bind address = 0.0.0.0
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -206,7 +209,7 @@ void setup() {
   Serial.println("MAC: " + WiFi.macAddress());
   mac = WiFi.macAddress();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  Serial.println("Endereco do servidor MySQL: ");
+  Serial.print("Endereco do servidor MySQL: ");
   Serial.println(server_addr);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   dht.begin();               // INICIANDO SENSOR DE TEMPERATURA DHT22
@@ -221,12 +224,12 @@ Serial.print("\nResposta SERVER ADDR: ");
 Serial.print(server_addr);
 Serial.print("\nResposta USER: ");
 Serial.print(user);
-Serial.print("\nResposta PW: ");
-Serial.println(password);
+Serial.print("\nResposta PW: ********************\n");
+//Serial.println(password);
 while (conn.connect(server_addr, 3306, user, password) != true) {
 yield();
 Serial.print(" + "); Serial.println(num++); }
-Serial.println("Banco de dados conectado!!");
+Serial.println("0k!!! \nBanco de dados conectado!!!");
   
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
