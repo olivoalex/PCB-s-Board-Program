@@ -58,8 +58,7 @@
      FTDI-0V  >--> ATL-0V
 
      NUNCA ALIMENTAR ESTE MODULO DIRETAMENTE PELO GRAVADOR
-     OU USB DO COMPUTADOR!
-*/
+     OU USB DO COMPUTADOR! */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // LIVRARIAS EXTERNAS PARA FUNCIONAMENTO DOS SENSORES, CONEXÃO E DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -83,13 +82,8 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      DHTPIN        ATL5             // SENSOR DHT22 (TEMPERATURA-HUMIDADE)
 #define      DHTTYPE       DHT22            // ESPECIFICACAO DO SENSOR UTILIZADO
-//#define      WIFI_SSID     "Agrotechlink"   // NOME DA INTERNET DO RASPBERRY-PI
-//#define      WIFI_PASSWORD "agricultura"    // SENHA DA INTERNET
-//#define      WIFI_SSID     "CEV_UNIFIQUE_2GHz"   // NOME DA INTERNET DO RASPBERRY-PI
-//#define      WIFI_PASSWORD "UnfqAngelica2015"    // SENHA DA INTERNET
-#define      WIFI_SSID     "ATLRPi"   // NOME DA INTERNET DO RASPBERRY-PI
-#define      WIFI_PASSWORD "agrotechlinkPI2017"    // SENHA DA INTERNET
-
+#define      WIFI_SSID     "ATLRPi"         // SSID DO RASPBERRY-PI
+#define      WIFI_PASSWORD "agrotechlinkPI2017"    // SENHA DA INTERNET DO RPi
 DHT          dht (DHTPIN, DHTTYPE);         // ENDERECAMENTO DO SENSOR DHT22
 SFE_BMP180   pressao;                       // DEFINICAO DO SENSOR BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -105,16 +99,9 @@ char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s'
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - -' - - - - - - - - - -*/
-//IPAddress   server_addr (10, 3, 141, 1);    // IP DO MySQL SERVER - LOCALHOST
-//IPAddress   server_addr (11, 12, 13, 30);    // IP DO MySQL SERVER - LOCALHOST
-//IPAddress   server_addr (11, 12, 13, 20);    // IP DO MySQL SERVER - LOCALHOST - FERNANDO
 IPAddress   server_addr (11, 11, 11, 15);    // IP DA REDE WIFI GATEWAY - 28062017
-//IPAddress   server_addr (0, 0, 0, 0);    // IP DA REDE WIFI GATEWAY - 28062017
-//IPAddress   server_addr (127, 0, 0, 1);    // IP DA REDE WIFI GATEWAY - 28062017
 char        user[] = "agrotech_u_intel";        // USUARIO DO BANCO DE DADOS
 char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
-// para conectar precisa configurar "/etc/mysql/my.cnf" --> bind address = 11.12.13.30
-// para conectar precisa configurar: sudo nano /etc/mysql/my.cnf --> bind address = 0.0.0.0
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -191,22 +178,22 @@ void setup() {
   Serial.begin(115200);
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
-  Serial.println("\nL E D >---> L I G A D O . . .");
-  // A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
-  // O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
-  // NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
-  // SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES
-  // PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  Serial.println("\nL E D - L I G A D O . . .");
+// A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+// O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
+// NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
+// SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES
+// PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  Serial.println("\nConectando 123 A internet...");
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  Serial.println("\nConectando . . . a . . . internet . . .");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     yield();
   }
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println();
-  Serial.print("Conectado 456 a: ");
+  Serial.print("Conectado a: ");
   Serial.println(WiFi.localIP());
   Serial.println("MAC: " + WiFi.macAddress());
   mac = WiFi.macAddress();
@@ -226,7 +213,7 @@ Serial.print("\nResposta SERVER ADDR: ");
 Serial.print(server_addr);
 Serial.print("\nResposta USER: ");
 Serial.print(user);
-Serial.print("\nResposta PW: ********************\n");
+Serial.print("\nResposta PW: * * * * * * * * * * *\n");
 //Serial.println(password);
 while (conn.connect(server_addr, 3306, user, password) != true) {
 yield();
@@ -235,39 +222,37 @@ Serial.println("0k!!! \nBanco de dados conectado!!!");
   
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
-  Serial.println("\nL E D >---> D E S L I G A D O . . ."); 
+  Serial.println("\nL E D - D E S L I G A D O . . .");
 }
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   unsigned long currentMillis = millis();
-
   if (currentMillis - tempoPrevio >= intervalo) {     // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
-    digitalWrite(ATL3, HIGH);                         // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
-  Serial.println("\nL E D >---> L I G A D O . . .");
+    digitalWrite(ATL3, LOW);                         // GPIO-16 + LED0 | DESLIGADO. ESTOU VIVO!
+    Serial.println("\nL E D - D E S L I G A D O . . .");    
     tempoPrevio = currentMillis;
 //    intervalo = 300000;                  // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
 //    intervalo = 60000;                   // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
     intervalo = 120000;                    // APOS - SOBE OS DADOS A CADA  2 MINUTOS >--> testes com RPi
     GetATLdhtTU();                                    // DHT22
     GetATLbmpPT();                                    // BMP-180
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
-    // CONVERTENDO DADOS DOS SENSORES PARA STRING
+// CONVERTENDO DADOS DOS SENSORES PARA STRING
     dtostrf(T_dht, 2, 2, ST_dht);
     dtostrf(U_dht, 2, 2, SU_dht);
     dtostrf(T_bmp, 2, 2, ST_bmp);
     dtostrf(P_bmp, 4, 2, SP_bmp);
 
     mac.toCharArray(MAC, 25);
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
-    // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
+// CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    Serial.println("\nL E D >---> D E S L I G A D O . . .");
-    digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
-
+    digitalWrite(ATL3, HIGH);        // GPIO-16 + LED0 | LIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
+    Serial.println("\nL E D - L I G A D O . . .");
     cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
     delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
   }
