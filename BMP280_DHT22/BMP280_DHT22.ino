@@ -16,7 +16,7 @@
                CPU FREQUENCY:     80 MHz
                FLASH SIZE:        1M (512K SPIFFS)
                DEBUG PORT:        SERIAL
-               DEBUG LEVEL:       TODOS >--> WI-FI
+               DEBUG LEVEL:       TODOS
                RESET MOTHOD:      ck
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
@@ -29,6 +29,7 @@
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
                __________________________________
+
 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - JULY
@@ -57,13 +58,16 @@
      FTDI-0V  >--> ATL-0V
 
      NUNCA ALIMENTAR ESTE MODULO DIRETAMENTE PELO GRAVADOR
-     OU USB DO COMPUTADOR! */
+     OU USB DO COMPUTADOR!
+*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // LIVRARIAS EXTERNAS PARA FUNCIONAMENTO DOS SENSORES, CONEXÃO E DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
 #include     <SFE_BMP180.h>          // SENSOR BMP-180 (PRESSAO) 
 #include     <Wire.h>                // NECESSÁRIO PARA COMUNICACAO I2C (PRESSAO)
+#include     "i2c.h"
+#include     "i2c_BMP280.h"
 #include     "DHT.h"                 // SENSOR DHT22 OU DHT11 (TEMPERATURA-HUMIDADE)   
 #include     <MySQL_Connection.h>    // CONEXAO COM BANCO DE DADOS
 #include     <MySQL_Cursor.h>        // CONEXAO COM BANCO DE DADOS
@@ -87,28 +91,19 @@
 //#define      WIFI_PASSWORD "UnfqAngelica2015"    // SENHA DA INTERNET
 #define      WIFI_SSID     "ATLRPi"   // NOME DA INTERNET DO RASPBERRY-PI
 #define      WIFI_PASSWORD "agrotechlinkPI2017"    // SENHA DA INTERNET
-DHT          dht (DHTPIN, DHTTYPE, 30);         // ENDERECAMENTO DO SENSOR DHT22
-SFE_BMP180   pressao;                       // DEFINICAO DO SENSOR BMP-180
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* PUT A 100nF decoupling capacitor between VCC and GND near the DHT22!
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* NOTE: For working with a faster chip, like an Arduino Due or Teensy, 
-you might need to increase the threshold for cycle counts considered a 
-1 or 0. You can do this by passing a 3rd parameter for this threshold.  
-It's a bit of fiddling to find the right value, but in general the faster
-the CPU the higher the value.  The default for a 16mhz AVR is a value of 
-6.  For an Arduino Due that runs at 84MHz a value of 30 works. Example to
-initialize DHT sensor for Arduino Due: */
-// DHT dht(DHTPIN, DHTTYPE, 6);
+
+DHT          dht (DHTPIN, DHTTYPE);         // ENDERECAMENTO DO SENSOR DHT22
+//SFE_BMP180   pressao;                       // DEFINICAO DO SENSOR BMP-180
+BMP280       bmp280;
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-char                MAC[25];                // VARIAVEL MAC PARA O MySQL
-String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA O MySQL
-double              P_bmp, T_bmp;           // VARIAVEIS PARA O SENSOR BMP-180
-float               T_dht, U_dht;           // VARIAVEIS PARA O SENSOR DHT22
-unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
-unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
+char                MAC[25];                             // VARIAVEL MAC PARA O MySQL
+String              mac;                                 // VARIAVEL MAC STRING TO CHAR PARA O MySQL
+double              P_bmp, T_bmp;                        // VARIAVEIS PARA O SENSOR BMP-180
+float               T_dht, U_dht;                        // VARIAVEIS PARA O SENSOR DHT22
+unsigned long       tempoPrevio = 0;                     // VARIAVEL DE CONTROLE DE TEMPO
+unsigned long       intervalo = 20000;                   // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
@@ -126,9 +121,15 @@ char        password[] = "OlvAgrotechlink1357"; // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// PRESSAO E TEMPERATURA DO BMP280 - ESPECIAL
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // PRESSAO E TEMPERATURA DO BMP180 - ESPECIAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-double getPressure() {
+/*double getPressure() {
   char status;
   status = pressao.startTemperature();
   if (status != 0) {
@@ -145,11 +146,11 @@ double getPressure() {
       }
     }
   }
-}
+}*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E PRESSAO DO BMP-180
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void GetATLbmpPT() {
+/*void GetATLbmpPT() {
   getPressure();
   if ((P_bmp || T_bmp) == 0) {
     for (short i = 0; i < 10; i++) {
@@ -164,7 +165,7 @@ Serial.print("Pressao atmosferica......BMP: ");
 Serial.print(P_bmp, 2);    Serial.println(" hPa");
 Serial.print("Temperatura ambiente.....BMP: ");
 Serial.print(T_bmp, 2);    Serial.print(" *C");
-Serial.println("\n- - - - - - - - - - - - - - - - -");}
+Serial.println("\n- - - - - - - - - - - - - - - - -");}*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // GET DADOS DE TEMPERATURA E HUMIDADE DO DHT22
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -200,19 +201,19 @@ void setup() {
   pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   Serial.println("\nL E D >---> L I G A D O . . .");
-// A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
-// O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
-// NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
-// SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES
-// PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // A T E N C A O ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+  // O ATL4 ESTA LIGADO NO GPIO-14  E NAO NO 15.
+  // NO FUTURO SE FORMOS USA-LO TERA UM BUZZER QUE PODE SER ACIONADO PELO GPIO-14
+  // SE ESQUECERMOS QUE FOI USADA A MESMA NOMENCLATURA PARA DUAS GPIO DIFERENTES
+  // PODERA GERAR CONFUSAO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println("\nConectando 123 A internet...");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     yield();
   }
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   Serial.println();
   Serial.print("Conectado 456 a: ");
   Serial.println(WiFi.localIP());
@@ -240,7 +241,8 @@ while (conn.connect(server_addr, 3306, user, password) != true) {
 yield();
 Serial.print(" + "); Serial.println(num++); }
 Serial.println("0k!!! \nBanco de dados conectado!!!");
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+  
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
   Serial.println("\nL E D >---> D E S L I G A D O . . ."); 
 }
@@ -249,6 +251,7 @@ Serial.println("0k!!! \nBanco de dados conectado!!!");
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void loop() {
   unsigned long currentMillis = millis();
+
   if (currentMillis - tempoPrevio >= intervalo) {     // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
     digitalWrite(ATL3, HIGH);                         // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
   Serial.println("\nL E D >---> L I G A D O . . .");
@@ -258,20 +261,22 @@ void loop() {
     intervalo = 120000;                    // APOS - SOBE OS DADOS A CADA  2 MINUTOS >--> testes com RPi
     GetATLdhtTU();                                    // DHT22
     GetATLbmpPT();                                    // BMP-180
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     char ST_dht[6], SU_dht[6], ST_bmp[6], SP_bmp[8], query[170];
     // CONVERTENDO DADOS DOS SENSORES PARA STRING
     dtostrf(T_dht, 2, 2, ST_dht);
     dtostrf(U_dht, 2, 2, SU_dht);
     dtostrf(T_bmp, 2, 2, ST_bmp);
     dtostrf(P_bmp, 4, 2, SP_bmp);
+
     mac.toCharArray(MAC, 25);
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp);
     // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
     Serial.println("\nL E D >---> D E S L I G A D O . . .");
     digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
+
     cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
     delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
   }
