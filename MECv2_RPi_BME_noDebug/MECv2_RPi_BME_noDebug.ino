@@ -1,3 +1,4 @@
+// VERSAO 2 - TAVARES - LED1 MUDOU PARA ATL-5 ANTES ERA LED0 NO ATL-3
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*                    VERSÃO RPi TESTE DO CODIGO
                VERSÃO 3.0          DATA: 01072017
@@ -32,9 +33,9 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*   CADA GPIO POSSUI UMA IDENTIFICACAO ESPECIFICA
      PORTAS UTILIZADAS NAS PLACAS DA MINI ESTACAO CLIMATICA
-     ATL3     >--> GPIO-16 + LED0
-     ATL4     >--> GPIO-14 + BUZZER
-     ATL5     >--> GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
+     ATL3     >--> GPIO-16 
+     ATL4     >--> GPIO-14 
+     ATL5     >--> GPIO-12 + LED1
      ATL7     >--> GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
      ATL8     >--> GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
      /RST     >--> ---[10k]--+3V3  -//- JUMPER COM 0V P/ "RESET"
@@ -63,9 +64,9 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-#define      ATL3         16         // GPIO-16 + LED0
+#define      ATL3         16         // GPIO-16 
 #define      ATL4         15         // GPIO-15 + ESTADO NORMAL DO ESP / PERMITE ROTINAS E RESTART
-#define      ATL5         12         // GPIO-12 + SENSOR DHT22 (TEMPERATURA-HUMIDADE)
+#define      ATL5         12         // GPIO-12 + LED1
 #define      ATL7          5         // GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL8          4         // GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL9          2         // GPIO-02 + LED NATIVO DO ESP8266 / PERMITE ROTINAS E RESTART
@@ -97,7 +98,7 @@ MySQL_Connection conn((Client *)&client);
 // PRESSAO, UMIDADE E TEMPERATURA >>-->> BME280 >------------> NOVO 041117
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
-  pinMode(ATL3, OUTPUT);     digitalWrite(ATL3, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
+  pinMode(ATL5, OUTPUT);     digitalWrite(ATL5, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
   pinMode(ATL4, OUTPUT);     digitalWrite(ATL4, HIGH);   // GPIO-15 + ESTADO NORMAL DO ESP / HIGH
   pinMode(ATL9, OUTPUT);     digitalWrite(ATL9, HIGH);   // GPIO-02 + ESTADO NORMAL DO ESP / HIGH
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -112,7 +113,7 @@ unsigned mysqlResposta;
 mysqlResposta = conn.connect(server_addr, 3306, user, password);
 while (conn.connect(server_addr, 3306, user, password) != true) {yield();}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
+digitalWrite(ATL5, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   if (!bme.begin()) {
 //Serial.println("Could not find a valid BME280 sensor, check wiring!");
@@ -124,7 +125,7 @@ digitalWrite(ATL3, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
 void loop() {
   unsigned long currentMillis = millis();
   if (currentMillis - tempoPrevio >= intervalo) {     // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
-    digitalWrite(ATL3, HIGH);                         // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
+    digitalWrite(ATL5, HIGH);                         // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
     tempoPrevio = currentMillis;
     intervalo = 300000;                  // 5 MINUTOS (TEMPO DE SUBIDA)
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -146,7 +147,7 @@ T_bmp = bme.getTemperature_C();
 sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bmp, ST_bmp, SP_bmp);
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    digitalWrite(ATL3, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
+    digitalWrite(ATL5, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
     cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
     delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
 }yield();}
