@@ -147,10 +147,12 @@ T_bmp = bme.getTemperature_C();
 sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bmp, ST_bmp, SP_bmp);
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-    digitalWrite(ATL5, LOW);        // GPIO-16 + LED0 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
-    cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
-    delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
-}yield();}
+//    digitalWrite(ATL5, LOW); // LED1 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
+// mudado para o final - 16/11/2017 --> cev
+    cur_mem->execute(query);    // SUBINDO DADOS PARA O BANCO
+    delete cur_mem;             // DELETANDO A QUERY EXECUTADA DA MEMORIA
+} yield();
+digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
