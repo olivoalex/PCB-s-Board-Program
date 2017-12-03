@@ -273,7 +273,7 @@ Serial.println(y);*/
     intervalo = 120000;                    // APOS - SOBE OS DADOS A CADA  2 MINUTOS >--> testes com RPi
     GetATLdhtTU();                                    // DHT22
     GetATLbmpPT();                                    // BMP-180
-    C_cnt++;
+    C_cnt++;    // INCREMENTA O CONTADOR DE MEDICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 Serial.println("| - - - - - - - - - - - - - - - - - - - - - - - |");
 Serial.print("| Temperatura ambiente.....DHT: ");

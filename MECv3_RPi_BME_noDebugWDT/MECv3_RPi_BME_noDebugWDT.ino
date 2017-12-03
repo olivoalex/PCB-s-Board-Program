@@ -1,6 +1,7 @@
 // VERSAO 2 - TAVARES - LED1 MUDOU PARA ATL-5 ANTES ERA LED0 NO ATL-3
 // HABILITA WDT POR HARDWARE E DESATIVA POR SOFTWARE - 03/12/2017
 // INSERCAO DE UM CONTADOR DE VEZES QUE ENVIA AS MEDICOES DE T/P/U
+// ROTINA PARA REINICIAR COM O WDT - APOS "X" MEDICOES SEM PROBLEMAS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*                    VERSÃO RPi TESTE DO CODIGO
                VERSÃO 3.0          DATA: 01072017
@@ -86,6 +87,7 @@ String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA 
 double              P_bmp, U_bmp, T_bmp;    // VARIAVEIS PARA O SENSOR BMP-180
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
+unsigned long       valMaxMeas = 3;      // CONTROLE QUANTIDADE MEDIDAS REINICIA HD-WDT
 //char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 unsigned long       C_cnt = 0;              // contagem ate WDT ou desligar vai para o BD
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', C_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
@@ -158,8 +160,11 @@ sprintf(query, INSERT_SQL, MAC, SU_bmp, ST_bmp, SP_bmp, SC_cnt);
     cur_mem->execute(query);    // SUBINDO DADOS PARA O BANCO
     delete cur_mem;             // DELETANDO A QUERY EXECUTADA DA MEMORIA
 } yield();
-// REINICIA O WDTimer - EVITANDO O REINICIO DO ESP8266
-ESP.wdtFeed(); // VAI NA ULTIMA LINHA DA FUNCAO LOOP!
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// VERIFICA QUANTIDADE MEDICOES NAO ALIMENTA WDT CASO ACIMA VALOR MAXIMO
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// REINICIA O WDTimer - EVITANDO O REINICIO DO ESP8266 - ATE VALOR MAXIMO
+if (C_cnt < valMaxMeas){ESP.wdtFeed();}
 digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
