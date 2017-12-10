@@ -1,3 +1,6 @@
+// HABILITA WDT POR HARDWARE E DESATIVA POR SOFTWARE - 03/12/2017
+// INSERCAO DE UM CONTADOR DE VEZES QUE ENVIA AS MEDICOES DE T/P/U
+// ROTINA PARA REINICIAR COM O WDT - APOS "X" MEDICOES SEM PROBLEMAS!
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*                    VERSÃO RPi TESTE DO CODIGO
                VERSÃO 3.0          DATA: 01072017
@@ -111,6 +114,7 @@ float               T_dht, U_dht;           // VARIAVEIS PARA O SENSOR DHT22
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
 unsigned long       C_cnt = 0;              // contagem ate WDT ou desligar vai para o BD
+unsigned long       valMaxMeas = 5;      // CONTROLE QUANTIDADE MEDIDAS REINICIA HD-WDT
 char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', C_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
@@ -236,7 +240,8 @@ Serial.println("0k!!! \nBanco de dados conectado!!!");
   Serial.println("\nL E D >---> D E S L I G A D O . . ."); 
   digitalWrite(ATL4, LOW);   // 30/11/2017
   Serial.println("B U Z Z E R  >---> D E S L I G A D O . . .");
-  ESP.wdtDisable();}   // desativa wdt software - fica somente do hardware
+// CONFIGURA SW - WDT - DESATIVADO - NA ULTIMA LINHA DO SETUP
+  ESP.wdtDisable();}   // desativa wdt software - fica somente hardware
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // ROTINA PARA USO DO WDT VIA HARDWARE FUNCIONANDO - SE NAO FIZER O 
 // FEED DO WDT ELE REINICIA...
@@ -251,7 +256,7 @@ for (long x = 0; x < 20; x++){
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-long y = 0; // conta WDT times...
+// long y = 0; // conta WDT times...
 void loop() {
 /*ESP.wdtFeed(); // reinicia o temporizador wdt via hardware para evitar reinicio
 y++;
@@ -271,6 +276,7 @@ Serial.println(y);*/
 //    intervalo = 300000;                  // APOS - SOBE OS DADOS A CADA  5 MINUTOS (ESSE VAI SER O NOSSO TEMPO DE SUBIDA!!)
 //    intervalo = 60000;                   // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
     intervalo = 120000;                    // APOS - SOBE OS DADOS A CADA  2 MINUTOS >--> testes com RPi
+    intervalo = 60000;                     // APOS - SOBE OS DADOS A CADA  1 MINUTO >--> testes com RPi
     GetATLdhtTU();                                    // DHT22
     GetATLbmpPT();                                    // BMP-180
     C_cnt++;    // INCREMENTA O CONTADOR DE MEDICOES
@@ -308,21 +314,33 @@ sprintf(query, INSERT_SQL, MAC, ST_dht, SU_dht, ST_bmp, SP_bmp, SC_cnt);
     Serial.println("B U Z Z E R  >---> D E S L I G A D O . . .");
     cur_mem->execute(query);        // SUBINDO DADOS PARA O BANCO
     delete cur_mem;                 // DELETANDO A QUERY EXECUTADA DA MEMORIA
-y = 0; // reinicia quando ocorreu o feed do WDT!
+// y = 0; // reinicia quando ocorreu o feed do WDT!
 }
   yield();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-ESP.wdtFeed(); // reinicia o temporizador wdt via hardware para evitar reinicio
-y++;    // vai ate 27707 contagens aqui...
-Serial.print("REINICIADO WDTimer >---> ESP.wdtFeed . . . ");
-Serial.println(y);  
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/  
-}
+//ESP.wdtFeed(); // reinicia o temporizador wdt via hardware para evitar reinicio
+//y++;    // vai ate 27707 contagens aqui...
+//Serial.print("REINICIADO WDTimer >---> ESP.wdtFeed . . . ");
+//Serial.println(y);  
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// VERIFICA QUANTIDADE MEDICOES NAO ALIMENTA WDT CASO ACIMA VALOR MAXIMO
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// REINICIA O WDTimer - EVITANDO O REINICIO DO ESP8266 - ATE VALOR MAXIMO
+/* if (C_cnt < valMaxMeas) {ESP.wdtFeed();
+Serial.print("QUANTIDADE MEDICOES . . . ");
+Serial.print(C_cnt); Serial.print(" DE: "); Serial.println(valMaxMeas);}
+else {valMaxMeas = 0;}
+digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi*/
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/  
 // MAIN FUNCTION END - FINAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-/*
+/*  ESP.wdtEnable(), ESP.wdtDisable(), ESP.wdtFeed() 
+ *   ESP.wdtEnable();
+ *   ESP.wdtDisable();
+ *   ESP.wdtFeed() ;
+ *   --> yield OR delay restart wdt timer!!!!!!!!!!
 // CONFIGURA SW - WDT - DESATIVADO - NA ULTIMA LINHA DO SETUP
   ESP.wdtDisable();}   // WDT do hardware PERMANECE
 // REINICIA O WDTimer - EVITANDO O REINICIO DO ESP8266
