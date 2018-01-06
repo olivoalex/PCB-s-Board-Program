@@ -1,7 +1,4 @@
 // VERSAO 2 - TAVARES - LED1 MUDOU PARA ATL-5 ANTES ERA LED0 NO ATL-3
-// HABILITA WDT POR HARDWARE E DESATIVA POR SOFTWARE - 03/12/2017
-// INSERCAO DE UM CONTADOR DE VEZES QUE ENVIA AS MEDICOES DE T/P/U
-// ROTINA PARA REINICIAR COM O WDT - APOS "X" MEDICOES SEM PROBLEMAS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*                    VERSÃO RPi TESTE DO CODIGO
                VERSÃO 3.0          DATA: 01072017
@@ -87,10 +84,8 @@ String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA 
 double              P_bmp, U_bmp, T_bmp;    // VARIAVEIS PARA O SENSOR BMP-180
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
-unsigned long       valMaxMeas = 5;      // CONTROLE QUANTIDADE MEDIDAS REINICIA HD-WDT
 //char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
-unsigned long       C_cnt = 0;              // contagem ate WDT ou desligar vai para o BD
-char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', C_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - -' - - - - - - - - - -*/
@@ -122,11 +117,8 @@ digitalWrite(ATL5, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
   if (!bme.begin()) {
 //Serial.println("Could not find a valid BME280 sensor, check wiring!");
-    while (1);}
-// CONFIGURA SW - WDT - DESATIVADO - NA ULTIMA LINHA DO SETUP
-//  ESP.wdtDisable();}   // WDT do hardware PERMANECE  
-}
-// bme.setTempCal(-1);   // OFFSET DE TEMPERATURA AJUSTAVEL DE -1 GRAU C
+    while (1);}}
+//bme.setTempCal(-1);   // OFFSET DE TEMPERATURA AJUSTAVEL DE -1 GRAU C
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -138,22 +130,21 @@ void loop() {
     intervalo = 300000;                  // 5 MINUTOS (TEMPO DE SUBIDA)
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 bme.readSensor();
-//P_bmp = bme.getPressure_MB();                   // Pressure in millibars 
-P_bmp = bme.getPressure_HP() / 100;                // pressure hectopascal
+//P_bmp = bme.getPressure_MB();     // Pressure in millibars 
+P_bmp = bme.getPressure_HP() / 100;     // pressure hectopascal
 U_bmp = bme.getHumidity(); 
 T_bmp = bme.getTemperature_C();
-C_cnt++;                              // INCREMENTA O CONTADOR DE MEDICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    char ST_dht[6], SU_bmp[6], ST_bmp[6], SP_bmp[8], query[170], SC_cnt[255];
-// SC_cnt[255]; contagem ate WDT
+    char ST_dht[6], SU_bmp[6], ST_bmp[6], SP_bmp[8], query[170];
+//    float T_dht = 0.00;  //  RETIRAR!!! APOS TESTES!!!
 // CONVERTENDO DADOS DOS SENSORES PARA STRING
+//    dtostrf(T_dht, 2, 2, ST_dht);
     dtostrf(U_bmp, 2, 2, SU_bmp);
     dtostrf(T_bmp, 2, 2, ST_bmp);
     dtostrf(P_bmp, 4, 2, SP_bmp);
-    dtostrf(C_cnt, 4, 0, SC_cnt);
     mac.toCharArray(MAC, 25);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-sprintf(query, INSERT_SQL, MAC, SU_bmp, ST_bmp, SP_bmp, SC_cnt);
+sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bmp, ST_bmp, SP_bmp);
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 //    digitalWrite(ATL5, LOW); // LED1 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
@@ -161,19 +152,7 @@ sprintf(query, INSERT_SQL, MAC, SU_bmp, ST_bmp, SP_bmp, SC_cnt);
     cur_mem->execute(query);    // SUBINDO DADOS PARA O BANCO
     delete cur_mem;             // DELETANDO A QUERY EXECUTADA DA MEMORIA
 } yield();
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// VERIFICA QUANTIDADE MEDICOES NAO ALIMENTA WDT CASO ACIMA VALOR MAXIMO
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// REINICIA O WDTimer - EVITANDO O REINICIO DO ESP8266 - ATE VALOR MAXIMO
-if (C_cnt < valMaxMeas) {ESP.wdtFeed(); valMaxMeas = 0;}
 digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-
-/*
-// CONFIGURA SW - WDT - DESATIVADO - NA ULTIMA LINHA DO SETUP
-  ESP.wdtDisable();}   // WDT do hardware PERMANECE
-// REINICIA O WDTimer - EVITANDO O REINICIO DO ESP8266
-ESP.wdtFeed(); // VAI NA ULTIMA LINHA DA FUNCAO LOOP!
-*/
