@@ -146,7 +146,7 @@ C_cnt++;                              // INCREMENTA O CONTADOR DE MEDICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     char ST_dht[6], SU_bmp[6], ST_bmp[6], SP_bmp[8], query[170], SC_cnt[255];
 // SC_cnt[255]; contagem ate WDT
-// CONVERTENDO DADOS DOS SENSORES PARA STRING
+// CONVERTENDO DADOS DOS SENSORES PARA STRINGS
     dtostrf(U_bmp, 2, 2, SU_bmp);
     dtostrf(T_bmp, 2, 2, ST_bmp);
     dtostrf(P_bmp, 4, 2, SP_bmp);

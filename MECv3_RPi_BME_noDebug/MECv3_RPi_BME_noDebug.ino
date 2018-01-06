@@ -1,22 +1,35 @@
 // VERSAO 2 - TAVARES - LED1 MUDOU PARA ATL-5 ANTES ERA LED0 NO ATL-3
+/* https://github.com/esp8266/Arduino
+Arduino core for ESP8266 WiFi chip This project brings support for 
+ESP8266 chip to the Arduino environment. It lets you write sketches using
+familiar Arduino functions and libraries, and run them directly on 
+ESP8266, no external microcontroller required. ESP8266 Arduino core comes
+with libraries to communicate over WiFi using TCP and UDP, set up HTTP,
+mDNS, SSDP, and DNS servers, do OTA updates, use a file system in flash
+memory, work with SD cards, servos, SPI and I2C peripherals.            */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/*                    VERSÃO RPi TESTE DO CODIGO
-               VERSÃO 3.0          DATA: 01072017
+/*                    VERSAO RPi TESTE DO CODIGO - UPDATED 050118
+               VERAO 3.0           DATA: 01072017
                COMPILADO NA VERSAO ARDUINO: 1.8.1
                __________________________________
                 PLACA WIFI ESP8266-07 AT THINKER
                 PROGRAMA: MINI ESTACAO CLIMATICA
-                CONTÉM SENSORES: BMP-180 E DHT22
+                CONTÃ‰M SENSORES: BMP-180 E DHT22
                __________________________________
                CONFIGURACAO PLACA GRAVACAO - ESP-07
+               FUNCIONA COM BIBLIOTECE ESP-07 COMMUNITY ATE VERSAO 2.3.0
+               ATENCAO - VERSAO 2.4 NAO FUNCIONA PARA ESTE MODELO ESP-07
+               __________________________________
+               ATENCAO NAO COMPILAR ESP-07 NA VERSAO 2.4 OU SUPERIOR!!!!
+               __________________________________
                PLACA:             GENERIC ESP8266 MODULE
                FLASH MODE:        DIO
-               FLASH FREQUENCY:   40 MHz
-               CPU FREQUENCY:     80 MHz
                FLASH SIZE:        1M (512K SPIFFS)
                DEBUG PORT:        DISABLED <--<
                DEBUG LEVEL:       RIEN <--<
                RESET MOTHOD:      ck
+               FLASH FREQUENCY:   40 MHz
+               CPU FREQUENCY:     80 MHz
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
                __________________________________
@@ -57,16 +70,16 @@
 // LIVRARIAS EXTERNAS PARA FUNCIONAMENTO DOS SENSORES - CONEXAO - DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
-#include     <Wire.h>                // NECESSÁRIO PARA COMUNICACAO I2C (PRESSAO)
+#include     <Wire.h>                // NECESSÃ�RIO PARA COMUNICACAO I2C (PRESSAO)
 #include     "cactus_io_BME280_I2C.h"
 #include     <MySQL_Connection.h>    // CONEXAO COM BANCO DE DADOS
 #include     <MySQL_Cursor.h>        // CONEXAO COM BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-#define      ATL3         16         // GPIO-16 
+#define      ATL3         16         // GPIO-16 | + LED0 >--> PRIMEIRA PLACA 
 #define      ATL4         15         // GPIO-15 + ESTADO NORMAL DO ESP / PERMITE ROTINAS E RESTART
-#define      ATL5         12         // GPIO-12 + LED1
+#define      ATL5         12         // GPIO-12 + LED1 >--> PLACAS VERSAO TAVARES
 #define      ATL7          5         // GPIO-05 + SCL >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL8          4         // GPIO-04 + SDA >--> PULLUP INTERNO / SENSOR BMP-180 (PRESSAO)
 #define      ATL9          2         // GPIO-02 + LED NATIVO DO ESP8266 / PERMITE ROTINAS E RESTART
@@ -83,11 +96,11 @@ char                MAC[25];                // VARIAVEL MAC PARA O MySQL
 String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA O MySQL
 double              P_bme, U_bme, T_bme;    // VARIAVEIS PARA O SENSOR BMP-180
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
-unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
+unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.Âª SUBIDA = 45 SEGUNDOS)
 unsigned long       C_bme = 0;              // contagem ate reinicio do ESP - registrado no MySQL
 //char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 //char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
-  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_count=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
@@ -140,16 +153,17 @@ T_bme = bme.getTemperature_C();
 C_bme++;                          // INCREMENTA O CONTADOR DE MEDICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //    char ST_dht[6], SU_bme[6], ST_bme[6], SP_bme[8], query[170];
-char SU_bme[6], ST_bme[6], SP_bme[8], SC_bme[255], query[170];
-// CONVERTENDO DADOS DOS SENSORES PARA STRING
-//    dtostrf(T_dht, 2, 2, ST_dht);
+char SU_bme[6], ST_bme[6], SP_bme[8], query[170], SC_bme[255];
+// CONVERTENDO DADOS DOS SENSORES PARA STRINGS
     dtostrf(U_bme, 2, 2, SU_bme);
     dtostrf(T_bme, 2, 2, ST_bme);
     dtostrf(P_bme, 4, 2, SP_bme);
+    dtostrf(C_bme, 4, 0, SC_bme);
     mac.toCharArray(MAC, 25);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bme, ST_bme, SP_bme);
 sprintf(query, INSERT_SQL, MAC, SU_bme, ST_bme, SP_bme, SC_bme);
+//char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 //    digitalWrite(ATL5, LOW); // LED1 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
@@ -161,3 +175,4 @@ digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+
