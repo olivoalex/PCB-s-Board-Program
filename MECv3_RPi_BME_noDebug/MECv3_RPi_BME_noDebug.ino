@@ -81,11 +81,14 @@ BME280_I2C   bme(0x76);                         // I2C using address 0x76
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char                MAC[25];                // VARIAVEL MAC PARA O MySQL
 String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA O MySQL
-double              P_bmp, U_bmp, T_bmp;    // VARIAVEIS PARA O SENSOR BMP-180
+double              P_bme, U_bme, T_bme;    // VARIAVEIS PARA O SENSOR BMP-180
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.ª SUBIDA = 45 SEGUNDOS)
+unsigned long       C_bme = 0;              // contagem ate reinicio do ESP - registrado no MySQL
 //char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
-char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
+//char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
+  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_count=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - -' - - - - - - - - - -*/
@@ -130,21 +133,23 @@ void loop() {
     intervalo = 300000;                  // 5 MINUTOS (TEMPO DE SUBIDA)
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 bme.readSensor();
-//P_bmp = bme.getPressure_MB();     // Pressure in millibars 
-P_bmp = bme.getPressure_HP() / 100;     // pressure hectopascal
-U_bmp = bme.getHumidity(); 
-T_bmp = bme.getTemperature_C();
+// P_bmp = bme.getPressure_MB();     // Pressure in millibars 
+P_bme = bme.getPressure_HP() / 100;     // pressure hectopascal
+U_bme = bme.getHumidity(); 
+T_bme = bme.getTemperature_C();
+C_bme++;                          // INCREMENTA O CONTADOR DE MEDICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    char ST_dht[6], SU_bmp[6], ST_bmp[6], SP_bmp[8], query[170];
-//    float T_dht = 0.00;  //  RETIRAR!!! APOS TESTES!!!
+//    char ST_dht[6], SU_bme[6], ST_bme[6], SP_bme[8], query[170];
+char SU_bme[6], ST_bme[6], SP_bme[8], SC_bme[255], query[170];
 // CONVERTENDO DADOS DOS SENSORES PARA STRING
 //    dtostrf(T_dht, 2, 2, ST_dht);
-    dtostrf(U_bmp, 2, 2, SU_bmp);
-    dtostrf(T_bmp, 2, 2, ST_bmp);
-    dtostrf(P_bmp, 4, 2, SP_bmp);
+    dtostrf(U_bme, 2, 2, SU_bme);
+    dtostrf(T_bme, 2, 2, ST_bme);
+    dtostrf(P_bme, 4, 2, SP_bme);
     mac.toCharArray(MAC, 25);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bmp, ST_bmp, SP_bmp);
+//sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bme, ST_bme, SP_bme);
+sprintf(query, INSERT_SQL, MAC, SU_bme, ST_bme, SP_bme, SC_bme);
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
 //    digitalWrite(ATL5, LOW); // LED1 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
