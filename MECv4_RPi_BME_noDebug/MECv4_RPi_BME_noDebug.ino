@@ -1,4 +1,6 @@
 // VERSAO 2 - TAVARES - LED1 MUDOU PARA ATL-5 ANTES ERA LED0 NO ATL-3
+// VERSAO OLIVO PARA AGRICULTORES SUBSIDIADOS PELA EPAGRI
+// NECESSITA PRECISA DO SISTEMA NO RPi COMPATIVEL!
 /* https://github.com/esp8266/Arduino
 Arduino core for ESP8266 WiFi chip This project brings support for 
 ESP8266 chip to the Arduino environment. It lets you write sketches using
