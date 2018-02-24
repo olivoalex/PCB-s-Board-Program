@@ -1,3 +1,12 @@
+// >--> MODULO SENSOR UMIDADE SOLO
+// >--> TEMPO ENTRE MEDIDAS CONSECUTIVAS 1 MINUTO! PARA TESTES EXCLUSIVAMENTE!!!
+/* ADS1115 - This code is designed to work with the ADS1115_I2CADC I2C Mini
+Module available from ControlEverything.com.
+https://www.controleverything.com/content/Analog-Digital-Converters?sku=ADS1115_I2CADC#tabs-0-product_tabset-2
+
+>--> ATENCAO NAO FUNCIONA COM A ULTIMA VERSAO E SIM COM A PENULTIMA DO DRIVER!
+>--> ESP8266 - IDE DRIVER VERSION - 2.4.0 - rc1 - 23/02/2018 */
+
 // VERSAO PARA TESTES - NAO COMPATIVEL COM SISTEMA DO OLIVO
 // >--> TEMPO ENTRE MEDIDAS CONSECUTIVAS 1 MINUTO!
 // intervalo = 60000; // TEMPO DE SUBIDA PARA TESTES DE SENSORES BME280
@@ -75,7 +84,7 @@ memory, work with SD cards, servos, SPI and I2C peripherals.            */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
 #include     <Wire.h>                // NECESSÃ�RIO PARA COMUNICACAO I2C (PRESSAO)
-#include     "cactus_io_BME280_I2C.h"
+#include      "ADS1115.h"
 #include     <MySQL_Connection.h>    // CONEXAO COM BANCO DE DADOS
 #include     <MySQL_Cursor.h>        // CONEXAO COM BANCO DE DADOS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -92,20 +101,20 @@ memory, work with SD cards, servos, SPI and I2C peripherals.            */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #define      WIFI_SSID     "ATLRPi"   // NOME DA INTERNET DO RASPBERRY-PI
 #define      WIFI_PASSWORD "agrotechlinkPI2017"      // SENHA DA INTERNET
-BME280_I2C   bme(0x76);                         // I2C using address 0x76
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char                MAC[25];                // VARIAVEL MAC PARA O MySQL
 String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA O MySQL
-double              P_bme, U_bme, T_bme;    // VARIAVEIS PARA O SENSOR BMP-180
+double              V_mpx;           // SENSOR UMIDADE DO SOLO
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.Âª SUBIDA = 45 SEGUNDOS)
-unsigned long       C_bme = 0;              // contagem ate reinicio do ESP - registrado no MySQL
-//char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
-//char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
-  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
-
+unsigned long       C_cnt = 0;              // contagem ate reinicio do ESP - registrado no MySQL
+ADS1115             ads;
+const float         Vgain = 0.000125;       // 1 bit = 0.125mV
+float               Vumid = 0;              // CONTAGEM medida convertido em volts!
+//  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', mpx_S=%s, bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', mpx_S=%s, cnt_C=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - -' - - - - - - - - - -*/
@@ -115,7 +124,30 @@ char        password[] = "OlvAgrotechlink1357";         // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// PRESSAO, UMIDADE E TEMPERATURA >>-->> BME280 >------------> NOVO 041117
+// SENSOR DE UMIDADE DO SOLO >---> FRESCALE + ADS1151 + I2C
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// SETTING ADC PGA 4 CH PARAMETERS FUNCTION
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void ADSconfig(){
+    ads.setGain(GAIN_ONE);          // 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
+    ads.setMode(MODE_CONTIN);       // Continuous conversion mode
+    ads.setRate(RATE_32);           // 128SPS (default)
+    ads.setOSMode(OSMODE_SINGLE);}  // Set to start a single-conversion
+/* gain ADC PGA - choose one as follows - The ADC gain (PGA), Device 
+operating mode, Data rate can be changed via the following functions
+GAIN_TWO - 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
+GAIN_TWOTHIRDS - 2/3x gain +/- 6.144V  1 bit = 0.1875mV
+GAIN_ONE - 1x gain   +/- 4.096V  1 bit = 0.125mV
+GAIN_FOUR - 4x gain   +/- 1.024V  1 bit = 0.03125mV
+GAIN_EIGHT - 8x gain   +/- 0.512V  1 bit = 0.015625mV
+GAIN_SIXTEEN - 16x gain  +/- 0.256V  1 bit = 0.0078125mV
+mode - ADC conversion mode - choose one as follows:
+MODE_CONTIN  // Continuous conversion mode
+MODE_SINGLE   // Power-down single-shot mode (default)
+rate - samples per second - choose one as follows:
+RATE_8 | RATE_16 | RATE_32 | RATE_64 | RATE_128 (default) | RATE_250 | RATE_475 | RATE_860
+osmode - choose one as follows:
+OSMODE_SINGLE   // Set to start a single-conversion */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
   pinMode(ATL5, OUTPUT);     digitalWrite(ATL5, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
@@ -134,11 +166,7 @@ mysqlResposta = conn.connect(server_addr, 3306, user, password);
 while (conn.connect(server_addr, 3306, user, password) != true) {yield();}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 digitalWrite(ATL5, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-  if (!bme.begin()) {
-//Serial.println("Could not find a valid BME280 sensor, check wiring!");
-    while (1);}}
-//bme.setTempCal(-1);   // OFFSET DE TEMPERATURA AJUSTAVEL DE -1 GRAU C
+ADSconfig();  ads.begin();}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -147,34 +175,25 @@ void loop() {
   if (currentMillis - tempoPrevio >= intervalo) {     // SOBE OS PRIMEIROS DADOS NO PRIMEIRO MINUTO
     digitalWrite(ATL5, HIGH);                         // GPIO-16 + LED0 | LIGADO. ESTOU VIVO!
     tempoPrevio = currentMillis;
-//    intervalo = 300000;                  // 5 MINUTOS (TEMPO DE SUBIDA)
+//  intervalo = 300000;                  // 5 MINUTOS (TEMPO DE SUBIDA)
     intervalo = 60000;                  // 1 MINUTO (TEMPO DE SUBIDA PARA TESTES DE SENSORES BME280)
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-bme.readSensor();
-// P_bmp = bme.getPressure_MB();     // Pressure in millibars 
-P_bme = bme.getPressure_HP() / 100;     // pressure hectopascal
-U_bme = bme.getHumidity(); 
-T_bme = bme.getTemperature_C();
-C_bme++;                          // INCREMENTA O CONTADOR DE MEDICOES
+    int16_t ReadSoil;
+    ReadSoil = ads.Measure_SingleEnded(0);
+    V_mpx = ReadSoil * Vgain;
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-//    char ST_dht[6], SU_bme[6], ST_bme[6], SP_bme[8], query[170];
-char SU_bme[6], ST_bme[6], SP_bme[8], query[170], SC_bme[255];
+char SV_mpx[6], query[170], SC_cnt[255];
 // CONVERTENDO DADOS DOS SENSORES PARA STRINGS
-    dtostrf(U_bme, 2, 2, SU_bme);
-    dtostrf(T_bme, 2, 2, ST_bme);
-    dtostrf(P_bme, 4, 2, SP_bme);
-    dtostrf(C_bme, 4, 0, SC_bme);
+    dtostrf(V_mpx, 4, 4, SV_mpx);
+    dtostrf(C_cnt, 4, 0, SC_cnt);
     mac.toCharArray(MAC, 25);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-//sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bme, ST_bme, SP_bme);
-sprintf(query, INSERT_SQL, MAC, SU_bme, ST_bme, SP_bme, SC_bme);
-//char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+sprintf(query, INSERT_SQL, MAC, SV_mpx, SC_cnt);
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-//    digitalWrite(ATL5, LOW); // LED1 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
-// mudado para o final - 16/11/2017 --> cev
     cur_mem->execute(query);    // SUBINDO DADOS PARA O BANCO
     delete cur_mem;             // DELETANDO A QUERY EXECUTADA DA MEMORIA
+    C_cnt++;                    // INCREMENTA O CONTADOR DE MEDICOES
 } yield();
 digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
