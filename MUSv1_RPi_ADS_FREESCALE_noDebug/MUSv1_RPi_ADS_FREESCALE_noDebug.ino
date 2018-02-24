@@ -135,7 +135,8 @@ unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.Âª SUBIDA = 45 SEGUNDOS)
 unsigned long       C_cnt = 0;              // contagem ate reinicio do ESP - registrado no MySQL
 ADS1115             ads;
-const float         Vgain = 0.000125;       // 1 bit = 0.125mV
+//const float         Vgain = 0.000125;     // 1 bit = 0.125mV
+const float         Vgain = 0.0000625;      // 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
 float               Vumid = 0;              // CONTAGEM medida convertido em volts!
 //  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', mpx_S=%s, bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
   char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', mpx_S=%s, cnt_C=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
@@ -153,7 +154,8 @@ MySQL_Connection conn((Client *)&client);
 // SETTING ADC PGA 4 CH PARAMETERS FUNCTION
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void ADSconfig(){
-    ads.setGain(GAIN_ONE);          // 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
+    // ads.setGain(GAIN_ONE);          // 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
+    ads.setGain(GAIN_TWO);    // 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
     ads.setMode(MODE_CONTIN);       // Continuous conversion mode
     ads.setRate(RATE_32);           // 128SPS (default)
     ads.setOSMode(OSMODE_SINGLE);}  // Set to start a single-conversion
