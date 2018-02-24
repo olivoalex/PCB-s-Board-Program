@@ -7,6 +7,30 @@ https://www.controleverything.com/content/Analog-Digital-Converters?sku=ADS1115_
 >--> ATENCAO NAO FUNCIONA COM A ULTIMA VERSAO E SIM COM A PENULTIMA DO DRIVER!
 >--> ESP8266 - IDE DRIVER VERSION - 2.4.0 - rc1 - 23/02/2018 */
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/*  Soil Moisture Jet Fill Tensiometers 
+Product Features >--> http://www.surechem.com.my/products.php?cat=2017
+Direct measurement of soil water tension.
+Allows easy replacement of the ceramic cup and dial gauge, and addition 
+of extension tubes and the Service Cap. Soil Moisture Jet Fill Tensiometers
+available in a variety of lengths, ranging from 6 inches (15 cm) to 
+60 inches (1.5 m). Insertion Tools can be used for coring a hole in the
+soil to accept these units. The Service Kit, available separately, is
+used to refill and maintain the tensiometer. An additional accessory 
+available for all tensiometers is the "low tension" dialgauge. This
+gauge has a scale division from 0 to 50 centibars. This will allow a 
+better and more accurate reading of the soil suction upto 50 centibars. */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* MPX5700 - Series - freescale
+0 to 700 kPa (0 to 101.5 psi) >--------> 0,00 to 7 bar
+15 to 700 kPa (2.18 to 101.5 psi)  >---> 0,15 to 7 bar
+0.2 to 4.7 V Output >---> 700 kPa = 4,7 V >---> 1013 hPa >---> 101,3 cBar
+Logo para a pressao atmosferica de 1013 hPa >--> Vout = 0,680157142 V
+Para 0,8465 V que esta medindo agora é equivalente a Patm = 126,07 kPa. */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* 1 centiBar = 1 kPa = 10 hPa >--> 50 centibar = 50 kPa >--> valor 
+tipico de presao para medida de tensao so solo! */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // VERSAO PARA TESTES - NAO COMPATIVEL COM SISTEMA DO OLIVO
 // >--> TEMPO ENTRE MEDIDAS CONSECUTIVAS 1 MINUTO!
 // intervalo = 60000; // TEMPO DE SUBIDA PARA TESTES DE SENSORES BME280
