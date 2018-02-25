@@ -1,49 +1,33 @@
-// >--> MODULO SENSOR UMIDADE SOLO
+// >--> MODULO SENSOR ULTRAVIOLETA - VEML6070
 // >--> TEMPO ENTRE MEDIDAS CONSECUTIVAS 1 MINUTO! PARA TESTES EXCLUSIVAMENTE!!!
-/* ADS1115 - This code is designed to work with the ADS1115_I2CADC I2C Mini
-Module available from ControlEverything.com.
-https://www.controleverything.com/content/Analog-Digital-Converters?sku=ADS1115_I2CADC#tabs-0-product_tabset-2
-
->--> ATENCAO NAO FUNCIONA COM A ULTIMA VERSAO E SIM COM A PENULTIMA DO DRIVER!
->--> ESP8266 - IDE DRIVER VERSION - 2.4.0 - rc1 - 23/02/2018 */
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/*  Soil Moisture Jet Fill Tensiometers 
-Product Features >--> http://www.surechem.com.my/products.php?cat=2017
-Direct measurement of soil water tension.
-Allows easy replacement of the ceramic cup and dial gauge, and addition 
-of extension tubes and the Service Cap. Soil Moisture Jet Fill Tensiometers
-available in a variety of lengths, ranging from 6 inches (15 cm) to 
-60 inches (1.5 m). Insertion Tools can be used for coring a hole in the
-soil to accept these units. The Service Kit, available separately, is
-used to refill and maintain the tensiometer. An additional accessory 
-available for all tensiometers is the "low tension" dialgauge. This
-gauge has a scale division from 0 to 50 centibars. This will allow a 
-better and more accurate reading of the soil suction upto 50 centibars. */
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* MPX5700 - Series - freescale
-0 to 700 kPa (0 to 101.5 psi) >--------> 0,00 to 7 bar
-15 to 700 kPa (2.18 to 101.5 psi)  >---> 0,15 to 7 bar
-0.2 to 4.7 V Output >---> 700 kPa = 4,7 V >---> 1013 hPa >---> 101,3 cBar
-Logo para a pressao atmosferica de 1013 hPa >--> Vout = 0,680157142 V
-Para 0,8465 V que esta medindo agora é equivalente a Patm = 126,07 kPa. */
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-/* 1 centiBar = 1 kPa = 10 hPa >--> 50 centibar = 50 kPa >--> valor 
-tipico de presao para medida de tensao so solo! */
+/*  >--> ATENCAO FUNCIONA SIM COM A ULTIMA VERSAO ATUAL DO DRIVER!
+    >--> ESP8266 - IDE DRIVER VERSION - 2.4.0 - rc2 - 25/02/2018 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // VERSAO PARA TESTES - NAO COMPATIVEL COM SISTEMA DO OLIVO
 // >--> TEMPO ENTRE MEDIDAS CONSECUTIVAS 1 MINUTO!
 // intervalo = 60000; // TEMPO DE SUBIDA PARA TESTES DE SENSORES BME280
 // VERSAO 2 - TAVARES - LED1 MUDOU PARA ATL-5 ANTES ERA LED0 NO ATL-3
 // VERSAO PARA TESTES NO SISTEMA ANTIGO DO RPi - LINUX/APACHE/MYSQL/PHP
-/* https://github.com/esp8266/Arduino
-Arduino core for ESP8266 WiFi chip This project brings support for 
-ESP8266 chip to the Arduino environment. It lets you write sketches using
-familiar Arduino functions and libraries, and run them directly on 
-ESP8266, no external microcontroller required. ESP8266 Arduino core comes
-with libraries to communicate over WiFi using TCP and UDP, set up HTTP,
-mDNS, SSDP, and DNS servers, do OTA updates, use a file system in flash
-memory, work with SD cards, servos, SPI and I2C peripherals.            */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/*  https://learn.adafruit.com/adafruit-veml6070-uv-light-sensor-breakout?view=all
+ *  Next, you will call begin() in your setup procedure. There are 4 
+ *  different 'integration' times used to calculate the intensity. The 
+ *  longer the integration time, the more light is collected. Use shorter
+ *  integration times if you want to get measurements quickly with less 
+ *  precision. Longer times will give you more precision but of course, 
+ *  take longer!
+VEML6070_HALF_T     ~62.5ms
+VEML6070_1_T        ~125ms
+VEML6070_2_T        ~250ms
+VEML6070_4_T        ~500ms        Pass the integration time constant into
+begin like:                       uv.begin(VEML6070_1_T) */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* A  T  E  N  C  A  O - C  A  L  I  B  R  A C A O - A F T E R W A R D S !
+ *  Then you can call readUV which will give you a 16-bit value relating 
+ * to how much UV was detected. Again, this is not an UV index value, its
+ * unitless. You may need to calibrate the value against a known value
+ * depending on your usage! */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*                    VERSAO RPi TESTE DO CODIGO - UPDATED 050118
                VERAO 3.0           DATA: 01072017
@@ -108,9 +92,9 @@ memory, work with SD cards, servos, SPI and I2C peripherals.            */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 #include     <ESP8266WiFi.h>         // BIBLIOTECA WiFi DO ESP8266
 #include     <Wire.h>                // NECESSÃ�RIO PARA COMUNICACAO I2C (PRESSAO)
-#include      "ADS1115.h"
 #include     <MySQL_Connection.h>    // CONEXAO COM BANCO DE DADOS
 #include     <MySQL_Cursor.h>        // CONEXAO COM BANCO DE DADOS
+#include      "Adafruit_VEML6070.h"  // SENSOR UV
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK MINI ESTACAO CLIMATICA - PINOUTS - DEFINES - DESCRICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -130,17 +114,11 @@ memory, work with SD cards, servos, SPI and I2C peripherals.            */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char                MAC[25];                // VARIAVEL MAC PARA O MySQL
 String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA O MySQL
-double              V_mpx;           // SENSOR UMIDADE DO SOLO
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.Âª SUBIDA = 45 SEGUNDOS)
+unsigned short      UV_vem;                 // SENSOR UV - I2C
 unsigned long       C_cnt = 0;              // contagem ate reinicio do ESP - registrado no MySQL
-ADS1115             ads;
-//const float         Vgain = 0.000125;     // 1 bit = 0.125mV
-//const float         Vgain = 0.0000625;      // 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
-const float         Vgain = 0.00003125;    //  4x gain   +/- 1.024V  1 bit = 0.03125mV
-float               Vumid = 0;              // CONTAGEM medida convertido em volts!
-//  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', mpx_S=%s, bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
-  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', mpx_S=%s, cnt_C=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', vem_UVS=%s, cnt_C=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - -' - - - - - - - - - -*/
@@ -150,32 +128,9 @@ char        password[] = "OlvAgrotechlink1357";         // SENHA DO USUARIO
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// SENSOR DE UMIDADE DO SOLO >---> FRESCALE + ADS1151 + I2C
+// SENSOR ULTRAVIOLETA - VMEL6070 - I2C
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// SETTING ADC PGA 4 CH PARAMETERS FUNCTION
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void ADSconfig(){
-    // ads.setGain(GAIN_ONE);
-    // ads.setGain(GAIN_TWO);    // 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
-    ads.setGain(GAIN_FOUR);
-    ads.setMode(MODE_CONTIN);       // Continuous conversion mode
-    ads.setRate(RATE_32);           // 128SPS (default)
-    ads.setOSMode(OSMODE_SINGLE);}  // Set to start a single-conversion
-/* gain ADC PGA - choose one as follows - The ADC gain (PGA), Device 
-operating mode, Data rate can be changed via the following functions
-GAIN_TWO - 2x gain   +/- 2.048V  1 bit = 0.0625mV (default)
-GAIN_TWOTHIRDS - 2/3x gain +/- 6.144V  1 bit = 0.1875mV
-GAIN_ONE - 1x gain   +/- 4.096V  1 bit = 0.125mV
-GAIN_FOUR - 4x gain   +/- 1.024V  1 bit = 0.03125mV
-GAIN_EIGHT - 8x gain   +/- 0.512V  1 bit = 0.015625mV
-GAIN_SIXTEEN - 16x gain  +/- 0.256V  1 bit = 0.0078125mV
-mode - ADC conversion mode - choose one as follows:
-MODE_CONTIN  // Continuous conversion mode
-MODE_SINGLE   // Power-down single-shot mode (default)
-rate - samples per second - choose one as follows:
-RATE_8 | RATE_16 | RATE_32 | RATE_64 | RATE_128 (default) | RATE_250 | RATE_475 | RATE_860
-osmode - choose one as follows:
-OSMODE_SINGLE   // Set to start a single-conversion */
+Adafruit_VEML6070 uv = Adafruit_VEML6070();
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void setup() {
   pinMode(ATL5, OUTPUT);     digitalWrite(ATL5, HIGH);   // GPIO-16 + LED0 / INICIA HIGH E TERMINA SETUP LOW
@@ -194,7 +149,7 @@ mysqlResposta = conn.connect(server_addr, 3306, user, password);
 while (conn.connect(server_addr, 3306, user, password) != true) {yield();}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 digitalWrite(ATL5, LOW);   // GPIO-16 + LED0 / DESLIGA SETUP OK!
-ADSconfig();  ads.begin();}
+uv.begin(VEML6070_1_T);}   // pass in the integration time constant
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // FIM DO SETUP E CONFIGURACOES. INICIO DO LOOP.
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -206,17 +161,15 @@ void loop() {
 //  intervalo = 300000;                  // 5 MINUTOS (TEMPO DE SUBIDA)
     intervalo = 60000;                  // 1 MINUTO (TEMPO DE SUBIDA PARA TESTES DE SENSORES BME280)
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-    int16_t ReadSoil;
-    ReadSoil = ads.Measure_SingleEnded(0);
-    V_mpx = ReadSoil * Vgain;
+UV_vem = uv.readUV();   // nivel de ultravioleta detectado pelo sensor
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-char SV_mpx[6], query[170], SC_cnt[255];
+char Suv_vem[6], query[170], SC_cnt[255];
 // CONVERTENDO DADOS DOS SENSORES PARA STRINGS
-    dtostrf(V_mpx, 4, 4, SV_mpx);
+    dtostrf(UV_vem, 2, 0, Suv_vem);
     dtostrf(C_cnt, 4, 0, SC_cnt);
     mac.toCharArray(MAC, 25);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-sprintf(query, INSERT_SQL, MAC, SV_mpx, SC_cnt);
+sprintf(query, INSERT_SQL, MAC, Suv_vem, SC_cnt);
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
     cur_mem->execute(query);    // SUBINDO DADOS PARA O BANCO
