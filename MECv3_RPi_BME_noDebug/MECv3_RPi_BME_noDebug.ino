@@ -3,6 +3,7 @@
 // intervalo = 60000; // TEMPO DE SUBIDA PARA TESTES DE SENSORES BME280
 // VERSAO 2 - TAVARES - LED1 MUDOU PARA ATL-5 ANTES ERA LED0 NO ATL-3
 // VERSAO PARA TESTES NO SISTEMA ANTIGO DO RPi - LINUX/APACHE/MYSQL/PHP
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* https://github.com/esp8266/Arduino
 Arduino core for ESP8266 WiFi chip This project brings support for 
 ESP8266 chip to the Arduino environment. It lets you write sketches using
@@ -11,6 +12,19 @@ ESP8266, no external microcontroller required. ESP8266 Arduino core comes
 with libraries to communicate over WiFi using TCP and UDP, set up HTTP,
 mDNS, SSDP, and DNS servers, do OTA updates, use a file system in flash
 memory, work with SD cards, servos, SPI and I2C peripherals.            */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/*  http://gilles.thebault.free.fr/spip.php?article47
+ *  ATENCAO - CHIP DO LUCIANO SOM 6 TERMINAIS - MUDA ENDERECO
+BROCHE      FONCTION
+Vcc         alimentation ( 3.6V max)
+GND         masse
+SDI         Données. A relier à SDA dans le cas du bus I2C
+SCK         Horloge (clock). A relier à SCL dans le cas du bus I2C
+CSB         permet de passer du mode SPI au mode I2C. Par défaut, CSB = 1
+            donc mode I2C. Si CSB=0 au démarrage, alors le mode SPI est
+            utilisé
+SD0         choix de l’adresse I2C. Si SD0 = 0, alors l’adresse est 0x76, 
+            si SD0 = 1, alors l’adresse est 0x77 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*                    VERSAO RPi TESTE DO CODIGO - UPDATED 050118
                VERAO 3.0           DATA: 01072017
@@ -94,6 +108,17 @@ memory, work with SD cards, servos, SPI and I2C peripherals.            */
 #define      WIFI_PASSWORD "agrotechlinkPI2017"      // SENHA DA INTERNET
 BME280_I2C   bme(0x76);                         // I2C using address 0x76
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// USAR: CSB = 1 >--> I2C  |  SDO = 0 >--> 0x76 >--> DEFAULT ON BOARD
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// CSB  permet de passer du mode SPI au mode I2C. 
+// Par défaut, CSB = 1 donc mode I2C. 
+// Si CSB = 0 au démarrage, alors le mode SPI est utilisé.
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+// SD0 choix de l’adresse I2C. 
+// Si SD0 = 0, alors l’adresse est 0x76, 
+// si SD0 = 1, alors l’adresse est 0x77
+// SD0 = 0, alors l’adresse est 0x76 >--> SENSOR LUCIANO COMPROU!!!
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // DEFINICAO DAS VARIAVEIS GLOBAIS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char                MAC[25];                // VARIAVEL MAC PARA O MySQL
@@ -101,11 +126,11 @@ String              mac;                    // VARIAVEL MAC STRING TO CHAR PARA 
 double              P_bme, U_bme, T_bme;    // VARIAVEIS PARA O SENSOR BMP-180
 unsigned long       tempoPrevio = 0;        // VARIAVEL DE CONTROLE DE TEMPO
 unsigned long       intervalo = 20000;      // VARIAVEL PARA CONTROLE DE SUBIDA DOS DADOS (1.Âª SUBIDA = 45 SEGUNDOS)
-unsigned long       C_bme = 0;              // contagem ate reinicio do ESP - registrado no MySQL
+unsigned short      C_cnt = 0;              // contagem ate reinicio do ESP - registrado no MySQL
 //char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_T='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
 //char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', d_U='%s', b_T='%s', b_P='%s', hora=CURRENT_TIME, dia=CURRENT_DATE";
-  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
-
+//char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+  char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', cnt_C=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // CONFIGURACOES DE ACESSO AO BANCO DE DADOS E WiFi
 /* - - - - - - - - - - - - - - - - - - - - - - - - -' - - - - - - - - - -*/
@@ -155,26 +180,23 @@ bme.readSensor();
 P_bme = bme.getPressure_HP() / 100;     // pressure hectopascal
 U_bme = bme.getHumidity(); 
 T_bme = bme.getTemperature_C();
-C_bme++;                          // INCREMENTA O CONTADOR DE MEDICOES
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-//    char ST_dht[6], SU_bme[6], ST_bme[6], SP_bme[8], query[170];
-char SU_bme[6], ST_bme[6], SP_bme[8], query[170], SC_bme[255];
+//    char ST_dht[6], SU_bme[6], ST_bme[6], SC_cnt[8], query[170];
+char SU_bme[6], ST_bme[6], SP_bme[8], query[170], SC_cnt[255];
 // CONVERTENDO DADOS DOS SENSORES PARA STRINGS
     dtostrf(U_bme, 2, 2, SU_bme);
     dtostrf(T_bme, 2, 2, ST_bme);
     dtostrf(P_bme, 4, 2, SP_bme);
-    dtostrf(C_bme, 4, 0, SC_bme);
+    dtostrf(C_cnt, 4, 0, SC_cnt);
     mac.toCharArray(MAC, 25);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 //sprintf(query, INSERT_SQL, MAC, /*ST_dht,*/ SU_bme, ST_bme, SP_bme);
-sprintf(query, INSERT_SQL, MAC, SU_bme, ST_bme, SP_bme, SC_bme);
-//char INSERT_SQL[] = "INSERT INTO agrotech_intel.dia_clima SET mac='%s', bme_U='%s', bme_T='%s', bme_P='%s', bme_cnt=%s, hora=CURRENT_TIME, dia=CURRENT_DATE";
+sprintf(query, INSERT_SQL, MAC, SU_bme, ST_bme, SP_bme, SC_cnt);
 // CONCATENANDO A STRING INSERT_SQL PARA GRAVACAO NO BANCO DE DADOS
     MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-//    digitalWrite(ATL5, LOW); // LED1 | DESLIGA NO INICIO DA SUBIDA NO BANCO. EFEITO BLINK
-// mudado para o final - 16/11/2017 --> cev
     cur_mem->execute(query);    // SUBINDO DADOS PARA O BANCO
     delete cur_mem;             // DELETANDO A QUERY EXECUTADA DA MEMORIA
+    C_cnt++;                    // INCREMENTA O CONTADOR DE MEDICOES
 } yield();
 digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
