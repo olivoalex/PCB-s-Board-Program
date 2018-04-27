@@ -57,6 +57,7 @@ SD0         choix de l’adresse I2C. Si SD0 = 0, alors l’adresse est 0x76,
                FLASH SIZE:        4M (1M SPIFFS)
                UPLOAD SPEED:      115200
                PORTA: PORTA ESP CONECTADA AO COMPUTADOR
+               GRAVAR COM O MODULO ALIMENTADO - EVITA ERRO MEMORIA
                __________________________________                       */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // AGROTECHLINK.COM - ESP8266 - PROGRAM HEADER TEMPLATE - 2017 - NOVEMBER
