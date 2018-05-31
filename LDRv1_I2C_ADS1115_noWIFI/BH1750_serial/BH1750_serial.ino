@@ -37,7 +37,6 @@ LightSensor.begin();
 //  LightSensor.SetAddress(Device_Address_H);//Address 0x5C
 // To adjust the slave on other address , uncomment this line
 LightSensor.SetAddress(Device_Address_L); //Address 0x23
- //-----------------------------------------------
 /*  set the Working Mode for this sensor 
     Select the following Mode:
     Continuous_H_resolution_Mode
