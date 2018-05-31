@@ -24,7 +24,8 @@
 // ATENCAO VEM DENTRO DE UMA SUBPASTA - TEM QUE TRAZER PARA UMA ANTES >--> 0K?
 #define BAUD_RATE     115200
 // GPIO ESP8266 TO CONTROLL LED TO TURBIDITY MEASUREMENT
-#define LED_TURBIDITY   D8  //  PAY ATTENTION HERE, TOO >--> 0K?
+#define LED_TURBIDITY   14  //  PAY ATTENTION HERE, TOO >--> 0K?
+#define LED0            16  //  LED0 DA PLACA ANTIGA NO GPIO16
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // LIBRARY PARAMETERS
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -51,6 +52,8 @@ int TIME_BETWEEN_MEAS = 6000; //  TIME BETWEEN MEASUREMENTS
 void setup(void){
 pinMode(LED_TURBIDITY, OUTPUT);
 digitalWrite(LED_TURBIDITY, LOW);
+pinMode(LED0, OUTPUT);
+digitalWrite(LED0, LOW);
 Serial.begin(BAUD_RATE);  
 ads.begin();
 LightSensor.begin();
@@ -103,6 +106,7 @@ return(ADC0, ADC1, ADC2, ADC3, VA0, VA1, VA2, VA3);}
 uint16_t ReadLUX(){
 // FIRST OF ALL TURN ON THE WHITE LED >--> 0K!
 digitalWrite(LED_TURBIDITY, HIGH);
+digitalWrite(LED0,digitalRead(!LED_TURBIDITY));
 if (digitalRead(LED_TURBIDITY)){
 lux = LightSensor.GetLightIntensity();}     // Get Lux value
 return (lux);}
@@ -114,6 +118,16 @@ ReadAllADC();
 ReadLUX();
 Serial.println("|-----------------------------------------------------|");
 Serial.println("|> LUCIANO'S WATER TURBIDITY MEASUREMENTS FIRMWARE   <|");
+Serial.print("|> TIME >--> HOURS: "); 
+Serial.print(int(0.0012 * TIME_BETWEEN_MEAS * COUNT / 3600));
+Serial.print(" >--> MINUTES: "); 
+Serial.print(int(0.00002 * TIME_BETWEEN_MEAS * COUNT));
+Serial.print(" >--> SECONDS: "); 
+Serial.println(int(0.0012 * TIME_BETWEEN_MEAS * COUNT));
+Serial.print("|> MEASUREMENT NUMBER: "); Serial.print(COUNT++);
+Serial.print(" each one after: ");   Serial.print(TIME_BETWEEN_MEAS/1000);
+Serial.println(" seconds");         
+Serial.println("|-----------------------------------------------------|");
 Serial.print("|> AIN0 >--> LDR1: "); Serial.print(ADC0); 
   Serial.print("    VA0 >--> V_LDR1: "); Serial.println(VA0, 7);  
     Serial.print("|> AIN1 >--> LDR2: "); Serial.print(ADC1); 
@@ -125,11 +139,8 @@ Serial.print("|> AIN0 >--> LDR1: "); Serial.print(ADC0);
   Serial.print("|> LUX  >--> LUMINOUS FLUX:     "); Serial.print(lux); 
   Serial.println(" lux [Lumen/m2]");
 Serial.print("|> LED  >--> TURBIDITY LOGIC LEVEL IS: "); 
-Serial.println(digitalRead(LED_TURBIDITY));
-Serial.print("|> MEASUREMENT NUMBER: "); Serial.print(COUNT++);
-Serial.print(" each one after: ");  Serial.print(TIME_BETWEEN_MEAS/1000);
-Serial.println(" seconds");         delay(TIME_BETWEEN_MEAS);
-digitalWrite(LED_TURBIDITY, LOW); 
+Serial.println(digitalRead(LED_TURBIDITY));      delay(TIME_BETWEEN_MEAS);
+digitalWrite(LED_TURBIDITY, LOW); digitalWrite(LED0,digitalRead(!LED_TURBIDITY));
 Serial.print("|> LED  >--> TURBIDITY LOGIC LEVEL IS: "); 
 Serial.println(digitalRead(LED_TURBIDITY));   delay(TIME_BETWEEN_MEAS/5);}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
