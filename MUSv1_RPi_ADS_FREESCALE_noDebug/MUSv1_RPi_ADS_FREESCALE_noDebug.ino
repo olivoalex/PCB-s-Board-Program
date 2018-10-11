@@ -3,10 +3,8 @@
 /* ADS1115 - This code is designed to work with the ADS1115_I2CADC I2C Mini
 Module available from ControlEverything.com.
 https://www.controleverything.com/content/Analog-Digital-Converters?sku=ADS1115_I2CADC#tabs-0-product_tabset-2
-
 >--> ATENCAO NAO FUNCIONA COM A ULTIMA VERSAO E SIM COM A PENULTIMA DO DRIVER!
 >--> ESP8266 - IDE DRIVER VERSION - 2.4.0 - rc1 - 23/02/2018 */
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /*  Soil Moisture Jet Fill Tensiometers 
 Product Features >--> http://www.surechem.com.my/products.php?cat=2017
@@ -225,4 +223,3 @@ digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-
