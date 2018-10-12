@@ -1,0 +1,10 @@
+ssh
+
+$2y$10$9EQTVVYXr8Z5sucLJ7fpvODOSeKwZXpoVkLq46c2k1JMqadXygxny
+
+pi
+
+192.168.42.1:
+
+	login: agrotech_u_intel
+	senha: OlvAgrotechlink1357
