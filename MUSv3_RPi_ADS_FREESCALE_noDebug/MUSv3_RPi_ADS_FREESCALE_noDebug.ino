@@ -193,7 +193,7 @@ void loop() {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
     V_mpx = ads.Measure_SingleEnded(0);
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-// ATENCAO OLIVO --> V_mpx --> NO BANCO PASSA PARA INTEIRO E COMPRIMENTO 6
+// ATENCAO OLIVO --> V_mpx --> NO BANCO PASSA PARA INTEIRO E TAMANHO 6
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 char SV_mpx[6], query[170];//, SC_cnt[255];
 // CONVERTENDO DADOS DOS SENSORES PARA STRINGS
@@ -210,4 +210,3 @@ digitalWrite(ATL5, LOW);}   // LED1 | DESLIGA AO FINAL DO ENVIO PARA O RPi
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // MAIN FUNCTION END - FINAL
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-
